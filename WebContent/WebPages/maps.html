@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script>
+    var locations = [];
+    locations.push({ name: "Las Vegas", latlng: new google.maps.LatLng(36.255123, -115.2383485) });
+    locations.push({ name: "California", latlng: new google.maps.LatLng(36.778261, -119.4179342) });
+    locations.push({ name: "Golden Gate", latlng: new google.maps.LatLng(37.820667, -122.478526) });
+    locations.push({ name: "New York", latlng: new google.maps.LatLng(40.7143528, -74.00597309999) });
+    function init() {
+        var mapDiv = document.getElementById("myMap");
+        var options = {
+            center: new google.maps.LatLng(37.820667, -122.478526),
+            zoom: 5,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(mapDiv, options);
+       
+        //google.maps.event.addListener(marker, 'bounds_changed', function () {
+        //    var bounds = map.getBounds();
+        //    var NE = bounds.getNorthEast();
+        //    var SW = bounds.getSouthWest();
+        //});
+
+        var bounds = new google.maps.LatLngBounds();
+
+        for (var i = 0; i < locations.length; i++) {
+            var marker = new google.maps.Marker({
+                position: locations[i].latlng,
+                map: map,
+                title: locations[i].name
+            });
+
+            bounds.extend(locations[i].latlng);
+
+            var infowindow = new google.maps.InfoWindow();
+            var content = "Name: " + locations[i].name + "<br/>" + "Latitude: " + locations[i].latlng.lat() + "<br/>"+"Longitude: " + locations[i].latlng.lng();
+
+            google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow) {
+                return function () {
+                    infowindow.setContent(content);
+                    infowindow.open(map, marker);
+                };
+            })(marker, content, infowindow));
+        }
+        map.fitBounds(bounds);
+    }
+    window.onload = init;
+</script>
+<style>
+    #myMap{
+        width:100%;
+        height:700px;
+    }
+</style>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="myMap"></div>
+    <div id="info"></div>
+</body>
+</html>

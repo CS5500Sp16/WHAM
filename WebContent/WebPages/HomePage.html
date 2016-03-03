@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<style>
+    .container {
+        background-color: white;
+        min-height: 500px;
+        width: 90% !important;
+        padding: 0px !important;
+    }
+
+    #myMap {
+        width: 100%;
+        height: 700px;
+    }
+
+    .loginBtn {
+        height: 100%;
+        text-align: center;
+        background-color: transparent;
+        padding-top: 12px;
+    }
+
+    .btn-link {
+        color: #ebebeb !important;
+        background-color: transparent !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 5em !important;
+    }
+
+        .btn-default:hover {
+            color: #fff !important;
+            background-color: transparent !important;
+            border: 1px solid rgba(255, 255, 255, 0.4) !important;
+            border-radius: 5em !important;
+        }
+
+    .btn {
+        padding: 4px 20px !important;
+        font-size: 16px !important;
+    }
+
+    .cd-logo img {
+        height: 50px !important;
+        width: 41% !important;
+        margin: 0 0 0 0 !important;
+        padding: 5px 5px 5px 5px !important;
+    }
+
+    @media only screen and (min-width: 1024px) {
+        .cd-logo img {
+            margin-top: 15px !important;
+        }
+    }
+
+    .intrinsic-container {
+        position: relative;
+        height: 590px;
+        overflow: hidden;
+    }
+
+    /* 16x9 Aspect Ratio */
+    .intrinsic-container-16x9 {
+        height: 500px;
+    }
+
+    /* 4x3 Aspect Ratio */
+    .intrinsic-container-4x3 {
+        padding-bottom: 75%;
+    }
+
+    .intrinsic-container-16x9 iframe {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        margin-top: 10px;
+    }
+</style>
+
+<html lang="en">
+<head>
+    <title>WHAM</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/reset.css">
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/Buttons/component.css" rel="stylesheet" />
+    
+</head>
+<body style="background-color:#fff;">
+    <header>
+        <div class="cd-logo"><a href="#0"><img src="images/msdlogs.JPG" alt="Logo"></a></div>
+        <nav class="cd-main-nav-wrapper">
+            <ul class="cd-main-nav" style="visibility: visible; color: #fff; height: 100%; width: 40%; background-color: transparent;float:right;">
+                <li class="loginBtn"> <a href="AfterLogin.html" type="button" class="btn btn-link" style="text-decoration: none;">LOG IN</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="cd-main-content" style="background-color:transparent">
+        <div class="intrinsic-container-16x9" style="text-align:center;">
+            <iframe src="maps.html" allowfullscreen></iframe>
+        </div>
+    </main>
+
+</body>
+</html>
+
+    <!--<div class="container" style="text-align:center">
+        <button type="button" class="btn btn-link" style="font-size:20px;padding-right:250px">Manage your preferences</button>
+        <button type="button" class="btn btn-link" style="font-size: 20px; padding-left: 50px">Create an event</button>
+        <div id="myMap"></div> 
+    </div>-->
