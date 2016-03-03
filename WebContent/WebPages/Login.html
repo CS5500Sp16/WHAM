@@ -24,16 +24,6 @@ For now this is hardcoded. This page has navigation to Home Page and About page.
 
 		<link rel="stylesheet" href="../css/LogIn.css">
 		<script src="../js/LogIn.js"></script>
-
-		<style type="text/css">
-			#loginForm .has-error .control-label, #loginForm .has-error .help-block, #loginForm .has-error .form-control-feedback {
-				color: #f39c12;
-			}
-
-			#loginForm .has-success .control-label, #loginForm .has-success .help-block, #loginForm .has-success .form-control-feedback {
-				color: #18bc9c;
-			}
-		</style>
 	</head>
 	<body>
 		<header>
@@ -53,6 +43,7 @@ For now this is hardcoded. This page has navigation to Home Page and About page.
 				</div>
 			</nav>
 		</header>
+		<!--  -->
 		<div class="container">
 			<div class="row vertical-offset-100">
 				<div class="col-md-4 col-md-offset-4">
@@ -61,10 +52,10 @@ For now this is hardcoded. This page has navigation to Home Page and About page.
 							<h2 class="panel-title">LOG IN</h2>
 						</div>
 						<div class="panel-body">
-							<form accept-charset="UTF-8" role="form" id="loginForm">
+							<form accept-charset="UTF-8" role="form" id="loginForm" action="AfterLoginPage.html">
 								<fieldset>
 									<div class="form-group">
-										<input type="email" class="form-control" placeholder="Husky Email ID" name="husky_emailid" id="husky_emailid" required>
+										<input type="email" class="form-control" placeholder="NEU Email ID" name="neu_emailid" id="neu_emailid" autofocus required>
 									</div>
 									<div class="form-group">
 										<input class="form-control" placeholder="Password" name="password" id="password" type="password" value="">
@@ -73,6 +64,9 @@ For now this is hardcoded. This page has navigation to Home Page and About page.
 										<label>
 											<input name="remember" type="checkbox" value="Remember Me">
 											Remember Me </label>
+									</div>
+									<div>
+										<span id="error" class="alert-error"> NEU Email/Password did not match</span>
 									</div>
 									<input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
 								</fieldset>

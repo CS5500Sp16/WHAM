@@ -18,5 +18,14 @@ body {
 }
 
 .vertical-offset-100 {
-	padding-top: 15%;
+	padding-top: 13%;
+}
+
+.alert-error{
+	color: #F32F2F;
+	font-weight: bold;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
