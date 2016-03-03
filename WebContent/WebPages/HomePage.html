@@ -1,5 +1,13 @@
 ﻿<!DOCTYPE html>
 <style>
+    body {
+        background: -webkit-linear-gradient(left, rgba(102,153,153,0.84) 0%, rgba(101,186,186,0.91) 43%, rgba(121,130,130,0.96) 72%, rgba(195,224,224,1) 100%);
+        background: -o-linear-gradient(left, rgba(102,153,153,0.84) 0%, rgba(101,186,186,0.91) 43%, rgba(121,130,130,0.96) 72%, rgba(195,224,224,1) 100%);
+        background: -ms-linear-gradient(left, rgba(102,153,153,0.84) 0%, rgba(101,186,186,0.91) 43%, rgba(121,130,130,0.96) 72%, rgba(195,224,224,1) 100%);
+        background: linear-gradient(to right, rgba(102,153,153,0.84) 0%, rgba(101,186,186,0.91) 43%, rgba(121,130,130,0.96) 72%, rgba(195,224,224,1) 100%);
+        height:850px;
+    }
+
     .container {
         background-color: white;
         min-height: 500px;
@@ -8,8 +16,8 @@
     }
 
     #myMap {
-        width: 100%;
-        height: 700px;
+        width: 80%;
+        height: 60%;
     }
 
     .loginBtn {
@@ -90,20 +98,60 @@
     <link rel="stylesheet" href="../css/reset.css">
     <link href="../css/style.css" rel="stylesheet" />
     <link href="../css/Buttons/component.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/homePage Blocks/style7.css" />
+    <link href='http://fonts.googleapis.com/css?family=Terminal+Dosis' rel='stylesheet' type='text/css' />
     
 </head>
-<body style="background-color:#fff;">
+<body>
     <header>
         <div class="cd-logo"><a href="#0"><img src="../images/msdlogs.JPG" alt="Logo"></a></div>
         <nav class="cd-main-nav-wrapper">
             <ul class="cd-main-nav" style="visibility: visible; color: #fff; height: 100%; width: 40%; background-color: transparent;float:right;">
-                <li class="loginBtn"> <a href="AfterLogin.html" type="button" class="btn btn-link" style="text-decoration: none;">LOG IN</a></li>
+                <li class="loginBtn"> <a href="Login.html" type="button" class="btn btn-link" style="text-decoration: none;">LOG IN</a></li>
             </ul>
         </nav>
     </header>
     <main class="cd-main-content" style="background-color:transparent">
         <div class="intrinsic-container-16x9" style="text-align:center;">
             <iframe src="maps.html" allowfullscreen></iframe>
+        </div>
+        <div class="content" style="height:350px;">
+
+            <ul class="ca-menu" style="height:60%;">
+                <li style="margin-left:10%;">
+                    <a href="Login.html">
+                        <span class="ca-icon">A</span>
+                        <div class="ca-content">
+                            <h2 class="ca-main">SPORTS</h2>
+                            <h3 class="ca-sub">POST EVENT</h3>
+                        </div>
+                    </a>
+                </li>
+                <li style="background:none; box-shadow: none; width: 10%;">
+
+                </li>
+                <li>
+                    <a href="Login.html">
+                        <span class="ca-icon">A</span>
+                        <div class="ca-content">
+                            <h2 class="ca-main">CULTURAL</h2>
+                            <h3 class="ca-sub">POST EVENT</h3>
+                        </div>
+                    </a>
+                </li>
+                <li style="background: none; box-shadow: none; width: 10%;">
+
+                </li>
+                <li>
+                    <a href="Login.html">
+                        <span class="ca-icon">A</span>
+                        <div class="ca-content">
+                            <h2 class="ca-main">MORE</h2>
+                            <h3 class="ca-sub">POST EVENT</h3>
+                        </div>
+                    </a>
+                </li>
+            </ul>
         </div>
     </main>
 
