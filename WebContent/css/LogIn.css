@@ -1,24 +1,7 @@
-body {
-	background: url(http://mymaplist.com/img/parallax/back.png);
-	background-color: #444;
-	background: url(http://mymaplist.com/img/parallax/pinlayer2.png), url(http://mymaplist.com/img/parallax/pinlayer1.png), url(http://mymaplist.com/img/parallax/back.png);
-}
-
-.panel-logo img {
-	border-radius: 50%;
-	height: 70px;
-	width: 90px;
-	margin: 0;
-}
-
-.panel-title {
-	text-align: left;
-	font-size: 25px;
-	margin-top: 0;
-}
-
 .vertical-offset-100 {
 	padding-top: 13%;
+	height: auto;
+	width: 300px;
 }
 
 .alert-error{
@@ -28,4 +11,10 @@ body {
 	padding-bottom: 10px;
 	margin-top: 5px;
 	margin-bottom: 5px;
+}
+
+.panel-title {
+	text-align: left;
+	font-size: 25px;
+	margin-top: 0;
 }

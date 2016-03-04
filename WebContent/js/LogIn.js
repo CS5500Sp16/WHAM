@@ -12,7 +12,6 @@ $(document).ready(function() {
 				event.preventDefault();
 				document.getElementById("password").value ="";
 				document.getElementById("neu_emailid").value ="";
-				
 				$("#error").show();
 			}
 		}
@@ -34,7 +33,7 @@ $(document).ready(function() {
 		},
 		messages : {
 			password : "Please enter a password",
-			neu_emailid : "Please enter a valid husky email"
+			neu_emailid : "Please enter a valid NEU email address"
 		}
 	});
 });
