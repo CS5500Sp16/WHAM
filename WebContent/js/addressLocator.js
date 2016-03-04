@@ -1,12 +1,13 @@
 ﻿
 var placeSearch, autocomplete;
 var componentForm = {
-    street_number: 'short_name',
+    street_number: 'short_name'
+    /*,
     route: 'long_name',
     locality: 'long_name',
     administrative_area_level_1: 'short_name',
     country: 'long_name',
-    postal_code: 'short_name'
+    postal_code: 'short_name'*/
 };
 
 function initAutocomplete() {
@@ -24,9 +25,9 @@ function initAutocomplete() {
 function fillInAddress() {
     // Get the place details from the autocomplete object.
     var place = autocomplete.getPlace();
-
+    /*
     for (var component in componentForm) {
-        document.getElementById(component).value = '';
+        document.getElementById(component).value = place;
         document.getElementById(component).disabled = false;
     }
 
@@ -38,7 +39,7 @@ function fillInAddress() {
             var val = place.address_components[i][componentForm[addressType]];
             document.getElementById(addressType).value = val;
         }
-    }
+    } */
 }
 
 // Bias the autocomplete object to the user's geographical location,

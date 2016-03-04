@@ -120,41 +120,7 @@ function displayAsOfficialEvent(logged_user) {
         return false;
     }
 }
-function checkDate(documentId, documentErrorId) {
-    var selectedDate = document.getElementById(documentId).value;
-    var now = new Date();
-    var dt1 = Date.parse(now);
-    console.log(new Date().getTime());
-    dt2 = Date.parse(selectedDate);
-    console.log(dt1);
-    console.log(dt2);
-    console.log(dt2 - dt1);
-    if (dt1 - dt2 > 0) {
-        document.getElementById(documentId).style.background = '#e35152';
-        document.getElementById(documentErrorId).style.display = "block";
 
-
-    } else {
-        document.getElementById(documentId).style.background = '#ccffcc';
-        document.getElementById(documentErrorId).style.display = "none";
-    }
-
-}
-
-function checkEndDate() {
-    var selectedStartDate = document.getElementById('startDate').value;
-    var selectedEndDate = document.getElementById('endDate').value;
-    var dt1 = Date.parse(selectedStartDate),
-    dt2 = Date.parse(selectedEndDate);
-    if (dt2 <= dt1) {
-        document.getElementById('endDate').style.background = '#e35152';
-        document.getElementById('endDateError').style.display = "block";
-
-    } else {
-        document.getElementById('endDate').style.background = '#ccffcc';
-        document.getElementById('endDateError').style.display = "none";
-    }
-}
 
 
 
