@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Create Event</title>
+    <link href="../css/bootstrap.css" rel="stylesheet" />
+    <link href="../css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="Stylesheet" type="text/css" >
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script type="text/javascript" src="../js/jquery.timepicker.min.js"></script>
+    <link href="../css/jquery.timepicker.css" rel="stylesheet" />
+    <script src="../js/validations.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZd4QxSKxELFULzQjv0Mwx7ybsUM_eBOg&signed_in=false&libraries=places&callback=initAutocomplete"
+            async defer></script>
+    <script src="../js/addressLocator.js"></script>
+    <style>
+        /*.navbar {
+            font-size: 30px;
+            text-align: center;
+        }*/
+
+        .time {
+            width: 80px;
+        }
+    </style>
+    <script>
+       /* function checkEndTime() {
+            var selectedStartTime = document.getElementById('startTime').value;
+            var selectedEndDate = document.getElementById('endTime').value;
+            var stime=time.parse(selectedStartTime),
+            var endtime=time.parse(selectedStartTime)
+            dt2 = Date.parse(selectedEndDate);
+            if (dt2 == dt1) {
+                document.getElementById('endDate').style.background = '#e35152';
+                document.getElementById('endDateError').style.display = "block";
+
+            } else {
+                document.getElementById('endDate').style.background = '#ccffcc';
+                document.getElementById('endDateError').style.display = "none";
+            }
+        }*/
+        function checkDates() {
+            if (optionRadios1.checked) {
+                var selectedEventDate = document.getElementById('eventDate').value;
+            document.getElementById('startDate').value = selectedEventDate;
+            document.getElementById('endDate').value = selectedEventDate;
+            }
+
+        }
+       
+    </script>
+
+</head>
+<body style="background-color:lightgray">
+    <nav class="navbar navbar-default" style="background-color:black;height:70px">
+        <div class="container-fluid">
+            <div class="navbar-header" style="padding-top:10px">
+                <a class="navbar-brand" href="#" style="color:white">WHAM</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="span12">
+                <h2>Create your event</h2>
+                <form action="../newevent" align="left" method="post" >
+                    <fieldset>
+                        <label for="eventName"> <b>Event Name</b></label>
+                        <input type="text" name="eventName" id="name" maxlength="60" required onblur="validateName(name)" />
+                        <span id="nameError" style="display: none;">You can only use alphabetic characters, hyphens and apostrophes</span>
+                        <label for="Event_Description"><b>Event Description</b></label>
+                        <input id="Event_Description" name="eventDesc" maxlength="500" type="text" onblur="validateNotEmpty('Event_Description')" >
+                        <span id="Event_Description_Error" style="display: none;">Please enter an event description</span>
+                        <label for="Location"><b>Location</b></label>
+                        <div id="locationField">
+                            <input id="autocomplete" name="eventLocation" placeholder="Enter your address"
+                                   onFocus="geolocate()" type="text" />
+                        </div>
+                        
+                        <label for="Organiser Name"><b>Organiser Name</b></label>
+                        <input id="organiserName" name="organiserName" type="text" value="" required>
+                        <label for="Organiser Description"><b>Organiser Description</b></label>
+                        <input id="organiserDesc" name="organiserDesc" type="text" value="" required>
+                        <label for="Phone"><b>Phone</b></label>
+                        <input id="phone" name="phoneNumber" type="text" value="" onblur="validatePhone(phone)"  >
+                        <span id="phoneError" style="display: none;">Not a valid phone number</span>
+                        <label for="email"><b>Email</b></label>
+                        <input type="text" name="emailId" id="email"  required onblur="validateEmail(value)" >
+                        <span id="emailError" style="display: none;">Enter a valid Northeastern email.</span>
+                        <div>
+                            <label class="radio inline ">
+                                <input type="radio" name="optionRadios" id="optionRadios1" value="option1" checked onclick="displaySingleDay()">
+                                <b>Single Day event</b>
+                            </label>
+                            <label class="radio inline">
+                                <input type="radio" name="optionRadios" id="optionRadios2" value="option2" onclick="displayMultiDay()">
+                                <b>Multi Day event</b>
+                            </label>
+                        </div>
+                        <br>
+                        <div id="singleday">
+                            <label for="eventDate"><b>Event Date</b></label>
+                            <input id="eventDate" name="eventDate" required type="text">
+                        </div>
+
+                        <div id="multiday" hidden>
+                            <label for="eventStartDate"> <b>Event Start Date</b></label>
+                            <input id="startDate" name="startDate" required type="text">
+                            <label for="eventEndDate"><b>Event End Date</b></label>
+                            <input id="endDate" name="endDate" required type="text">
+                            <span id="endDateError" style="display: none;">End date cannot be same as start date.</span>
+                        </div>
+                        <br />
+                        <div>
+                            <label for="startTime"><b>Start Time</b></label>
+                            <input type="text" name="startTime" id="startTime" required class="time">
+                            <label for="endTime"><b>End Time</b></label>
+                            <input type="text" name="endTime" id="endTime" required class="time">
+                        </div>
+                        <div>
+                            <label class="checkbox inline" id="official">
+                                <input type="checkbox" name="isOfficialEvent" value="">
+                                <b> Official NEU Event</b>
+                            </label>
+                        </div>
+                        <br />
+                        <input type="submit" value="Submit"  name="submit" class="btn btn-primary " />
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <hr />
+    </div>
+
+
+
+
+</body>
+</html>

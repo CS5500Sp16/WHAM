@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>WHAM</title>
+    <link rel="shortcut icon" type="image/png" href="../images/WHAM_new.png" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script type="text/javascript" src="../js/jquery.timepicker.min.js"></script>
+    <link href="../css/jquery.timepicker.css" rel="stylesheet" />    
+    <!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZd4QxSKxELFULzQjv0Mwx7ybsUM_eBOg&libraries=places"></script-->
+    <script src="../js/addressLocator.js"></script>
+    <script src="../js/validations.js"></script>
+    <link href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="Stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link href='http://fonts.googleapis.com/css?family=Terminal+Dosis' rel='stylesheet' type='text/css' />
+    <link href="../css/bootstrap.css" rel="stylesheet" />
+    <link href="../css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link href="../css/Buttons/component.css" rel="stylesheet" />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZd4QxSKxELFULzQjv0Mwx7ybsUM_eBOg&signed_in=false&libraries=places&callback=initAutocomplete"
+            async defer></script>
+    <link href="../css/create_event_pageStyle.css" rel="stylesheet" />	
+    <link href="../css/create_event.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <div class="cd-logo">
+            <a href="AfterLoginPage.html"><img src="../images/msdlogs.JPG" alt="Logo"></a>
+        </div>
+        <nav class="cd-main-nav-wrapper">
+            <ul class="cd-main-nav" style="visibility: visible; color: #fff; height: 100%; width: 40%; background-color: transparent;float:right;">
+                <li class="loginBtn">
+                    <a href="HomePage.html" type="button" class="bttn bttn-default" style="text-decoration: none;">LOG OUT</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="cd-main-content" style="background-color:transparent">
+        <div class="intrinsic-container-16x9">
+            <center>
+                <div class="form_container">
+                    <h2>Create your event</h2><br/>
+                    <form action="../newevent" method="post" onsubmit="return validateForm()">
+                        <fieldset>
+                            <label for="eventName">Event Name*</label>
+                            <input type="text" name="eventName" id="name" maxlength="60" required onblur="validateName('name')" />
+                            <span id="nameError" style="display: none;">You can only use alphabetic characters, hyphens and apostrophes</span>
+                            <label for="Event_Description"><b>Event Description*</b></label>
+                            <input id="Event_Description" name="eventDesc" maxlength="500" type="text" onblur="validateNotEmpty('Event_Description')">
+                            <span id="Event_Description_Error" style="display: none;">Please enter an event description</span>
+                            <label for="Location"><b>Location*</b></label>
+                            <div id="locationField">
+                                <input id="autocomplete" name="eventLocation" placeholder="Enter your address"
+                                       onfocus="geolocate()" type="text" />
+                            </div>
+                            <label for="Organiser Name"><b>Organiser Name*</b></label>
+                            <input id="organiserName" name="organiserName" type="text" value="" required onblur="validateName('organiserName')">
+                            <span id="organiserNameError" style="display: none;">Please enter an organiser name</span>
+                            <label for="Organiser Description"><b>Organiser Description*</b></label>
+                            <input id="organiserDesc" name="organiserDesc" type="text" value="" required onblur="validateNotEmpty('organiserDesc')">
+                            <span id="organiserDesc_Error" style="display: none;">Please enter an organiser description</span>
+                            <label for="Phone"><b>Phone</b></label>
+                            <input id="phone" name="phoneNumber" type="text" value="" onblur="validatePhone(phone)">
+                            <span id="phoneError" style="display: none;">Not a valid phone number</span>
+                            <label for="email"><b>Email*</b></label>
+                            <input type="text" name="emailId" id="email" required onblur="validateEmail(value)">
+                            <span id="emailError" style="display: none;">Enter a valid Northeastern email.</span>
+                <!--div>
+                    <label class="radio inline ">
+                        <input type="radio" name="optionRadios" id="optionRadios1" value="option1" checked onclick="displaySingleDay()">
+                        <b>Single Day event</b>
+                    </label>
+                    <label class="radio inline">
+                        <input type="radio" name="optionRadios" id="optionRadios2" value="option2" onclick="displayMultiDay()">
+                        <b>Multi Day event</b>
+                    </label>
+                </!--div>
+                <br>
+
+                <div id="singleday">
+                    <label for="eventDate"><b>Event Date*</b></label>
+                    <input id="eventDate" name="eventDate" required type="text">
+                </div-->
+
+                            <div id="multiday">
+                                <label for="eventStartDate"> <b>Event Start Date*</b></label>
+                                <input id="startDate" name="startDate" required type="text">
+                                <label for="eventEndDate"><b>Event End Date*</b></label>
+                                <input id="endDate" name="endDate" required type="text">
+                            </div>
+
+                            <div>
+                                <label for="startTime"><b>Start Time*</b></label>
+                                <input type="text" name="startTime" id="startTime" required class="time">
+                                <label for="endTime"><b>End Time*</b></label>
+                                <input type="text" name="endTime" id="endTime" required class="time">
+                            </div>
+                            <div>
+                                <label class="checkbox inline" id="isOfficialEvent">
+                                    <input type="checkbox" name="isOfficialEvent" value="">
+                                    <b> Official NEU Event</b>
+                                </label>
+                            </div>
+                            <br />
+                            <input type="submit" value="Submit" name="submit" class="myButton " />
+                        </fieldset>
+                    </form>
+                </div>
+            </center>
+         </div>
+     </div>        
+</body>
+</html>
