@@ -2,7 +2,6 @@ package com.neu.wham.services;
 
 
 import java.util.List;
-import java.util.Locale;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,9 +53,9 @@ public class GetEventServiceImpl implements GetEventService {
 	{
 		URIBuilder builder = new URIBuilder("https://www.eventbriteapi.com/v3/events/search");
 		builder.addParameter("expand", "venue");
-		builder.addParameter("location.latitude", "37.3394444");
-		builder.addParameter("location.longitude", "-121.8938889");
-		builder.addParameter("location.within", "10mi");
+		builder.addParameter("location.latitude", lat);
+		builder.addParameter("location.longitude", lon);
+		builder.addParameter("location.within", radius + "mi");
 		builder.addParameter("token", "DXVHSQKC2T2GGBTUPOY2");
 		
 		System.out.println(builder);
@@ -95,7 +94,7 @@ public class GetEventServiceImpl implements GetEventService {
 			
 			String startDateTime = event.getJSONObject("start").getString("local");
 			String date = startDateTime.substring(0, startDateTime.indexOf('T'));
-			String time = startDateTime.substring(startDateTime.indexOf('T') + 1);
+			//String time = startDateTime.substring(startDateTime.indexOf('T') + 1);
 			//System.out.println("Date:" + date + "Time:" + time);
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			Date startDate = format.parse(date);
