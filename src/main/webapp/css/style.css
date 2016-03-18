@@ -384,6 +384,8 @@ header::before {
   -webkit-transition: -webkit-transform 0.3s;
   -moz-transition: -moz-transform 0.3s;
   transition: transform 0.3s;
+  background-color: transparent; 
+  text-align: center;
 }
 .cd-main-content.nav-is-visible {
   -webkit-transform: translateX(-260px);
@@ -472,3 +474,4 @@ header::before {
     padding-top: 80px;
   }
 }
+

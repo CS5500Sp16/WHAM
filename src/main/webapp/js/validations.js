@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+﻿/*$(document).ready(function () {
 
     $("#eventDate").datepicker({
         defaultDate: new Date(),
@@ -28,7 +28,7 @@
     $('#startTime').timepicker({ 'step': 15 });
     $('#endTime').timepicker({ 'step': 15 });
 
-});
+});*/
 
 
 function validateName(x) {
