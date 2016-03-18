@@ -4,5 +4,10 @@
 
 *.war
 
+// eclipse files
+.classpath
+.project
 
+
+// compiled sources
 /target/
