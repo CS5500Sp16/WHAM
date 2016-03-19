@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class Event {
 	@NotEmpty(message="Event name is empty") 
@@ -16,13 +17,19 @@ public class Event {
 	private String phoneNumber;
 	@NotNull(message="Organiser Mail is null") 
 	private String emailId;
-	@NotNull(message="Event start Date is null") 
+	//@NotNull(message="Event start Date is null") 
+	// Surabhi, remove this field
 	private Date startDate;
-	@NotNull(message="Event end Date is null") 
+	//@NotNull(message="Event end Date is null") 
+	// Surabhi, remove this field
 	private Date endDate;
-	@NotNull(message="Event start Time is null") 
+	@DateTimeFormat(pattern="MM/dd/YYYY hh:mm a")
+	private Date startDateAndTime;
+	@DateTimeFormat(pattern="MM/dd/YYYY hh:mm a")
+	private Date endDateAndTime;
+	// Surabhi, remove this field
 	private Date startTime;
-	@NotNull(message="Event end time is null") 
+	// Surabhi, remove this field
 	private Date endTime;
 	private double latitude;
 	private double longitude;
@@ -137,13 +144,30 @@ public class Event {
 	public void setLastUpdateTime(Date lastUpdateTime) {
 		this.lastUpdateTime = lastUpdateTime;
 	}
+	
+	
+	public Date getStartDateAndTime() {
+		return startDateAndTime;
+	}
+	public void setStartDateAndTime(Date startDateAndTime) {
+		this.startDateAndTime = startDateAndTime;
+	}
+	public Date getEndDateAndTime() {
+		return endDateAndTime;
+	}
+	public void setEndDateAndTime(Date endDateAndTime) {
+		this.endDateAndTime = endDateAndTime;
+	}
 	@Override
 	public String toString() {
 		return "Event [eventName=" + eventName + ", eventDesc=" + eventDesc + ", eventLocation=" + eventLocation
 				+ ", phoneNumber=" + phoneNumber + ", emailId=" + emailId + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", startTime=" + startTime + ", endTime=" + endTime + ", latitude=" + latitude
-				+ ", longitude=" + longitude + ", filePath=" + filePath + ", organiserName=" + organiserName
-				+ ", organiserDesc=" + organiserDesc + ", isOfficialEvent=" + isOfficialEvent + ", creationTime="
-				+ creationTime + ", lastUpdateTime=" + lastUpdateTime + "]";
+				+ endDate + ", startDateAndTime=" + startDateAndTime + ", endDateAndTime=" + endDateAndTime
+				+ ", startTime=" + startTime + ", endTime=" + endTime + ", latitude=" + latitude + ", longitude="
+				+ longitude + ", filePath=" + filePath + ", organiserName=" + organiserName + ", organiserDesc="
+				+ organiserDesc + ", isOfficialEvent=" + isOfficialEvent + ", creationTime=" + creationTime
+				+ ", lastUpdateTime=" + lastUpdateTime + "]";
 	}
+	
+	
 }

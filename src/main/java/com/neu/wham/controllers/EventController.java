@@ -2,6 +2,8 @@ package com.neu.wham.controllers;
 
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.neu.wham.messages.EventPostResponse;
+import com.neu.wham.messages.EventPostResponse.Status;
 import com.neu.wham.model.Event;
 import com.neu.wham.services.NewEventService;
 
@@ -22,31 +25,15 @@ public class EventController {
 	private NewEventService newEventService;
 	
 	@RequestMapping(value = "/newevent", method = RequestMethod.POST)
-	public @ResponseBody EventPostResponse firstRequest(@Valid @ModelAttribute Event event, BindingResult result){
-		System.out.println("*****HIT*******");
+	public @ResponseBody EventPostResponse firstRequest(@Valid @ModelAttribute Event event, BindingResult result, HttpServletRequest req, HttpServletResponse resp){
+
 		if(result.hasErrors()){
-			System.out.println(" ****** It has errors ******");
-			System.out.println(result.getAllErrors());
+			EventPostResponse errRes = new EventPostResponse();
+			errRes.setMsg(result.getAllErrors().toString());
+			errRes.setStatus(Status.ERROR);
+			return errRes;
 		}
 		System.out.println(event);
-		/*
-		Event sampleEvent = new Event();
-		sampleEvent.setEmailId("bvijet@gmail.com");
-		sampleEvent.setEndDate(new Date());
-		sampleEvent.setEndTime(new Date());
-		sampleEvent.setEventDesc("event desc");
-		sampleEvent.setEventLocation("1600 Amphitheatre Parkway Mountain View, CA 94043");
-		sampleEvent.setCreationTime(new Date());
-		sampleEvent.setLastUpdateTime(new Date());
-		sampleEvent.setStartDate(new Date());
-		sampleEvent.setStartTime(new Date());
-		sampleEvent.setFilePath("aaa");
-		sampleEvent.setEventName("saome name");
-		sampleEvent.setOrganiserName("sss");
-		sampleEvent.setOrganiserDesc("orgDesc");
-		sampleEvent.setOfficialEvent(true);
-		*/
 		return newEventService.submitNewEvent(event);
-		//return response;
 	}
 }

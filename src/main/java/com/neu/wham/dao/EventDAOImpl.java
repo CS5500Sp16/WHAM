@@ -37,30 +37,34 @@ public class EventDAOImpl implements EventDAO {
 	public boolean addNewEvent(Event event) throws SQLException {
 		//java.util.Date dt = new java.util.Date();
 
-		java.text.SimpleDateFormat sdf = 
+		/*java.text.SimpleDateFormat sdf = 
 		     new java.text.SimpleDateFormat("yyyy-MM-dd");
 
 		String currentStartDate = sdf.format(event.getStartDate());
 		String currentEndDate = sdf.format(event.getEndDate());
-		
+		*/
 		
 		java.text.SimpleDateFormat sdf1 = 
 			     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
+		/*
 			String currentStartTime = sdf1.format(event.getStartTime());
 			String currentEndTime = sdf1.format(event.getEndTime());
-			String creationTime = sdf1.format(event.getCreationTime());
-			String updatedTime = sdf1.format(event.getLastUpdateTime());
 			
+		*/
+		String creationTime = sdf1.format(event.getCreationTime());
+		String updatedTime = sdf1.format(event.getLastUpdateTime());
+		String startDate = sdf1.format(event.getStartDateAndTime());
+		String endDate = sdf1.format(event.getEndDateAndTime());
+
 		Connection conn = null;
 		Statement stmt = null;
 		conn = DriverManager.getConnection(DB_URL,USER,PASS);
 		String stam = "insert into EVENT(name,"
 				+ "description,"
-				+ "start_date,"
-				+ "end_date,"
-				+ "start_time,"
-				+ "end_time,"
+				//+ "start_date,"
+				//+ "end_date,"
+				//+ "start_time,"
+				//+ "end_time,"
 				+ "is_official,"
 				+ "phone,email,"
 				+ "address,"
@@ -70,24 +74,28 @@ public class EventDAOImpl implements EventDAO {
 				+ "last_update_datetime,"
 				+ "org_name,"
 				+ "org_desc,"
+				+ "start_date_and_time,"
+				+ "end_date_and_time,"
 				+ "file_path)"
 				+ "values("+
 					"'"+event.getEventName()+"',"
 					+"'"+event.getEventDesc()+"',"
-					+"'"+currentStartDate+"',"
-					+"'"+currentEndDate+"',"
-					+"'"+currentStartTime+"',"
-					+"'"+currentEndTime+"',"
+					//+"'"+currentStartDate+"',"
+					//+"'"+currentEndDate+"',"
+					//+"'"+currentStartTime+"',"
+					//+"'"+currentEndTime+"',"
 					+event.isOfficialEvent() +","
 					+"'"+event.getPhoneNumber()+"',"
 					+"'"+event.getEmailId()+"',"
 					+"'"+event.getEventLocation()+"',"
 					+event.getLatitude()+","
-					+event.getLongitude()+","
-					+"'"+creationTime+"',"
+					+event.getLongitude()+","+
+					"'"+creationTime+"',"
 					+"'"+updatedTime+"',"+
 					"'"+event.getOrganiserName()+"',"+
 					"'"+event.getOrganiserDesc()+"',"+
+					"'"+startDate+"',"
+					+"'"+endDate+"',"+
 					"'"+event.getFilePath()+"');";
 		
 		System.out.println(stam);
