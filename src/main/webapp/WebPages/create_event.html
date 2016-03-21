@@ -46,7 +46,7 @@
         <center>
             <div class="form_container">
                 <h2>Create your event</h2><br/>
-                <form action="http://test.com" method="post" onsubmit="return validateForm()">
+                <form action="../newevent" enctype="multipart/form-data" method="post" onsubmit="return validateForm()">
                     <fieldset>
                         <label for="eventName">Event Name*</label>
                         <input type="text" name="eventName" id="name" maxlength="60" required onblur="validateName('name')" />
