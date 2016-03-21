@@ -63,16 +63,26 @@ public class EventServiceImpl implements NewEventService {
 
 	private String saveUploadedFile(MultipartFile imageFile, String organiserName) throws IOException {
 		if(imageFile != null){
+			
+			
+			StringBuilder imageName = new StringBuilder();
+			imageName.append(organiserName);
+			imageName.append("_");
+			imageName.append(tempDate.getTime());
+			imageName.append("_");
+			imageName.append(imageFile.getOriginalFilename());
+			
 			StringBuilder builder = new StringBuilder();
 			builder.append(Constants.IMAGE_UPLOAD_PATH);
-			builder.append(organiserName);
-			builder.append("_");
-			builder.append(tempDate.getTime());
-			builder.append("_");
-			builder.append(imageFile.getOriginalFilename());
+			builder.append(imageName.toString());
+			
+			StringBuilder imageURL = new StringBuilder();
+			imageURL.append(Constants.AMAZON_IMAGE_URL);
+			imageURL.append(imageName.toString());
+			
 			File tempFile = new File(builder.toString());
 			FileUtils.writeByteArrayToFile(tempFile, imageFile.getBytes());
-			return builder.toString();
+			return imageURL.toString();
 		}
 		return null;
 	}
