@@ -42,6 +42,7 @@ public class GetEventServiceTest {
 	 
     @Mock
     private GetEventService getEventServiceMock; 
+    private LocationException locationException;
     
     @Autowired
     private WebApplicationContext context;
@@ -195,4 +196,27 @@ public class GetEventServiceTest {
 				.andExpect(jsonPath("$[1].eventName", is("인터넷바카라추천【DON963 쩜컴】카지노사이트")))
 				.andExpect(jsonPath("$[2].eventName", is("Встреча с Вице-Ректором университета Туриба, Рига, Латвия, Господином Имантсом Бергсом")));
     }
+    
+    //?lat=91&long=0&r=10
+    //Expected Return: { Coordinates are not valid. Please ensure lattitude is between -90 and 90 and longitude is between -180 and 180 } 
+    @Test(expected = LocationException.class)
+    public void getEvents_invalidLonTest() throws Exception{
+    	String lat = "91";
+    	String lon = "0";
+    	String rad = "10";
+    	String url = "/datasource/" + lat + "/" + lon + "/" + rad;
+    	
+    	LocationException exception = new LocationException(LocationExceptionType.LOCATION_OUT_OF_BOUNDS);
+    	
+    	when(dataSourceController.firstRequest(lat, lon, rad)).thenThrow(locationException);
+    	
+		mockMvc.perform(get(url))
+//				.andExpect(status().isOk())
+//				.andExpect(content().contentType("application/json;charset=UTF-8"))
+//				.andExpect(jsonPath("$", hasSize(1)))
+				.andExpect(jsonPath("$[0]", is(exception)));   
+    
+    
+    }
+    
 }
