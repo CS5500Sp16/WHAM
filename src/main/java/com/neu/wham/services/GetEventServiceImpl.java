@@ -58,7 +58,7 @@ public class GetEventServiceImpl implements GetEventService {
 		builder.addParameter("location.longitude", lon);
 		builder.addParameter("location.within", radius + "mi");
 		builder.addParameter("token", "DXVHSQKC2T2GGBTUPOY2");
-		if(q != null)
+		if(null != q)
 			builder.addParameter("q", q);
 		
 		System.out.println(builder);
