@@ -32,7 +32,8 @@ public class EventController {
 			errRes.setMsg(result.getAllErrors().toString());
 			errRes.setStatus(Status.ERROR);
 			return errRes;
-		}
+		}		
+		
 		System.out.println(event);
 		return newEventService.submitNewEvent(event);
 	}

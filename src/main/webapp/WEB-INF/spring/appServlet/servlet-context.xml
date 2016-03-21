@@ -29,6 +29,14 @@
 	
 	<beans:bean id="evntResponse" class="com.neu.wham.messages.EventPostResponse"/>
 	<beans:bean id="response" class="com.neu.wham.messages.EventGetResponse"/>
+	
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/newevent"/>
+			<beans:bean id="fileHandlerInterceptor" class="com.neu.wham.interceptors.FileHandlerInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
 </beans:beans>	
 	
 
