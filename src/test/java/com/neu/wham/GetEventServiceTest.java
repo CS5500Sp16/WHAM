@@ -1,11 +1,14 @@
 package com.neu.wham;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TimeZone;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -15,9 +18,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
+
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -26,7 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.neu.wham.controllers.DataSourceController;
 import com.neu.wham.exceptions.LocationException;
-import com.neu.wham.exceptions.LocationException.LocationExceptionType;
 import com.neu.wham.model.Event;
 import com.neu.wham.services.GetEventService;
 
@@ -49,13 +52,9 @@ public class GetEventServiceTest {
    
 
     @Before
-//    public void setup() {
-//      this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-//    }
     public void setup() {
     	MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(dataSourceController)
-        		//.setHandlerExceptionResolvers(new ExceptionHandlerExceptionResolver())
         		.build();
       }
     
@@ -197,26 +196,20 @@ public class GetEventServiceTest {
 				.andExpect(jsonPath("$[2].eventName", is("Встреча с Вице-Ректором университета Туриба, Рига, Латвия, Господином Имантсом Бергсом")));
     }
     
-    //?lat=91&long=0&r=10
-    //Expected Return: { Coordinates are not valid. Please ensure lattitude is between -90 and 90 and longitude is between -180 and 180 } 
-    @Test(expected = LocationException.class)
-    public void getEvents_invalidLonTest() throws Exception{
-    	String lat = "91";
-    	String lon = "0";
-    	String rad = "10";
-    	String url = "/datasource/" + lat + "/" + lon + "/" + rad;
-    	
-    	LocationException exception = new LocationException(LocationExceptionType.LOCATION_OUT_OF_BOUNDS);
-    	
-    	when(dataSourceController.firstRequest(lat, lon, rad)).thenThrow(locationException);
-    	
+    // testcase 20
+    @Test
+    public void getEvents_InvalidStringRTest() throws Exception{
+    	String lat = "45";
+		String lon = "45";
+		String rad = "w10";
+		
+		String afterValidateRad = "10";
+		when(getEventServiceMock.getEvents(lat, lon, afterValidateRad)).thenReturn(new ArrayList<Event>());
+		
+		String url = "/datasource/" + lat + "/" + lon + "/" + rad;
 		mockMvc.perform(get(url))
-//				.andExpect(status().isOk())
-//				.andExpect(content().contentType("application/json;charset=UTF-8"))
-//				.andExpect(jsonPath("$", hasSize(1)))
-				.andExpect(jsonPath("$[0]", is(exception)));   
-    
-    
+				.andExpect(status().isOk())
+				.equals(new ArrayList<Event>()); 	
     }
     
 }

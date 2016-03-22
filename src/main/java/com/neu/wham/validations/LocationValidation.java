@@ -23,6 +23,11 @@ public class LocationValidation {
 	}
 	
 	public static double validateRadius(String r) throws LocationException {
+		
+		if(!r.matches("^[0-9]*$")){
+			return 10;
+		}
+		
 		double dR = parseCoordinate(r);
 		
 		if(dR <= 0)

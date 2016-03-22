@@ -28,11 +28,11 @@ public class DataSourceController {
 	
 	@RequestMapping(value = "/datasource/{lat}/{lon}/{rad}", method = RequestMethod.GET)
 	public @ResponseBody List<Event> firstRequest(@PathVariable String lat, @PathVariable String lon, @PathVariable String rad) throws LocationException{
-		
+				
 		LocationValidation.validateLatitude(lat);
 		LocationValidation.validateLongitude(lon);
-		LocationValidation.validateRadius(rad);
-		
+		rad = String.valueOf(LocationValidation.validateRadius(rad));
+
 		return getEventService.getEvents(lat, lon, rad);
 	}
    
