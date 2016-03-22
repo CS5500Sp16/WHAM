@@ -11,3 +11,8 @@
 
 // compiled sources
 /target/
+
+// intellij files
+*.iml
+*.DS_Store
+.idea

@@ -29,14 +29,14 @@ public class GetEventServiceImpl implements GetEventService {
 	private EventDAO eventDAO;
 	
 	@Override
-	public List<Event> getEvents(String lat, String lon, String rad)
+	public List<Event> getEvents(String lat, String lon, String rad, String q)
 	{
 		List<Event> DBEvents = new ArrayList<Event>();
 		List<Event> APIEvents = new ArrayList<Event>();
 		List<Event> resultList = new ArrayList<Event>();
  		try
 		{
- 		APIEvents = getEventsFromAPI(lat, lon, rad);	
+ 		APIEvents = getEventsFromAPI(lat, lon, rad, q);	
 		DBEvents =  eventDAO.getEventsData(lat, lon, rad);
 		}
 		catch(Exception e)
@@ -49,7 +49,8 @@ public class GetEventServiceImpl implements GetEventService {
 		return resultList;
 	}
 	
-	public List<Event> getEventsFromAPI(String lat, String lon, String radius)throws UnirestException, JSONException, ParseException, URISyntaxException
+	public List<Event> getEventsFromAPI(String lat, String lon, String radius, String q) 
+			throws UnirestException, JSONException, ParseException, URISyntaxException
 	{
 		URIBuilder builder = new URIBuilder("https://www.eventbriteapi.com/v3/events/search");
 		builder.addParameter("expand", "venue");
@@ -57,6 +58,8 @@ public class GetEventServiceImpl implements GetEventService {
 		builder.addParameter("location.longitude", lon);
 		builder.addParameter("location.within", radius + "mi");
 		builder.addParameter("token", "DXVHSQKC2T2GGBTUPOY2");
+		if(null != q)
+			builder.addParameter("q", q);
 		
 		System.out.println(builder);
 		System.out.println(builder.toString());
