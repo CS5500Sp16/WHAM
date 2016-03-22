@@ -15,7 +15,13 @@ import com.neu.wham.services.LookupService;
 @Controller
 public class LookupController {
 	
-	
+	/*
+	 * Controller provides lookup service - when given a abbreviated location name
+	 * with Northeastern campus, which usually cannot be translated into an address
+	 * using Google Maps, return the address of the Northeastern building
+	 * 
+	 * Eg - Input - 'WVH' gives an output of '440 Huntington Ave' (location of West Village H)
+	 * */
 	
 	@Autowired
 	private LookupService lookupService;
