@@ -31,7 +31,7 @@ function init() {
             var api_url = "http://" + arr[2] + "/WHAM/datasource/37.3394444/-121.8938889/10"
             console.log(api_url);
             
-            $.getJSON({ url: api_url }, function (data) {
+            $.get({ url: api_url }, function (data) {
                 var loc = data;
                 console.log("success " + data[0]);
 
