@@ -50,4 +50,11 @@ public class DataSourceController {
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		return new ResponseEntity<String>("{\"error\": \"" + le.getLocalizedMessage() + "\"}", httpHeaders, HttpStatus.BAD_REQUEST);
 	}
+	
+	@RequestMapping()
+	public ResponseEntity<String> catchAll() {
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		return new ResponseEntity<String>("{\"error\": \"URL does not match any endpoints.\"}", httpHeaders, HttpStatus.NOT_FOUND);
+	}
 }
