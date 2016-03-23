@@ -35,6 +35,7 @@ public class EventDAOImpl implements EventDAO {
 	
 	@Override
 	public boolean addNewEvent(Event event) throws SQLException {
+		
 		//java.util.Date dt = new java.util.Date();
 
 		/*java.text.SimpleDateFormat sdf = 
@@ -98,6 +99,7 @@ public class EventDAOImpl implements EventDAO {
 					+"'"+endDate+"',"+
 					"'"+event.getFilePath()+"');";
 		
+		
 		System.out.println(stam);
 		
 		stmt = conn.createStatement();
@@ -148,21 +150,21 @@ public class EventDAOImpl implements EventDAO {
 				Event e = new Event();
 				e.setEventName(rs.getString("name"));
 				e.setEventDesc(rs.getString("description"));
-				e.setEventLocation(rs.getString("location"));
-				e.setPhoneNumber(rs.getString("phone_number"));
+				e.setEventLocation(rs.getString("address"));
+				e.setPhoneNumber(rs.getString("phone"));
 				e.setEmailId(rs.getString("email"));
-				e.setStartDate(rs.getDate("start_date"));
-				e.setEndDate(rs.getDate("end_date"));
-				e.setStartTime(rs.getDate("start_time"));
-				e.setEndTime(rs.getDate("end_time"));
+				//e.setStartDate(rs.getDate("start_date"));
+				//e.setEndDate(rs.getDate("end_date"));
+				//e.setStartTime(rs.getDate("start_time"));
+				//e.setEndTime(rs.getDate("end_time"));
 				e.setLatitude(rs.getDouble("latitude"));
 				e.setLongitude(rs.getDouble("longitude"));
 				e.setFilePath(rs.getString("file_path"));			
-				e.setOrganiserName(rs.getString("organization_name"));
-				e.setOrganiserDesc(rs.getString("organization_desc"));
+				e.setOrganiserName(rs.getString("org_name"));
+				e.setOrganiserDesc(rs.getString("org_desc"));
 				e.setOfficialEvent(rs.getBoolean("is_official"));
-				e.setCreationTime(rs.getDate("Creationtime"));
-				e.setLastUpdateTime(rs.getDate("LastUpdateTime"));
+				e.setCreationTime(rs.getDate("create_datetime"));
+				e.setLastUpdateTime(rs.getDate("last_update_datetime"));
 				DBEvents.add(e);
 			}
 		}

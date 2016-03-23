@@ -22,13 +22,13 @@ public class LocationValidation {
 		return true;
 	}
 	
-	public static double validateRadius(String r) throws LocationException {
-		double dR = parseCoordinate(r);
-		
-		if(dR <= 0)
-			dR = 10;
-		
-		return dR;
+	public static Boolean validateRadius(String r) throws LocationException {
+			
+		if(!r.matches("^[0-9]*$") || (parseCoordinate(r) <= 0)){
+			return false;
+		}
+			
+		return true;
 	}
 	
 	private static double parseCoordinate(String val) throws LocationException {
