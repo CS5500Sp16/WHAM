@@ -3,11 +3,15 @@ package com.neu.wham.controllers;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 
 import com.neu.wham.exceptions.LocationException;
 import com.neu.wham.model.Event;
@@ -21,6 +25,7 @@ public class DataSourceController {
 	private GetEventService getEventService;
 	 
 	 @RequestMapping(value = "*", method = RequestMethod.GET)
+	 @ResponseStatus(value = HttpStatus.NOT_FOUND)
      public @ResponseBody String secondRequest(){
             System.out.println("Hitting Second Request: not three parameters");
             return "{Error: Invalid-input}";

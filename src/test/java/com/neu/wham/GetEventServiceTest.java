@@ -216,14 +216,30 @@ public class GetEventServiceTest {
     @Test
     public void getEvents_multiLatTest() throws Exception{
         String lat1 = "0";
-        String lon = "";
+        String lon = "0";
         String rad = "10";
         String lat2 = "45";
         
         String url = "/datasource/" + lat1 + "/" + lon + "/" + rad + "/" + lat2;
         mockMvc.perform(get(url))
-                .andExpect(status().isOk())
+                .andExpect(status().isNotFound())
                 .equals("{Error: Invalid-input}");   
     }
+    
+    // testcase 14
+    @Test
+    public void getEvents_multiLonTest() throws Exception{
+        String lat = "0";
+        String lon1 = "0";
+        String rad = "10";
+        String lon2 = "45";
+        
+        String url = "/datasource/" + lat + "/" + lon1 + "/" + rad + "/" + lon2;
+        mockMvc.perform(get(url))
+                .andExpect(status().isNotFound())
+                .equals("{Error: Invalid-input}");   
+    }
+    
+    
     
 }
