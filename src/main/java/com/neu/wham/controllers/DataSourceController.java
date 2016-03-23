@@ -19,20 +19,22 @@ import com.neu.wham.validations.LocationValidation;
 public class DataSourceController {
 	@Autowired
 	private GetEventService getEventService;
-	
-	 @RequestMapping(value = "/datasource", method = RequestMethod.GET)
-	 public @ResponseBody String secondRequest(){
-			System.out.println("Hitting Second Request");
-			return "{Error:/'Invalid-input/'}";
-		}
+	 
+	 @RequestMapping(value = "*", method = RequestMethod.GET)
+     public @ResponseBody String secondRequest(){
+            System.out.println("Hitting Second Request: not three parameters");
+            return "{Error: Invalid-input}";
+        }
 	
 	@RequestMapping(value = "/datasource/{lat}/{lon}/{rad}", method = RequestMethod.GET)
 	public @ResponseBody List<Event> firstRequest(@PathVariable String lat, @PathVariable String lon, @PathVariable String rad) throws LocationException{
-				
+		
 		LocationValidation.validateLatitude(lat);
 		LocationValidation.validateLongitude(lon);
-		rad = String.valueOf(LocationValidation.validateRadius(rad));
-
+		if(!LocationValidation.validateRadius(rad)){
+			rad = "10";
+		}
+		
 		return getEventService.getEvents(lat, lon, rad);
 	}
    

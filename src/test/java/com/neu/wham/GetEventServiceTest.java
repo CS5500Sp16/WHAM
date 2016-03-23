@@ -212,4 +212,18 @@ public class GetEventServiceTest {
 				.equals(new ArrayList<Event>()); 	
     }
     
+    // testcase 13
+    @Test
+    public void getEvents_multiLatTest() throws Exception{
+        String lat1 = "0";
+        String lon = "";
+        String rad = "10";
+        String lat2 = "45";
+        
+        String url = "/datasource/" + lat1 + "/" + lon + "/" + rad + "/" + lat2;
+        mockMvc.perform(get(url))
+                .andExpect(status().isOk())
+                .equals("{Error: Invalid-input}");   
+    }
+    
 }
