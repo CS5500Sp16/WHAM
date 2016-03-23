@@ -6,7 +6,7 @@ function init() {
     var mapDiv = document.getElementById("myMap");
     var options = {
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        zoom: 11
+        zoom: 12
     };
 
     var map = new google.maps.Map(mapDiv, options);
