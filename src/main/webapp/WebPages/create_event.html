@@ -13,6 +13,8 @@
 
     <script src="../js/addressLocator.js"></script>
     <script src="../js/validations.js"></script>
+    <link href="../css/pageStyle.css" rel="stylesheet" />
+    <link href="../css/create_event.css" rel="stylesheet" />
     <link href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="Stylesheet" type="text/css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -23,24 +25,29 @@
     <link href="../css/bootstrap-responsive.min.css" rel="stylesheet" />
     <link href="../css/style.css" rel="stylesheet" />
     <link href="../css/Buttons/component.css" rel="stylesheet" />
+    <link href="../css/Buttons/default.css" rel="stylesheet" />
+    <script src="../js/TopMenu/modernizr.custom.js"></script>
     <!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZd4QxSKxELFULzQjv0Mwx7ybsUM_eBOg&signed_in=false&libraries=places&callback=initAutocomplete"
             async defer></script-->
-    <link href="../css/create_event_pageStyle.css" rel="stylesheet" />
-    <link href="../css/create_event.css" rel="stylesheet" />
+    
 </head>
 <body>
-<header>
-    <div class="cd-logo">
-        <a href="AfterLoginPage.html"><img src="../images/msdlogs.JPG" alt="Logo"></a>
-    </div>
-    <nav class="cd-main-nav-wrapper">
-        <ul class="cd-main-nav" style="visibility: visible; color: #fff; height: 100%; width: 40%; background-color: transparent;float:right;">
-            <li class="loginBtn">
-                <a href="HomePage.html" type="button" class="bttn bttn-default" style="text-decoration: none;">LOG OUT</a>
+    <header>
+        <div class="cd-logo">
+            <a href="AfterLoginPage.html"><img src="../images/msdlogs.JPG" alt="Logo"></a>
+        </div>
+        <ul id="cbp-tm-menu" class="cbp-tm-menu">
+
+            <li>
+                <a href="#">Hi Student</a>
+                <ul class="cbp-tm-submenu">
+                    <li><a href="create_event.html" class="cbp-tm-icon-pencil">Create Event</a></li>
+                    <li><a href="#" class="cbp-tm-icon-cog">Manage Preferences</a></li>
+                    <li><a href="HomePage.html" class="cbp-tm-icon-archive">Log Out</a></li>
+                </ul>
             </li>
         </ul>
-    </nav>
-</header>
+    </header>
 <div class="cd-main-content" style="background-color:transparent">
     <div class="intrinsic-container-16x9">
         <center>
@@ -109,9 +116,10 @@
                             <input id="eventDate" name="eventDate" required type="text">
                         </div-->
 
-
-                        <div class='col-sm-6'>
+                        <br />
+                        <div class='col-sm-6' style="padding: 0 0 0 0;">
                             <div class="form-group">
+                                <label for="datetimepicker1"><b>Start Date and Time*</b></label>
                                 <div class='input-group date'  id='datetimepicker1'>
                                     <input type='text' name="startDateAndTime" class="form-control" />
                     <span class="input-group-addon">
@@ -125,8 +133,10 @@
                                 $('#datetimepicker1').datetimepicker();
                             });
                         </script>
-                        <div class='col-sm-6'>
+
+                        <div class='col-sm-6' style="padding : 0 0 0 0;">
                             <div class="form-group">
+                                <label for="datetimepicker2"><b>End Date and Time*</b></label>
                                 <div class='input-group date'  id='datetimepicker2'>
                                     <input type='text' name="endDateAndTime" class="form-control" />
                     <span class="input-group-addon">
@@ -202,5 +212,9 @@
         </center>
     </div>
 </div>
+    <script src="../js/TopMenu/cbpTooltipMenu.min.js"></script>
+    <script>
+			var menu = new cbpTooltipMenu( document.getElementById( 'cbp-tm-menu' ) );
+    </script>
 </body>
 </html>
