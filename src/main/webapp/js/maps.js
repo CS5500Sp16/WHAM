@@ -33,7 +33,7 @@ function init() {
             // api call
             $.get({ url: api_url }, function (data) {
                 var loc = data;
-
+                loc.push({ "eventName": "Dummy event @ framingham", "eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": "239 Holland Street null Somerville MA 02144 US", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": null, "endDateAndTime": null, "startTime": null, "endTime": 1459389600000, "latitude": 42.2792, "longitude": -71.4167, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
             // make map responsive
             google.maps.event.addDomListener(window, "resize", function () {
                 var center = map.getCenter();
@@ -63,7 +63,16 @@ function init() {
                 var startTime = start.getTime();
                 var start_date_time = startMonth + "/" + startDate + "/" + startYear + " " + start.toTimeString();
                 var end_date_time = endMonth + "/" + endDate + "/" + endYear + " " + end.toTimeString();
-                var content = "Name: " + loc[i].eventName
+                var event_type = loc[i].officialEvent;
+                if (event_type) {
+                    var content = "Name: " + loc[i].eventName
+                    + "<br/>" + "Event Location: " + loc[i].eventLocation
+                    + "<br/>" + "Latitude: " + loc[i].latitude + "<br/>" + "Longitude: " + loc[i].longitude + "<br/>" +
+                    "Distance: " + distance + " miles" + "<br/>" + "Start Time: " + start_date_time + "<br/>"
+                    + "End Time: " + end_date_time + "<br/><br/><img src='../images/paw.jpg' alt='Smiley face' height='25' width='25' title='NEU official event'>";
+                }
+                else
+                    var content = "Name: " + loc[i].eventName
                     + "<br/>" + "Event Location: " + loc[i].eventLocation
                     + "<br/>" + "Latitude: " + loc[i].latitude + "<br/>" + "Longitude: " + loc[i].longitude + "<br/>" +
                     "Distance: " + distance + " miles" + "<br/>" + "Start Time: " + start_date_time + "<br/>"
@@ -76,7 +85,7 @@ function init() {
                     };
                 })(marker, content, infowindow));
             } // end of for loop
-        });
+           });// end of api call
         });// end of navigator
     } 
 }
