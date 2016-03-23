@@ -28,7 +28,7 @@ public class DataSourceController {
 	 @ResponseStatus(value = HttpStatus.NOT_FOUND)
      public @ResponseBody String secondRequest(){
             System.out.println("Hitting Second Request: not three parameters");
-            return "{Error: Invalid-input}";
+            return "{Error: Coordinates are not valid. Please specify one latitude, one longitude, and one radius}";
         }
 	
 	@RequestMapping(value = "/datasource/{lat}/{lon}/{rad}", method = RequestMethod.GET)

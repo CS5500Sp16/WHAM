@@ -129,23 +129,7 @@ public class DataSourceControllerTest {
         // act
         dsController.firstRequest(lat, lon, rad);
     }
-    
-//    //?lat=0&long=0&r=10&lat=45
-//    @Test
-//    public void getEvents_invalidMultiLatTest() throws Exception {
-//    	String lat = null;
-//    	String lon = null;
-//    	String rad = null;
-//    		
-//    	String exceptionStatement = new LocationException(LocationExceptionType.LOCATION_INCOMPLETE).getMessage();
-//    	
-//        // arrange
-//        thrown.expect(LocationException.class);
-//        thrown.expectMessage(equalTo(exceptionStatement));
-//        // act
-//        dsController.firstRequest(lat, lon, rad);
-//    }
-    
+        
 	    //?lat=0 testcase 16
 	    ///datasource/0/null/null
 	    @Test
@@ -214,4 +198,5 @@ public class DataSourceControllerTest {
 	       // act
 	       dsController.firstRequest(lat, lon, rad);
 	   }
+	   
 }
