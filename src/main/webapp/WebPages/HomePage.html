@@ -16,6 +16,13 @@
     <link href='http://fonts.googleapis.com/css?family=Terminal+Dosis' rel='stylesheet' type='text/css' />
     <link href="../css/pageStyle.css" rel="stylesheet" />
     <link href="../css/homePageBlocks.css" rel="stylesheet" />
+    <script>
+        if (localStorage.getItem("name") === null) { }
+        else
+        if (localStorage.getItem("name") != "") {
+            window.location.href = "AfterLoginPage.html";
+        }
+    </script>
 </head>
 <body>
     <header>
