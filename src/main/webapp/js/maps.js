@@ -41,13 +41,30 @@ function init() {
                 map.setCenter(center);
             });
 
+            // image for the marker
+            var image = {
+                url: '../images/paw_pin.png',
+                //size: new google.maps.Size(30, 35),
+            };
+        
             // iterate through each event and it to the marker
             for (var i = 0; i < loc.length; i++) {
-                var marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(loc[i].latitude, loc[i].longitude),//locations[i].latlng, 
-                    map: map,
-                    title: loc[i].eventName
-                });
+                var event_type = loc[i].officialEvent;
+                if (event_type) {
+                    var marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(loc[i].latitude, loc[i].longitude),//locations[i].latlng,
+                        icon: image,
+                        animation: google.maps.Animation.BOUNCE,
+                        map: map,
+                        title: loc[i].eventName
+                    });
+                } else {
+                    var marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(loc[i].latitude, loc[i].longitude),//locations[i].latlng,
+                        map: map,
+                        title: loc[i].eventName
+                    });
+                }                
 
                 var infowindow = new google.maps.InfoWindow();
                 distanceF = (google.maps.geometry.spherical.computeDistanceBetween(initialLocation, new google.maps.LatLng(loc[i].latitude, loc[i].longitude))) / 1609.34;
@@ -63,7 +80,6 @@ function init() {
                 var startTime = start.getTime();
                 var start_date_time = startMonth + "/" + startDate + "/" + startYear + " " + start.toTimeString();
                 var end_date_time = endMonth + "/" + endDate + "/" + endYear + " " + end.toTimeString();
-                var event_type = loc[i].officialEvent;
                 if (event_type) {
                     var content = "Name: " + loc[i].eventName
                     + "<br/>" + "Event Location: " + loc[i].eventLocation
