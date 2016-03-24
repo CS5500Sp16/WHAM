@@ -44,7 +44,7 @@
         var menu = new cbpTooltipMenu(document.getElementById('cbp-tm-menu'));
     </script>
     <script>
-        var temp = localStorage.getItem("name");
+        var temp = localStorage.getItem("name")||"";
         var name = temp.charAt(0).toUpperCase() + temp.slice(1);
         document.getElementById("welcome").innerHTML = "Hi " + name;
     </script>
