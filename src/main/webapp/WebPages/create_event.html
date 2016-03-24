@@ -32,7 +32,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZd4QxSKxELFULzQjv0Mwx7ybsUM_eBOg&signed_in=false&libraries=places&callback=initAutocomplete"
             async defer></script-->
-    <script type='text/javascript'>
+    <!--script type='text/javascript'>
         /* attach a submit handler to the form */
         $("#creat_event_form").submit(function(event) {
 
@@ -55,7 +55,7 @@
                 alert( "second finished" );
             });
         });
-    </script>
+    </script-->
 
     <!--script>
         //callback handler for form submit
@@ -122,8 +122,9 @@
             <div class="form_container">
                 <h2>Create your event</h2><br/>
                 <!--enctype="multipart/form-data"-->
-                <form name="creat_event_form" id="creat_event_form" action="http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/newevent"  enctype="multipart/form-data" method="post" >
+                <form name="creat_event_form" id="creat_event_form" action="../newevent"  enctype="multipart/form-data" method="post" >
                     <fieldset>
+
                         <div class="row">
                             <div class="col-xs-5" style="margin-left:5%">
                                 <label for="eventName"><b>Event Name</b></label>
@@ -156,9 +157,67 @@
                                             document.getElementById('zipcode').value)}
 
                                     </script>
+                                </div>
+                                </div>
+
+                        <!--label for="eventName">Event Name*</label>
+                        <input type="text" name="eventName" id="name" maxlength="60" required onblur="validateName('name')" />
+                        <span id="nameError" style="display: none;">You can only use alphabetic characters, hyphens and apostrophes</span>
+                        <label for="Event_Description"><b>Event Description*</b></label>
+                        <input id="Event_Description" name="eventDesc" maxlength="500" type="text" onblur="validateNotEmpty('Event_Description')">
+                        <span id="Event_Description_Error" style="display: none;">Please enter an event description</span>
+                        <!--label for="Location"><b>Location*</b></label-->
+                        <!--label for="AddressLine1"><b>AddressLine1*</b></label>
+                        <input id="AddressLine1" name="AddressLine1" type="text" value="" required oninput="populate()">
+                        <label for="AddressLine2"><b>AddressLine2</b></label>
+                        <input id="AddressLine2" name="AddressLine2" type="text" value=""  oninput="populate()" >
+                        <label for="City"><b>City*</b></label>
+                        <input id="City" name="city" type="text" value="" required oninput="populate()">
+                        <label for="State"><b>State*</b></label>
+                        <input id="State" name="state" type="text" value="" required  oninput="populate()">
+                        <label for="zipcode"><b>Zip code*</b></label>
+                        <input id="zipcode" name="zipcode" type="text" value="" required  oninput="populate()">
+                        <div id="locationField" >
+                            <label for="Address"><b>Address*</b></label>
+                            <input id="eventLocation" name="eventLocation"  type="text"  />
+                            <script>
+                                function populate() {
+                                    document.getElementById('eventLocation').value= (
+                                    document.getElementById('AddressLine1').value+ ', ' +
+                                    document.getElementById('AddressLine2').value+ ', ' +
+                                    document.getElementById('City').value + ', ' +
+                                    document.getElementById('State').value + ', ' +
+                                    document.getElementById('zipcode').value)}
+
+                            </script>-->
+
+                        <!--label for="Organiser Name"><b>Organiser Name*</b></label>
+                        <input id="organiserName" name="organiserName" type="text" value="" required onblur="validateName('organiserName')">
+                        <span id="organiserNameError" style="display: none;">Please enter an organiser name</span>
+                        <label for="Organiser Description"><b>Organiser Description*</b></label>
+                        <input id="organiserDesc" name="organiserDesc" type="text" value="" required onblur="validateNotEmpty('organiserDesc')">
+                        <span id="organiserDesc_Error" style="display: none;">Please enter an organiser description</span>
+                        <label for="Phone"><b>Phone</b></label>
+                        <input id="phone" name="phoneNumber" type="text" value="" onblur="validatePhone(phone)">
+                        <span id="phoneError" style="display: none;">Not a valid phone number</span>
+                        <label for="email"><b>Email*</b></label>
+                        <input type="text" name="emailId" id="email" required onblur="validateEmail(value)">
+                        <span id="emailError" style="display: none;">Enter a valid Northeastern email.</span>
+                        <!--div>
+                            <label class="radio inline ">
+                                <input type="radio" name="optionRadios" id="optionRadios1" value="option1" checked onclick="displaySingleDay()">
+                                <b>Single Day event</b>
+                            </label>
+                            <label class="radio inline">
+                                <input type="radio" name="optionRadios" id="optionRadios2" value="option2" onclick="displayMultiDay()">
+                                <b>Multi Day event</b>
+                            </label>
+                        </!--div>
+                        <br>
+>>>>>>> 70883cc9db9dd3b648751eebb0f3f3eb1eaa0cbc
 
                                 </div>
-                                </div>
+                                </div-->
 
                                 <div class="col-xs-2">
 
@@ -180,7 +239,6 @@
                                 <span id="emailError" style="display: none;">Enter a valid Northeastern email.</span>
                             </div>
 
-                            </div>
 
 
 
