@@ -17,22 +17,12 @@ public class Event {
 	private String phoneNumber;
 	@NotNull(message="Organiser Mail is null") 
 	private String emailId;
-	//@NotNull(message="Event start Date is null") 
-	// Surabhi, remove this field
-	private Date startDate;
-	//@NotNull(message="Event end Date is null") 
-	// Surabhi, remove this field
-	private Date endDate;
 	@NotNull(message="Please check event start date or time")
 	@DateTimeFormat(pattern="MM/dd/YYYY hh:mm a")
 	private Date startDateAndTime;
 	@NotNull(message="Please check event start date or time")
 	@DateTimeFormat(pattern="MM/dd/YYYY hh:mm a")
 	private Date endDateAndTime;
-	// Surabhi, remove this field
-	private Date startTime;
-	// Surabhi, remove this field
-	private Date endTime;
 	private double latitude;
 	private double longitude;
 	private String filePath;
@@ -74,30 +64,7 @@ public class Event {
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
-	public Date getStartDate() {
-		return startDate;
-	}
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-	public Date getEndDate() {
-		return endDate;
-	}
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-	public Date getStartTime() {
-		return startTime;
-	}
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-	public Date getEndTime() {
-		return endTime;
-	}
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
+
 	public double getLatitude() {
 		return latitude;
 	}
@@ -160,16 +127,17 @@ public class Event {
 	public void setEndDateAndTime(Date endDateAndTime) {
 		this.endDateAndTime = endDateAndTime;
 	}
+	
 	@Override
 	public String toString() {
 		return "Event [eventName=" + eventName + ", eventDesc=" + eventDesc + ", eventLocation=" + eventLocation
-				+ ", phoneNumber=" + phoneNumber + ", emailId=" + emailId + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", startDateAndTime=" + startDateAndTime + ", endDateAndTime=" + endDateAndTime
-				+ ", startTime=" + startTime + ", endTime=" + endTime + ", latitude=" + latitude + ", longitude="
-				+ longitude + ", filePath=" + filePath + ", organiserName=" + organiserName + ", organiserDesc="
-				+ organiserDesc + ", isOfficialEvent=" + isOfficialEvent + ", creationTime=" + creationTime
-				+ ", lastUpdateTime=" + lastUpdateTime + "]";
+				+ ", phoneNumber=" + phoneNumber + ", emailId=" + emailId + ", startDateAndTime=" + startDateAndTime
+				+ ", endDateAndTime=" + endDateAndTime + ", latitude=" + latitude + ", longitude=" + longitude
+				+ ", filePath=" + filePath + ", organiserName=" + organiserName + ", organiserDesc=" + organiserDesc
+				+ ", isOfficialEvent=" + isOfficialEvent + ", creationTime=" + creationTime + ", lastUpdateTime="
+				+ lastUpdateTime + "]";
 	}
+	
 	
 	
 }

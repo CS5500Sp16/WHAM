@@ -93,34 +93,16 @@ public class GetEventServiceImpl implements GetEventService {
 			e.setPhoneNumber(null);
 			e.setEmailId(null);
 			
-			//mycode starts
-			
 			String startDateTime = event.getJSONObject("start").getString("local");
-			String date = startDateTime.substring(0, startDateTime.indexOf('T'));
-			//String time = startDateTime.substring(startDateTime.indexOf('T') + 1);
-			//System.out.println("Date:" + date + "Time:" + time);
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			Date startDate = format.parse(date);
-			//System.out.println("Date Format:" +startDate);
-			e.setStartDate(startDate);
-			
-			
-			//mycode ends		
-			
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 			TimeZone tz = TimeZone.getTimeZone(event.getJSONObject("start").getString("timezone"));
 			formatter.setTimeZone(tz);
-			//String startDateString = event.getJSONObject("start").getString("local");
-			//Date startDate = formatter.parse(startDateString);
-			
-			//e.setStartDate(startDate);
-			//e.setStartTime(startDate);
+			Date startDate = formatter.parse(startDateTime);
+			e.setStartDateAndTime(startDate);
 			
 			String endDateString = event.getJSONObject("end").getString("local");
 			Date endDate = formatter.parse(endDateString);
-			
-			e.setEndDate(endDate);
-			e.setEndTime(endDate);
+			e.setEndDateAndTime(endDate);
 			
 			Double venueLat = event.getJSONObject("venue").getJSONObject("address").getDouble("latitude");
 			e.setLatitude(venueLat);

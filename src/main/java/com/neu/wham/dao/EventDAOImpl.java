@@ -61,10 +61,6 @@ public class EventDAOImpl implements EventDAO {
 		conn = DriverManager.getConnection(DB_URL,USER,PASS);
 		String stam = "insert into EVENT(name,"
 				+ "description,"
-				//+ "start_date,"
-				//+ "end_date,"
-				//+ "start_time,"
-				//+ "end_time,"
 				+ "is_official,"
 				+ "phone,email,"
 				+ "address,"
@@ -80,10 +76,6 @@ public class EventDAOImpl implements EventDAO {
 				+ "values("+
 					"'"+event.getEventName()+"',"
 					+"'"+event.getEventDesc()+"',"
-					//+"'"+currentStartDate+"',"
-					//+"'"+currentEndDate+"',"
-					//+"'"+currentStartTime+"',"
-					//+"'"+currentEndTime+"',"
 					+event.isOfficialEvent() +","
 					+"'"+event.getPhoneNumber()+"',"
 					+"'"+event.getEmailId()+"',"
@@ -151,10 +143,8 @@ public class EventDAOImpl implements EventDAO {
 				e.setEventLocation(rs.getString("location"));
 				e.setPhoneNumber(rs.getString("phone_number"));
 				e.setEmailId(rs.getString("email"));
-				e.setStartDate(rs.getDate("start_date"));
-				e.setEndDate(rs.getDate("end_date"));
-				e.setStartTime(rs.getDate("start_time"));
-				e.setEndTime(rs.getDate("end_time"));
+				e.setStartDateAndTime(rs.getDate("start_date_and_time"));
+				e.setEndDateAndTime(rs.getDate("end_date_and_time"));
 				e.setLatitude(rs.getDouble("latitude"));
 				e.setLongitude(rs.getDouble("longitude"));
 				e.setFilePath(rs.getString("file_path"));			
