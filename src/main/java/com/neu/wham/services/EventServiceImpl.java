@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,13 +22,21 @@ import com.neu.wham.messages.EventPostResponse.Status;
 import com.neu.wham.model.Event;
 import com.neu.wham.services.NewEventService;
 
+/**
+ * NewEventService implementation that decodes the location and updates the lat-long
+ * of the event and delegates to EVENTDAO to store the event. It also prepares the 
+ * image URL that will be stored in the server.
+ * @author Vijet Badigannavar
+ */
 @Service
 public class EventServiceImpl implements NewEventService {
 	@Autowired
 	private EventDAO eventDAO;
 	@Autowired
 	private EventPostResponse evntResponse;
-	
+	/*
+	 * To update the creation time/ updation time
+	 */
 	private final Date tempDate = new Date();
 	
 	@Override
@@ -47,23 +54,23 @@ public class EventServiceImpl implements NewEventService {
 		}catch (IOException e) {
 			evntResponse.setMsg(e.getMessage());
 			evntResponse.setStatus(Status.ERROR);
-			e.printStackTrace(); // TODO remove this
 		}
 		catch (InvalidAddressException e) {
 			evntResponse.setMsg(e.getMessage());
 			evntResponse.setStatus(Status.ERROR);
-			e.printStackTrace(); // TODO remove this
 		} catch (SQLException e) {
 			evntResponse.setMsg(e.getMessage());
 			evntResponse.setStatus(Status.ERROR);
-			e.printStackTrace(); // TODO remove this
 		}
 		return evntResponse;
 	}
 
+	/**
+	 * Updates the URL of the image that will be stored in the DB.
+	 * @author Vijet Badigannavar
+	 */
 	private String saveUploadedFile(MultipartFile imageFile, String organiserName) throws IOException {
 		if(imageFile != null){
-			
 			
 			StringBuilder imageName = new StringBuilder();
 			imageName.append(organiserName);
@@ -87,14 +94,21 @@ public class EventServiceImpl implements NewEventService {
 		return null;
 	}
 
+	/**
+	 * Updates the location of the event to gather its lat-long and updates the event.
+	 * @author Vijet Badigannavar
+	 * @throws InvalidAddressException
+	 */
 	private void getLatLongForEventLocation(Event event) throws InvalidAddressException{
+		if(event == null || event.getEventLocation() == null){
+			throw new InvalidAddressException("Invalid Address.");
+		}
 		// Replace the API key below with a valid API key.
 		GeoApiContext context = new GeoApiContext().setApiKey(Keys.GEO_CODING_API_KEY);
 		GeocodingResult[] results = null;
 		try {
 			results = GeocodingApi.geocode(context,event.getEventLocation()).await();
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new InvalidAddressException("Invalid Address.");
 		}
 		event.setLatitude(results[0].geometry.location.lat);

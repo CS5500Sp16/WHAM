@@ -6,7 +6,12 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
-
+/**
+ * Model class for the events. All the events from all the datasources will 
+ * be mapped to this event model
+ * @author Vijet Badigannavar, Surbhi Gupta, Ashwin 
+ *
+ */
 public class Event {
 	@NotEmpty(message="Event name is empty") 
 	private String eventName;
