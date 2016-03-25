@@ -23,8 +23,10 @@ public class Event {
 	//@NotNull(message="Event end Date is null") 
 	// Surabhi, remove this field
 	private Date endDate;
+	@NotNull(message="Please check event start date or time")
 	@DateTimeFormat(pattern="MM/dd/YYYY hh:mm a")
 	private Date startDateAndTime;
+	@NotNull(message="Please check event start date or time")
 	@DateTimeFormat(pattern="MM/dd/YYYY hh:mm a")
 	private Date endDateAndTime;
 	// Surabhi, remove this field

@@ -16,7 +16,6 @@
     <link href="../css/Buttons/default.css" rel="stylesheet" />
     <link href="../css/pageStyle.css" rel="stylesheet" />
     <script src="../js/TopMenu/modernizr.custom.js"></script>
-    
 </head>
 <body>
     <header>
@@ -24,11 +23,11 @@
                     <ul id="cbp-tm-menu" class="cbp-tm-menu">
 
                 <li>
-                    <a href="#">Hi Student</a>
+                    <a href="#" id="welcome"></a>
                     <ul class="cbp-tm-submenu">
                         <li><a href="create_event.html" class="cbp-tm-icon-pencil">Create Event</a></li>
                         <li><a href="#" class="cbp-tm-icon-cog">Manage Preferences</a></li>
-                        <li><a href="HomePage.html" class="cbp-tm-icon-archive">Log Out</a></li>
+                        <li><a href="HomePage.html" class="cbp-tm-icon-archive" onclick="localStorage.clear('name')">Log Out</a></li>
                     </ul>
                 </li>
             </ul>
@@ -42,9 +41,13 @@
     </main>
     <script src="../js/TopMenu/cbpTooltipMenu.min.js"></script>
     <script>
-			var menu = new cbpTooltipMenu( document.getElementById( 'cbp-tm-menu' ) );
+        var menu = new cbpTooltipMenu(document.getElementById('cbp-tm-menu'));
     </script>
-
+    <script>
+        var temp = localStorage.getItem("name")||"";
+        var name = temp.charAt(0).toUpperCase() + temp.slice(1);
+        document.getElementById("welcome").innerHTML = "Hi " + name;
+    </script>
 </body>
 </html>
 

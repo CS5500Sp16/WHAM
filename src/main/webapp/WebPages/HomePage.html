@@ -16,10 +16,17 @@
     <link href='http://fonts.googleapis.com/css?family=Terminal+Dosis' rel='stylesheet' type='text/css' />
     <link href="../css/pageStyle.css" rel="stylesheet" />
     <link href="../css/homePageBlocks.css" rel="stylesheet" />
+    <script>
+        if (localStorage.getItem("name") === null) { }
+        else
+        if (localStorage.getItem("name") != "") {
+            window.location.href = "AfterLoginPage.html";
+        }
+    </script>
 </head>
 <body>
     <header>
-        <div class="cd-logo"><a href="#0"><img src="../images/msdlogs.JPG" alt="Logo"></a></div>
+        <div class="cd-logo"><a href="HomePage.html"><img src="../images/msdlogs.JPG" alt="Logo"></a></div>
         <nav class="cd-main-nav-wrapper">
             <ul class="cd-main-nav" style="visibility: visible; color: #fff; height: 100%; width: 40%; background-color: transparent;float:right;">
                 <li class="loginBtn"> <a href="Login.html" type="button" class="btn btn-default" style="text-decoration: none;">LOG IN</a></li>
@@ -65,7 +72,7 @@
                     <h1>More</h1>
                 </div>
                 <div style="position: relative; left: 0; top: 0;">
-                    <img class="top" src="http://www.northeastern.edu/deanscorner/wp-content/uploads/2015/06/IMG_2935.jpg" style="position: relative; left: 0; top: 0;" alt="More">
+                    <img class="top" src="http://www.cps.neu.edu/images/empower600a-590x393.jpg" style="position: relative; left: 0; top: 0;" alt="More">
                     <img class="bottom" src="http://thecherawchronicle.com/wp-content/uploads/2015/11/web1_CynthiaMcCormick.jpg" style="position: absolute; left: 2px; top: 0;" alt="More">
                     <img class="middle" src="http://www.neiu.edu/sites/neiu.edu/files/styles/splash_feature_medium/public/marketing-images/2014/01/31/slide1_learn.jpg?itok=2m0g5QOf" style="position: absolute; left: 2px; top: 0;" alt="More">
                     <img class="middle2" src="http://www.northeastern.edu/news/wp-content/uploads/2015/06/SeattleSTEM2.jpeg" style="position: absolute; left: 2px; top: 0;" alt="More">
