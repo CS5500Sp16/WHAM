@@ -95,7 +95,7 @@
 				if( submenu ) {
 					el.className = 'cbp-tm-show';
 					if( self._positionMenu( el ) === 'top' ) {
-						el.className += ' cbp-tm-show-above';
+						el.className += ' cbp-tm-show-below';
 					}
 					else {
 						el.className += ' cbp-tm-show-below';
@@ -114,7 +114,7 @@
 				// based on https://github.com/desandro/classie/blob/master/classie.js
 				el.className = el.className.replace(new RegExp("(^|\\s+)" + "cbp-tm-show" + "(\\s+|$)"), ' ');
 				el.className = el.className.replace(new RegExp("(^|\\s+)" + "cbp-tm-show-below" + "(\\s+|$)"), ' ');
-				el.className = el.className.replace(new RegExp("(^|\\s+)" + "cbp-tm-show-above" + "(\\s+|$)"), ' ');
+				el.className = el.className.replace(new RegExp("(^|\\s+)" + "cbp-tm-show-below" + "(\\s+|$)"), ' ');
 			}
 
 		},

@@ -20,7 +20,7 @@
 }
 
 .login_container{
-    margin-top: 200px;
+    margin-top: 150px;
     width: 550px;
     min-width: 350px;
     min-height:500px !important;
@@ -34,7 +34,7 @@
     padding:10px;
 }
 .checkboxtext {
-    font-size:110%;
+    font-size:70%;
     display: inline;
 }
 input[type=checkbox] {

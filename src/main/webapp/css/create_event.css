@@ -18,10 +18,9 @@ input[type = text] {
     margin-bottom: 20px;
     border: 3px inset #888888;
     outline: 0;
-    height: 30px;
-    width: 40%;
+    height: 30px !important;
+    width: 90%;
     max-width: 350px;
-    min-width: 200px;
 }
 input[type=checkbox] {
     -ms-transform: scale(2); /* IE */

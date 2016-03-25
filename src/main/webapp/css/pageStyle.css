@@ -6,6 +6,8 @@ body {
         background: linear-gradient(to right, rgba(102,153,153,0.84) 0%, rgba(101,186,186,0.91) 43%, rgba(121,130,130,0.96) 72%, rgba(195,224,224,1) 100%);*/
     background-color: #fff;
     height: 850px;
+    font-size: 1.6rem;
+  font-family: "PT Sans", sans-serif;
 }
 
 
@@ -57,14 +59,14 @@ body {
 
 .cd-logo img {
     height: 50px !important;
-    width: 41% !important;
     margin: 0 0 0 0 !important;
     padding: 5px 5px 5px 5px !important;
 }
 
 @media only screen and (min-width: 1024px) {
     .cd-logo img {
-        margin-top: 15px !important;
+        margin-top: 5px !important;
+        height: 70px !important;
     }
 }
 

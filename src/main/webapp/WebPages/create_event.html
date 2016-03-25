@@ -26,8 +26,8 @@
     <link href="../css/bootstrap.css" rel="stylesheet" />
     <link href="../css/bootstrap-responsive.min.css" rel="stylesheet" />
     <link href="../css/style.css" rel="stylesheet" />
-    <link href="../css/Buttons/component.css" rel="stylesheet" />
-    <link href="../css/Buttons/default.css" rel="stylesheet" />
+    <link href="../css/Top Menu/component01.css" rel="stylesheet" />
+    <link href="../css/Top Menu/default01.css" rel="stylesheet" />
     <script src="../js/TopMenu/modernizr.custom.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZd4QxSKxELFULzQjv0Mwx7ybsUM_eBOg&signed_in=false&libraries=places&callback=initAutocomplete"
@@ -100,27 +100,27 @@
     </script-->
 </head>
 <body>
-    <header>
-        <div class="cd-logo">
-            <a href="AfterLoginPage.html"><img src="../images/msdlogs.JPG" alt="Logo"></a>
-        </div>
-        <ul id="cbp-tm-menu" class="cbp-tm-menu">
+<header>
+    <div class="cd-logo">
+        <a href="AfterLoginPage.html"><img src="../images/WHAM Logo.png" alt="Logo"></a>
+    </div>
+    <ul id="cbp-tm-menu" class="cbp-tm-menu">
 
-            <li>
-                <a href="#">Hi Student</a>
-                <ul class="cbp-tm-submenu">
-                    <li><a href="create_event.html" class="cbp-tm-icon-pencil">Create Event</a></li>
-                    <li><a href="#" class="cbp-tm-icon-cog">Manage Preferences</a></li>
-                    <li><a href="HomePage.html" class="cbp-tm-icon-archive">Log Out</a></li>
-                </ul>
-            </li>
-        </ul>
-    </header>
+        <li>
+            <a href="#">Hi Student</a>
+            <ul class="cbp-tm-submenu">
+                <li><a href="create_event.html" class="cbp-tm-icon-pencil">Create Event</a></li>
+                <li><a href="#" class="cbp-tm-icon-cog">Manage Preferences</a></li>
+                <li><a href="HomePage.html" class="cbp-tm-icon-archive">Log Out</a></li>
+            </ul>
+        </li>
+    </ul>
+</header>
 <div class="cd-main-content" style="background-color:transparent">
     <div class="intrinsic-container-16x9">
         <center>
-            <div class="form_container">
-                <h2>Create your event</h2><br/>
+            <div class="form_container container">
+                <h2 style="text-align:center;">Create your event</h2><br/>
                 <!--enctype="multipart/form-data"-->
                 <form name="creat_event_form" id="creat_event_form" action="../newevent"  enctype="multipart/form-data" method="post" >
                     <fieldset>
@@ -134,9 +134,9 @@
                                 <input id="Event_Description" name="eventDesc" maxlength="500" type="text" onblur="validateNotEmpty('Event_Description')">
                                 <span id="Event_Description_Error" style="display: none;">Please enter an event description</span>
                                 <!--label for="Location"><b>Location*</b></label-->
-                                <label for="AddressLine1"><b>AddressLine1</b></label>
+                                <label for="AddressLine1"><b>Address Line 1</b></label>
                                 <input id="AddressLine1" name="AddressLine1" type="text" value="" required oninput="populate()">
-                                <label for="AddressLine2"><b>AddressLine2(optional)</b></label>
+                                <label for="AddressLine2"><b>Address Line 2 (optional)</b></label>
                                 <input id="AddressLine2" name="AddressLine2" type="text" value=""  oninput="populate()" >
                                 <label for="City"><b>City</b></label>
                                 <input id="City" name="city" type="text" value="" required oninput="populate()">
@@ -158,68 +158,13 @@
 
                                     </script>
                                 </div>
-                                </div>
+                                <label class="checkbox inline" id="isOfficialEvent">
+                                    <input type="checkbox" name="isOfficialEvent" value="" >
+                                    <b> Official NEU Event</b>
+                                </label>
+                            </div>
 
-                        <!--label for="eventName">Event Name*</label>
-                        <input type="text" name="eventName" id="name" maxlength="60" required onblur="validateName('name')" />
-                        <span id="nameError" style="display: none;">You can only use alphabetic characters, hyphens and apostrophes</span>
-                        <label for="Event_Description"><b>Event Description*</b></label>
-                        <input id="Event_Description" name="eventDesc" maxlength="500" type="text" onblur="validateNotEmpty('Event_Description')">
-                        <span id="Event_Description_Error" style="display: none;">Please enter an event description</span>
-                        <!--label for="Location"><b>Location*</b></label-->
-                        <!--label for="AddressLine1"><b>AddressLine1*</b></label>
-                        <input id="AddressLine1" name="AddressLine1" type="text" value="" required oninput="populate()">
-                        <label for="AddressLine2"><b>AddressLine2</b></label>
-                        <input id="AddressLine2" name="AddressLine2" type="text" value=""  oninput="populate()" >
-                        <label for="City"><b>City*</b></label>
-                        <input id="City" name="city" type="text" value="" required oninput="populate()">
-                        <label for="State"><b>State*</b></label>
-                        <input id="State" name="state" type="text" value="" required  oninput="populate()">
-                        <label for="zipcode"><b>Zip code*</b></label>
-                        <input id="zipcode" name="zipcode" type="text" value="" required  oninput="populate()">
-                        <div id="locationField" >
-                            <label for="Address"><b>Address*</b></label>
-                            <input id="eventLocation" name="eventLocation"  type="text"  />
-                            <script>
-                                function populate() {
-                                    document.getElementById('eventLocation').value= (
-                                    document.getElementById('AddressLine1').value+ ', ' +
-                                    document.getElementById('AddressLine2').value+ ', ' +
-                                    document.getElementById('City').value + ', ' +
-                                    document.getElementById('State').value + ', ' +
-                                    document.getElementById('zipcode').value)}
-
-                            </script>-->
-
-                        <!--label for="Organiser Name"><b>Organiser Name*</b></label>
-                        <input id="organiserName" name="organiserName" type="text" value="" required onblur="validateName('organiserName')">
-                        <span id="organiserNameError" style="display: none;">Please enter an organiser name</span>
-                        <label for="Organiser Description"><b>Organiser Description*</b></label>
-                        <input id="organiserDesc" name="organiserDesc" type="text" value="" required onblur="validateNotEmpty('organiserDesc')">
-                        <span id="organiserDesc_Error" style="display: none;">Please enter an organiser description</span>
-                        <label for="Phone"><b>Phone</b></label>
-                        <input id="phone" name="phoneNumber" type="text" value="" onblur="validatePhone(phone)">
-                        <span id="phoneError" style="display: none;">Not a valid phone number</span>
-                        <label for="email"><b>Email*</b></label>
-                        <input type="text" name="emailId" id="email" required onblur="validateEmail(value)">
-                        <span id="emailError" style="display: none;">Enter a valid Northeastern email.</span>
-                        <!--div>
-                            <label class="radio inline ">
-                                <input type="radio" name="optionRadios" id="optionRadios1" value="option1" checked onclick="displaySingleDay()">
-                                <b>Single Day event</b>
-                            </label>
-                            <label class="radio inline">
-                                <input type="radio" name="optionRadios" id="optionRadios2" value="option2" onclick="displayMultiDay()">
-                                <b>Multi Day event</b>
-                            </label>
-                        </!--div>
-                        <br>
->>>>>>> 70883cc9db9dd3b648751eebb0f3f3eb1eaa0cbc
-
-                                </div>
-                                </div-->
-
-                                <div class="col-xs-2">
+                            <div class="col-xs-2">
 
                             </div>
 
@@ -231,108 +176,103 @@
                                 <label for="organiserDesc"><b>Organiser Description</b></label>
                                 <input id="organiserDesc" name="organiserDesc" type="text" value="" required onblur="validateNotEmpty('organiserDesc')">
                                 <span id="organiserDesc_Error" style="display: none;">Please enter an organiser description</span>
-                                <label for="Phone"><b>Phone(optional)</b></label>
+                                <label for="Phone"><b>Phone (optional)</b></label>
                                 <input id="phone" name="phoneNumber" type="text" value="" onblur="validatePhone(phone)">
                                 <span id="phoneError" style="display: none;">Not a valid phone number</span>
                                 <label for="email"><b>Email</b></label>
                                 <input type="text" name="emailId" id="email" required onblur="validateEmail(value)">
                                 <span id="emailError" style="display: none;">Enter a valid Northeastern email.</span>
-                            </div>
-
-
-
-
-
-
-                        <div class='col-sm-6' style="padding : 0 0 0 0;">
-                            <div class="form-group">
-                                <label for="endDateAndTime"><b>End Date and Time*</b></label>
-                                <div class='input-group date'  id='startDateAndTime'>
-                                    <input type='text' name="startDateAndTime" class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+                                <div class="form-group">
+                                    <label for="endDateAndTime"><b>End Date and Time*</b></label>
+                                    <div class='input-group date'  id='startDateAndTime' style="margin-right: 10%;">
+                                        <input type='text' name="startDateAndTime" class="form-control" style="width:90%; border-radius: 4px" />
+                                        <span class="input-group-addon" style="border-left: 1px solid #ccc; border-radius: 4px;">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="endDateAndTime"><b>End Date and Time*</b></label>
+                                    <div class='input-group date'  id='endDateAndTime' style="margin-right: 10%;">
+                                        <input type='text' name="endDateAndTime" class="form-control" style="width:90%; border-radius: 4px;"; />
+                                        <span class="input-group-addon" style="border-left: 1px solid #ccc; border-radius: 4px;">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <input type="file" id="myFile" name= "myFile" size="50" onchange="myFunction()" style="line-height: 0px; margin-top: 30px;">
                             </div>
-                        </div>
-                        <script type="text/javascript">
+
+
+                            <script type="text/javascript">
 
                                 $('#startDateAndTime').datetimepicker({
                                     minDate: moment()
 
-                            });
-                        </script>
+                                });
+                            </script>
 
-                        <div class='col-sm-6' style="padding : 0 0 0 0;">
-                            <div class="form-group">
-                                <label for="endDateAndTime"><b>End Date and Time*</b></label>
-                                <div class='input-group date'  id='endDateAndTime'>
-                                    <input type='text' name="endDateAndTime" class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+                            <script type="text/javascript">
+                                $(function () {
+                                    $('#endDateAndTime').datetimepicker();
+
+                                });
+                            </script>
+
+
+
+                            <p id="demo"></p>
+
+                            <script>
+                                function myFunction(){
+                                    var x = document.getElementById("myFile");
+                                    var txt = "";
+                                    if ('files' in x) {
+                                        if (x.files.length == 0) {
+                                            txt = "Select file to upload.";
+                                        } else {
+
+                                            var file = x.files[0];
+                                            if ('name' in file) {
+                                                txt += "name: " + file.name + "<br>";
+                                            }
+                                            if ('size' in file) {
+                                                txt += "size: " + file.size + " bytes <br>";
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        if (x.value == "") {
+                                            txt += "Select any file.";
+                                        } else {
+                                            txt += "The files property is not supported by your browser!";
+                                            txt  += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead.
+                                        }
+                                    }
+                                    document.getElementById("demo").innerHTML = txt;
+                                }
+                            </script>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12" style="margin-left:5%">
+                                <div>
+                                    
                                 </div>
+                                <br />
+                                <input type="submit" value="Submit" name="submit" class="myButton " />
                             </div>
                         </div>
-                        <script type="text/javascript">
-                            $(function () {
-                                $('#endDateAndTime').datetimepicker();
-
-                            });
-                        </script>
-
-                        <input type="file" id="myFile" name= "myFile" size="50" onchange="myFunction()" >
-
-                        <p id="demo"></p>
-
-                        <script>
-                            function myFunction(){
-                                var x = document.getElementById("myFile");
-                                var txt = "";
-                                if ('files' in x) {
-                                    if (x.files.length == 0) {
-                                        txt = "Select file to upload.";
-                                    } else {
-
-                                        var file = x.files[0];
-                                        if ('name' in file) {
-                                            txt += "name: " + file.name + "<br>";
-                                        }
-                                        if ('size' in file) {
-                                            txt += "size: " + file.size + " bytes <br>";
-                                        }
-                                    }
-                                }
-                                else {
-                                    if (x.value == "") {
-                                        txt += "Select any file.";
-                                    } else {
-                                        txt += "The files property is not supported by your browser!";
-                                        txt  += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead.
-                                    }
-                                }
-                                document.getElementById("demo").innerHTML = txt;
-                            }
-                        </script>
-
-
-                        <div>
-                            <label class="checkbox inline" id="isOfficialEvent">
-                                <input type="checkbox" name="isOfficialEvent" value="">
-                                <b> Official NEU Event</b>
-                            </label>
-                        </div>
-                        <br />
-                        <input type="submit" value="Submit" name="submit" class="myButton " />
                     </fieldset>
                 </form>
             </div>
         </center>
     </div>
 </div>
-    <script src="../js/TopMenu/cbpTooltipMenu.min.js"></script>
-    <script>
-			var menu = new cbpTooltipMenu( document.getElementById( 'cbp-tm-menu' ) );
-    </script>
+<script src="../js/TopMenu/cbpTooltipMenu.min.js"></script>
+<script>
+    var menu = new cbpTooltipMenu( document.getElementById( 'cbp-tm-menu' ) );
+</script>
 </body>
 </html>
