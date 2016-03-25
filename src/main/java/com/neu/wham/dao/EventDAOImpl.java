@@ -33,17 +33,7 @@ public class EventDAOImpl implements EventDAO {
 		}
 	}
 	
-	@Override
 	public boolean addNewEvent(Event event) throws SQLException {
-		//java.util.Date dt = new java.util.Date();
-
-		/*java.text.SimpleDateFormat sdf = 
-		     new java.text.SimpleDateFormat("yyyy-MM-dd");
-
-		String currentStartDate = sdf.format(event.getStartDate());
-		String currentEndDate = sdf.format(event.getEndDate());
-		*/
-		
 		java.text.SimpleDateFormat sdf1 = 
 			     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		/*
@@ -57,44 +47,32 @@ public class EventDAOImpl implements EventDAO {
 		String endDate = sdf1.format(event.getEndDateAndTime());
 
 		Connection conn = null;
-		Statement stmt = null;
 		conn = DriverManager.getConnection(DB_URL,USER,PASS);
-		String stam = "insert into EVENT(name,"
-				+ "description,"
-				+ "is_official,"
-				+ "phone,email,"
-				+ "address,"
-				+ "latitude,"
-				+ "longitude,"
-				+ "create_datetime,"
-				+ "last_update_datetime,"
-				+ "org_name,"
-				+ "org_desc,"
-				+ "start_date_and_time,"
-				+ "end_date_and_time,"
-				+ "file_path)"
-				+ "values("+
-					"'"+event.getEventName()+"',"
-					+"'"+event.getEventDesc()+"',"
-					+event.isOfficialEvent() +","
-					+"'"+event.getPhoneNumber()+"',"
-					+"'"+event.getEmailId()+"',"
-					+"'"+event.getEventLocation()+"',"
-					+event.getLatitude()+","
-					+event.getLongitude()+","+
-					"'"+creationTime+"',"
-					+"'"+updatedTime+"',"+
-					"'"+event.getOrganiserName()+"',"+
-					"'"+event.getOrganiserDesc()+"',"+
-					"'"+startDate+"',"
-					+"'"+endDate+"',"+
-					"'"+event.getFilePath()+"');";
 		
-		System.out.println(stam);
+		String sql_statement = "insert into EVENT(name,description,is_official,phone,email,"
+				+ "address,latitude,longitude,create_datetime,last_update_datetime,org_name,org_desc,start_date_and_time,end_date_and_time,file_path)"
+				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		
-		stmt = conn.createStatement();
+		PreparedStatement stmt =conn.prepareStatement(sql_statement);
+		stmt.setString(1, event.getEventName());
+		stmt.setString(2, event.getEventDesc());
+		stmt.setBoolean(3, event.isOfficialEvent());
+		stmt.setString(4, event.getPhoneNumber());
+		stmt.setString(5, event.getEmailId());
+		stmt.setString(6, event.getEventLocation());
+		stmt.setDouble(7, event.getLatitude());
+		stmt.setDouble(8, event.getLongitude());
+		stmt.setString(9, creationTime);
+		stmt.setString(10, updatedTime);
+		stmt.setString(11, event.getOrganiserName());
+		stmt.setString(12, event.getOrganiserDesc());
+		stmt.setString(13, startDate);
+		stmt.setString(14, endDate);
+		stmt.setString(15, event.getFilePath());
+
+
 		try{
-		int val = stmt.executeUpdate(stam);
+		int val = stmt.executeUpdate();
 		if(val!=0){
 			return true;
 		}
