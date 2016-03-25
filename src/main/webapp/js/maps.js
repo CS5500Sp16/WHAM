@@ -98,10 +98,15 @@ function init() {
                     "Distance: " + distance + " miles" + "<br/>" + "Start Time: " + start_date_time + "<br/>"
                     + "End Time: " + end_date_time;
 
+                var currentInfoWindow = null;
                 google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow) {
                     return function () {
                         infowindow.setContent(content);
+                        if (currentInfoWindow != null) {
+                            currentInfoWindow.close();
+                        }
                         infowindow.open(map, marker);
+                        currentInfoWindow = infowindow;
                     };
                 })(marker, content, infowindow));
             } // end of for loop

@@ -5,7 +5,9 @@
     <title>WHAM</title>
     <link rel="shortcut icon" type="image/png" href="../images/WHAM_new.png" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <link href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="Stylesheet" type="text/css">
     <script type="text/javascript" src="../js/moments.js"> </script>
 
     <script type =""></script>
@@ -15,7 +17,7 @@
     <script src="../js/validations.js"></script>
     <link href="../css/pageStyle.css" rel="stylesheet" />
     <link href="../css/create_event.css" rel="stylesheet" />
-    <link href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="Stylesheet" type="text/css">
+
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
     <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -27,14 +29,80 @@
     <link href="../css/Buttons/component.css" rel="stylesheet" />
     <link href="../css/Buttons/default.css" rel="stylesheet" />
     <script src="../js/TopMenu/modernizr.custom.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZd4QxSKxELFULzQjv0Mwx7ybsUM_eBOg&signed_in=false&libraries=places&callback=initAutocomplete"
             async defer></script-->
-    
+    <!--script type='text/javascript'>
+        /* attach a submit handler to the form */
+        $("#creat_event_form").submit(function(event) {
+
+            /* stop form from submitting normally */
+            event.preventDefault();
+
+            /* get some values from elements on the page: */
+            var $form = $( this ),
+                    url = $form.attr( 'action' );
+
+            /* Send the data using post */
+            var posting = $.post( url,{ eventName: $('#eventName').val(), eventDesc: $('#eventDesc').val() } );
+
+            /* Alerts the results */
+            posting.done(function( data ) {
+                alert('success');
+            });
+
+            posting.always(function() {
+                alert( "second finished" );
+            });
+        });
+    </script-->
+
+    <!--script>
+        //callback handler for form submit
+        $("#creat_event_form").submit(function(e)
+        {
+            var postData = $(this).serializeArray();
+            var formURL = $(this).attr("action");
+            $.ajax(
+                    {
+                        url : "http://test.com",
+                        type: "POST",
+                        data : postData,
+                        success:function(data, textStatus, jqXHR)
+                        {
+                            alert("The server says: " + data + textStatus + jqXHR);
+                            //data: return data from server
+                        },
+                        error: function(jqXHR, textStatus, errorThrown)
+                        {
+                            alert("The server says: " + textStatus + errorThrown);
+                            //if fails
+                        }
+                    });
+            e.preventDefault(); //STOP default action
+            e.unbind(); //unbind. to stop multiple form submit.
+        });
+
+        $("#creat_event_form").submit(); //Submit  the FORM
+
+//        $('#form').submit(function(){
+//            $.ajax({
+//                url: $('#form').attr('action'),
+//                type: post,
+//                data : $('#form').serialize(),
+//                success : function (response) {
+//                    console.log("form submitted")
+//                    alert("The server says: " + response);
+//                }
+//            });
+//            return false;
+//        });
+    </script-->
 </head>
 <body>
     <header>
         <div class="cd-logo">
-            <a href="create_event.html"><img src="../images/msdlogs.JPG" alt="Logo"></a>
+            <a href="AfterLoginPage.html"><img src="../images/msdlogs.JPG" alt="Logo"></a>
         </div>
         <ul id="cbp-tm-menu" class="cbp-tm-menu">
 
@@ -53,16 +121,53 @@
         <center>
             <div class="form_container">
                 <h2>Create your event</h2><br/>
-                <form action="../newevent" enctype="multipart/form-data" method="post" onsubmit="return validateForm()">
+                <!--enctype="multipart/form-data"-->
+                <form name="creat_event_form" id="creat_event_form" action="../newevent"  enctype="multipart/form-data" method="post" >
                     <fieldset>
-                        <label for="eventName">Event Name*</label>
+
+                        <div class="row">
+                            <div class="col-xs-5" style="margin-left:5%">
+                                <label for="eventName"><b>Event Name</b></label>
+                                <input type="text" name="eventName" id="eventName" maxlength="60"  required onblur="validateName('name')" />
+                                <span id="nameError" style="display: none;">You can only use alphabetic characters, hyphens and apostrophes</span>
+                                <label for="Event_Description"><b>Event Description</b></label>
+                                <input id="Event_Description" name="eventDesc" maxlength="500" type="text" onblur="validateNotEmpty('Event_Description')">
+                                <span id="Event_Description_Error" style="display: none;">Please enter an event description</span>
+                                <!--label for="Location"><b>Location*</b></label-->
+                                <label for="AddressLine1"><b>AddressLine1</b></label>
+                                <input id="AddressLine1" name="AddressLine1" type="text" value="" required oninput="populate()">
+                                <label for="AddressLine2"><b>AddressLine2(optional)</b></label>
+                                <input id="AddressLine2" name="AddressLine2" type="text" value=""  oninput="populate()" >
+                                <label for="City"><b>City</b></label>
+                                <input id="City" name="city" type="text" value="" required oninput="populate()">
+                                <label for="State"><b>State</b></label>
+                                <input id="State" name="state" type="text" value="" required  oninput="populate()">
+                                <label for="zipcode"><b>Zip code</b></label>
+                                <input id="zipcode" name="zipcode" type="text" value="" required  oninput="populate()">
+                                <div id="locationField" >
+                                    <!--label for="eventLocation"><b>Address*</b></label-->
+                                    <input id="eventLocation" name="eventLocation"  type="hidden"   />
+                                    <script>
+                                        function populate() {
+                                            document.getElementById('eventLocation').value= (
+                                            document.getElementById('AddressLine1').value+ ', ' +
+                                            document.getElementById('AddressLine2').value+ ', ' +
+                                            document.getElementById('City').value + ', ' +
+                                            document.getElementById('State').value + ', ' +
+                                            document.getElementById('zipcode').value)}
+
+                                    </script>
+                                </div>
+                                </div>
+
+                        <!--label for="eventName">Event Name*</label>
                         <input type="text" name="eventName" id="name" maxlength="60" required onblur="validateName('name')" />
                         <span id="nameError" style="display: none;">You can only use alphabetic characters, hyphens and apostrophes</span>
                         <label for="Event_Description"><b>Event Description*</b></label>
                         <input id="Event_Description" name="eventDesc" maxlength="500" type="text" onblur="validateNotEmpty('Event_Description')">
                         <span id="Event_Description_Error" style="display: none;">Please enter an event description</span>
                         <!--label for="Location"><b>Location*</b></label-->
-                        <label for="AddressLine1"><b>AddressLine1*</b></label>
+                        <!--label for="AddressLine1"><b>AddressLine1*</b></label>
                         <input id="AddressLine1" name="AddressLine1" type="text" value="" required oninput="populate()">
                         <label for="AddressLine2"><b>AddressLine2</b></label>
                         <input id="AddressLine2" name="AddressLine2" type="text" value=""  oninput="populate()" >
@@ -84,9 +189,9 @@
                                     document.getElementById('State').value + ', ' +
                                     document.getElementById('zipcode').value)}
 
-                            </script>
-                        </div>
-                        <label for="Organiser Name"><b>Organiser Name*</b></label>
+                            </script>-->
+
+                        <!--label for="Organiser Name"><b>Organiser Name*</b></label>
                         <input id="organiserName" name="organiserName" type="text" value="" required onblur="validateName('organiserName')">
                         <span id="organiserNameError" style="display: none;">Please enter an organiser name</span>
                         <label for="Organiser Description"><b>Organiser Description*</b></label>
@@ -109,17 +214,40 @@
                             </label>
                         </!--div>
                         <br>
+>>>>>>> 70883cc9db9dd3b648751eebb0f3f3eb1eaa0cbc
 
-                        <div id="singleday">
-                            <label for="eventDate"><b>Event Date*</b></label>
-                            <input id="eventDate" name="eventDate" required type="text">
-                        </div-->
+                                </div>
+                                </div-->
 
-                        <br />
-                        <div class='col-sm-6' style="padding: 0 0 0 0;">
+                                <div class="col-xs-2">
+
+                            </div>
+
+                            <div class="col-xs-5" style="margin-left:10%">
+
+                                <label for="organiserName"><b>Organiser Name</b></label>
+                                <input id="organiserName"  name="organiserName" type="text" value="" required onblur="validateName('organiserName')">
+                                <span id="organiserNameError" style="display: none;">Please enter an organiser name</span>
+                                <label for="organiserDesc"><b>Organiser Description</b></label>
+                                <input id="organiserDesc" name="organiserDesc" type="text" value="" required onblur="validateNotEmpty('organiserDesc')">
+                                <span id="organiserDesc_Error" style="display: none;">Please enter an organiser description</span>
+                                <label for="Phone"><b>Phone(optional)</b></label>
+                                <input id="phone" name="phoneNumber" type="text" value="" onblur="validatePhone(phone)">
+                                <span id="phoneError" style="display: none;">Not a valid phone number</span>
+                                <label for="email"><b>Email</b></label>
+                                <input type="text" name="emailId" id="email" required onblur="validateEmail(value)">
+                                <span id="emailError" style="display: none;">Enter a valid Northeastern email.</span>
+                            </div>
+
+
+
+
+
+
+                        <div class='col-sm-6' style="padding : 0 0 0 0;">
                             <div class="form-group">
-                                <label for="datetimepicker1"><b>Start Date and Time*</b></label>
-                                <div class='input-group date'  id='datetimepicker1'>
+                                <label for="endDateAndTime"><b>End Date and Time*</b></label>
+                                <div class='input-group date'  id='startDateAndTime'>
                                     <input type='text' name="startDateAndTime" class="form-control" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
@@ -128,15 +256,17 @@
                             </div>
                         </div>
                         <script type="text/javascript">
-                            $(function () {
-                                $('#datetimepicker1').datetimepicker();
+
+                                $('#startDateAndTime').datetimepicker({
+                                    minDate: moment()
+
                             });
                         </script>
 
                         <div class='col-sm-6' style="padding : 0 0 0 0;">
                             <div class="form-group">
-                                <label for="datetimepicker2"><b>End Date and Time*</b></label>
-                                <div class='input-group date'  id='datetimepicker2'>
+                                <label for="endDateAndTime"><b>End Date and Time*</b></label>
+                                <div class='input-group date'  id='endDateAndTime'>
                                     <input type='text' name="endDateAndTime" class="form-control" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
@@ -146,11 +276,12 @@
                         </div>
                         <script type="text/javascript">
                             $(function () {
-                                $('#datetimepicker2').datetimepicker();
+                                $('#endDateAndTime').datetimepicker();
+
                             });
                         </script>
 
-                        <input type="file" id="myFile" name= "myFile" size="50" onchange="myFunction()">
+                        <input type="file" id="myFile" name= "myFile" size="50" onchange="myFunction()" >
 
                         <p id="demo"></p>
 
@@ -184,19 +315,7 @@
                             }
                         </script>
 
-                        <!--div id="multiday">
-                            <label for="eventStartDate"> <b>Event Start Date*</b></label>
-                            <input id="startDate" name="startDate" required type="text">
-                            <label for="eventEndDate"><b>Event End Date*</b></label>
-                            <input id="endDate" name="endDate" required type="text">
-                        </div>
 
-                        <div>
-                            <label for="startTime"><b>Start Time*</b></label>
-                            <input type="text" name="startTime" id="startTime" required class="time">
-                            <label for="endTime"><b>End Time*</b></label>
-                            <input type="text" name="endTime" id="endTime" required class="time">
-                        </div-->
                         <div>
                             <label class="checkbox inline" id="isOfficialEvent">
                                 <input type="checkbox" name="isOfficialEvent" value="">

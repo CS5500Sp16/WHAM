@@ -34,6 +34,7 @@ public class EventDAOImpl implements EventDAO {
 	}
 	
 	public boolean addNewEvent(Event event) throws SQLException {
+
 		java.text.SimpleDateFormat sdf1 = 
 			     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		/*
@@ -52,6 +53,7 @@ public class EventDAOImpl implements EventDAO {
 		String sql_statement = "insert into EVENT(name,description,is_official,phone,email,"
 				+ "address,latitude,longitude,create_datetime,last_update_datetime,org_name,org_desc,start_date_and_time,end_date_and_time,file_path)"
 				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+
 		
 		PreparedStatement stmt =conn.prepareStatement(sql_statement);
 		stmt.setString(1, event.getEventName());
@@ -118,19 +120,26 @@ public class EventDAOImpl implements EventDAO {
 				Event e = new Event();
 				e.setEventName(rs.getString("name"));
 				e.setEventDesc(rs.getString("description"));
-				e.setEventLocation(rs.getString("location"));
-				e.setPhoneNumber(rs.getString("phone_number"));
+				e.setEventLocation(rs.getString("address"));
+				e.setPhoneNumber(rs.getString("phone"));
 				e.setEmailId(rs.getString("email"));
+
 				e.setStartDateAndTime(rs.getDate("start_date_and_time"));
 				e.setEndDateAndTime(rs.getDate("end_date_and_time"));
+
+				//e.setStartDate(rs.getDate("start_date"));
+				//e.setEndDate(rs.getDate("end_date"));
+				//e.setStartTime(rs.getDate("start_time"));
+				//e.setEndTime(rs.getDate("end_time"));
+
 				e.setLatitude(rs.getDouble("latitude"));
 				e.setLongitude(rs.getDouble("longitude"));
 				e.setFilePath(rs.getString("file_path"));			
-				e.setOrganiserName(rs.getString("organization_name"));
-				e.setOrganiserDesc(rs.getString("organization_desc"));
+				e.setOrganiserName(rs.getString("org_name"));
+				e.setOrganiserDesc(rs.getString("org_desc"));
 				e.setOfficialEvent(rs.getBoolean("is_official"));
-				e.setCreationTime(rs.getDate("Creationtime"));
-				e.setLastUpdateTime(rs.getDate("LastUpdateTime"));
+				e.setCreationTime(rs.getDate("create_datetime"));
+				e.setLastUpdateTime(rs.getDate("last_update_datetime"));
 				DBEvents.add(e);
 			}
 		}

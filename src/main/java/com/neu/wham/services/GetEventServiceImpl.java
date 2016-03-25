@@ -46,6 +46,9 @@ public class GetEventServiceImpl implements GetEventService {
  		resultList.addAll(APIEvents);
 		resultList.addAll(DBEvents);
  		
+//		if(resultList.isEmpty()){
+//			return JSONObject.NULL;
+//		}
 		return resultList;
 	}
 	
