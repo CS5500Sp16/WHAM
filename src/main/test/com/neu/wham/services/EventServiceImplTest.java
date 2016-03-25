@@ -2,6 +2,10 @@ package com.neu.wham.services;
 
 import static org.junit.Assert.assertEquals;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 
 import org.junit.Test;
@@ -136,7 +140,7 @@ import com.neu.wham.model.Event;
 	@Test
 	public void putAnEvent(){
 		Event event = new Event();
-		event.setEventName("Holi");
+		event.setEventName("Holi123");
 		event.setEventDesc("Festival of Colors");
 		event.setEmailId("sanskruti@husky.neu.edu");
 		event.setOrganiserName("NEU-SANSKRUTI");
@@ -149,5 +153,49 @@ import com.neu.wham.model.Event;
 		event.setStartDateAndTime(new Date());
 		EventPostResponse testResponse = eventserviceImpl.submitNewEvent(event, null);
 		assertEquals(Status.OK, testResponse.getStatus());
+		deleteInsertedEvent();
+	}
+	/**
+	 * Delete the inserted event
+	 */
+	private void deleteInsertedEvent(){
+		String stmt = "delete from EVENT where name='Holi123'";
+		
+		// JDBC driver name and database URL
+		final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+		final String DB_URL = "jdbc:mysql://ec2-52-87-159-69.compute-1.amazonaws.com:3306/whamDB";
+
+		//  Database credentials
+		final String USER = "wham";
+		final String PASS = "wham@123";
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			Statement stmt1 = conn.createStatement();
+		      stmt1.executeUpdate(stmt);
+		      conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try{
+		         if(stmt!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		      }// do nothing
+		      try{
+		         if(conn!=null)
+		            conn.close();
+		      }catch(SQLException se){
+		         se.printStackTrace();
+		      }
+		}
 	}
 }
