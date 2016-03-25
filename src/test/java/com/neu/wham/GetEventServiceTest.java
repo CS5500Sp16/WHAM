@@ -65,8 +65,9 @@ public class GetEventServiceTest {
 		String lat = "42.3389";
 		String lon = "71.0903";
 		String rad = "500";
+		String q = null;
 		
-		when(getEventServiceMock.getEvents(lat, lon, rad)).thenReturn(GetEventServiceUtil.buildEvents());
+		when(getEventServiceMock.getEvents(lat, lon, rad, q)).thenReturn(GetEventServiceUtil.buildEvents());
 		
 		String url = "/datasource/" + lat + "/" + lon + "/" + rad;
 		mockMvc.perform(get(url))
@@ -86,10 +87,11 @@ public class GetEventServiceTest {
 		String lat = "42.3389";
 		String lon = "71.0903";
 		String rad = "0";
+		String q = null;
 		
 		String afterValidateRad = "10";
 		
-		when(getEventServiceMock.getEvents(lat, lon, afterValidateRad)).thenReturn(GetEventServiceUtil.buildEvents());
+		when(getEventServiceMock.getEvents(lat, lon, afterValidateRad, q)).thenReturn(GetEventServiceUtil.buildEvents());
 		
 		String url = "/datasource/" + lat + "/" + lon + "/" + rad;
 		mockMvc.perform(get(url))
@@ -109,10 +111,11 @@ public class GetEventServiceTest {
 		String lat = "42.3389";
 		String lon = "71.0903";
 		String rad = "-10";
+		String q = null;
 		
 		String afterValidateRad = "10";
 		
-		when(getEventServiceMock.getEvents(lat, lon, afterValidateRad)).thenReturn(GetEventServiceUtil.buildEvents());
+		when(getEventServiceMock.getEvents(lat, lon, afterValidateRad, q)).thenReturn(GetEventServiceUtil.buildEvents());
 		
 		String url = "/datasource/" + lat + "/" + lon + "/" + rad;
 		mockMvc.perform(get(url))
@@ -130,9 +133,10 @@ public class GetEventServiceTest {
     	String lat = "45";
 		String lon = "45";
 		String rad = "w10";
+		String q = null;
 		
 		String afterValidateRad = "10";
-		when(getEventServiceMock.getEvents(lat, lon, afterValidateRad)).thenReturn(new ArrayList<Event>());
+		when(getEventServiceMock.getEvents(lat, lon, afterValidateRad, q)).thenReturn(new ArrayList<Event>());
 		
 		String url = "/datasource/" + lat + "/" + lon + "/" + rad;
 		mockMvc.perform(get(url))
@@ -190,10 +194,11 @@ public class GetEventServiceTest {
 		String lat = "42.3389";
 		String lon = "71.0903";
 		String rad = "foo";
+		String q = null;
 		
 		String afterValidateRad = "10";
 		
-		when(getEventServiceMock.getEvents(lat, lon, afterValidateRad)).thenReturn(GetEventServiceUtil.buildEvents());
+		when(getEventServiceMock.getEvents(lat, lon, afterValidateRad, q)).thenReturn(GetEventServiceUtil.buildEvents());
 		
 		String url = "/datasource/" + lat + "/" + lon + "/" + rad;
 		mockMvc.perform(get(url))
@@ -213,10 +218,11 @@ public class GetEventServiceTest {
 		String lat = "42.3389";
 		String lon = "71.0903";
 		String rad = null;
+		String q = null;
 		
 		String afterValidateRad = "10";
 		
-		when(getEventServiceMock.getEvents(lat, lon, afterValidateRad)).thenReturn(GetEventServiceUtil.buildEvents());
+		when(getEventServiceMock.getEvents(lat, lon, afterValidateRad, q)).thenReturn(GetEventServiceUtil.buildEvents());
 		
 		String url = "/datasource/" + lat + "/" + lon + "/" + rad;
 		mockMvc.perform(get(url))

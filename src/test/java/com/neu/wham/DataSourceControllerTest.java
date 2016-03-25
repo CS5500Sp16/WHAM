@@ -24,6 +24,7 @@ public class DataSourceControllerTest {
     	String lat = "91";
     	String lon = "0";
     	String rad = "10";
+    	String q = null;
     		
     	String exceptionStatement = new LocationException(LocationExceptionType.LOCATION_OUT_OF_BOUNDS).getMessage();
     	
@@ -31,7 +32,7 @@ public class DataSourceControllerTest {
         thrown.expect(LocationException.class);
         thrown.expectMessage(equalTo(exceptionStatement));
         // act
-        dsController.firstRequest(lat, lon, rad);
+        dsController.firstRequest(lat, lon, rad, q);
     }
     
     //?lat=-91&long=0&r=10  testcase5
@@ -40,6 +41,7 @@ public class DataSourceControllerTest {
     	String lat = "-91";
     	String lon = "0";
     	String rad = "10";
+    	String q = null;
     		
     	String exceptionStatement = new LocationException(LocationExceptionType.LOCATION_OUT_OF_BOUNDS).getMessage();
     	
@@ -47,7 +49,7 @@ public class DataSourceControllerTest {
         thrown.expect(LocationException.class);
         thrown.expectMessage(equalTo(exceptionStatement));
         // act
-        dsController.firstRequest(lat, lon, rad);
+        dsController.firstRequest(lat, lon, rad, q);
     }
     
     //?lat=0&long=181&r=10 testcase6
@@ -56,6 +58,7 @@ public class DataSourceControllerTest {
     	String lat = "0";
     	String lon = "181";
     	String rad = "10";
+    	String q = null;
     		
     	String exceptionStatement = new LocationException(LocationExceptionType.LOCATION_OUT_OF_BOUNDS).getMessage();
     	
@@ -63,7 +66,7 @@ public class DataSourceControllerTest {
         thrown.expect(LocationException.class);
         thrown.expectMessage(equalTo(exceptionStatement));
         // act
-        dsController.firstRequest(lat, lon, rad);
+        dsController.firstRequest(lat, lon, rad, q);
     }
     
     //?lat=0&long=-181&r=10 testcase7
@@ -72,6 +75,7 @@ public class DataSourceControllerTest {
     	String lat = "0";
     	String lon = "-181";
     	String rad = "10";
+    	String q = null;
     		
     	String exceptionStatement = new LocationException(LocationExceptionType.LOCATION_OUT_OF_BOUNDS).getMessage();
     	
@@ -79,7 +83,7 @@ public class DataSourceControllerTest {
         thrown.expect(LocationException.class);
         thrown.expectMessage(equalTo(exceptionStatement));
         // act
-        dsController.firstRequest(lat, lon, rad);
+        dsController.firstRequest(lat, lon, rad, q);
     }
     
     //?lat=foo&long=0&r=10 testcase8
@@ -88,6 +92,7 @@ public class DataSourceControllerTest {
     	String lat = "foo";
     	String lon = "0";
     	String rad = "10";
+    	String q = null;
     		
     	String exceptionStatement = new LocationException(LocationExceptionType.LOCATION_FORMAT_EXCEPTION).getMessage();
     	
@@ -95,7 +100,7 @@ public class DataSourceControllerTest {
         thrown.expect(LocationException.class);
         thrown.expectMessage(equalTo(exceptionStatement));
         // act
-        dsController.firstRequest(lat, lon, rad);
+        dsController.firstRequest(lat, lon, rad, q);
     }
     
     //?lat=0&long=foo&r=10 testcase9
@@ -104,6 +109,7 @@ public class DataSourceControllerTest {
     	String lat = "foo";
     	String lon = "0";
     	String rad = "10";
+    	String q = null;
     		
     	String exceptionStatement = new LocationException(LocationExceptionType.LOCATION_FORMAT_EXCEPTION).getMessage();
     	
@@ -111,7 +117,7 @@ public class DataSourceControllerTest {
         thrown.expect(LocationException.class);
         thrown.expectMessage(equalTo(exceptionStatement));
         // act
-        dsController.firstRequest(lat, lon, rad);
+        dsController.firstRequest(lat, lon, rad, q);
     }
     
     //?lat=NULL&long=NULL&r=NULL testcase12
@@ -120,6 +126,7 @@ public class DataSourceControllerTest {
     	String lat = null;
     	String lon = null;
     	String rad = null;
+    	String q = null;
     		
     	String exceptionStatement = new LocationException(LocationExceptionType.LOCATION_INCOMPLETE).getMessage();
     	
@@ -127,7 +134,7 @@ public class DataSourceControllerTest {
         thrown.expect(LocationException.class);
         thrown.expectMessage(equalTo(exceptionStatement));
         // act
-        dsController.firstRequest(lat, lon, rad);
+        dsController.firstRequest(lat, lon, rad, q);
     }
         
 	    //?lat=0 testcase 16
@@ -137,6 +144,7 @@ public class DataSourceControllerTest {
 	    	String lat = "0";
 	    	String lon = null;
 	    	String rad = null;
+	    	String q = null;
 	    		
 	    	String exceptionStatement = new LocationException(LocationExceptionType.LOCATION_INCOMPLETE).getMessage();
 	    	
@@ -144,7 +152,7 @@ public class DataSourceControllerTest {
 	        thrown.expect(LocationException.class);
 	        thrown.expectMessage(equalTo(exceptionStatement));
 	        // act
-	        dsController.firstRequest(lat, lon, rad);
+	        dsController.firstRequest(lat, lon, rad, q);
 	    }
     
 	    //?long=0 testcase 17
@@ -154,6 +162,7 @@ public class DataSourceControllerTest {
 	   	String lat = null;
 	   	String lon = "0";
 	   	String rad = null;
+	   	String q = null;
 	   		
 	   	String exceptionStatement = new LocationException(LocationExceptionType.LOCATION_INCOMPLETE).getMessage();
 	   	
@@ -161,7 +170,7 @@ public class DataSourceControllerTest {
 	       thrown.expect(LocationException.class);
 	       thrown.expectMessage(equalTo(exceptionStatement));
 	       // act
-	       dsController.firstRequest(lat, lon, rad);
+	       dsController.firstRequest(lat, lon, rad, q);
 	   }
 	   
 	   //?r=10 testcase 18
@@ -171,6 +180,7 @@ public class DataSourceControllerTest {
 	   	String lat = null;
 	   	String lon = null;
 	   	String rad = "10";
+	   	String q = null;
 	   		
 	   	String exceptionStatement = new LocationException(LocationExceptionType.LOCATION_INCOMPLETE).getMessage();
 	   	
@@ -178,7 +188,7 @@ public class DataSourceControllerTest {
 	       thrown.expect(LocationException.class);
 	       thrown.expectMessage(equalTo(exceptionStatement));
 	       // act
-	       dsController.firstRequest(lat, lon, rad);
+	       dsController.firstRequest(lat, lon, rad, q);
 	   }
 	
 	   
@@ -189,6 +199,7 @@ public class DataSourceControllerTest {
 	   	String lat = "45#";
 	   	String lon = "50";
 	   	String rad = "10";
+	   	String q = null;
 	   		
 	   	String exceptionStatement = new LocationException(LocationExceptionType.LOCATION_FORMAT_EXCEPTION).getMessage();
 	   	
@@ -196,7 +207,7 @@ public class DataSourceControllerTest {
 	       thrown.expect(LocationException.class);
 	       thrown.expectMessage(equalTo(exceptionStatement));
 	       // act
-	       dsController.firstRequest(lat, lon, rad);
+	       dsController.firstRequest(lat, lon, rad, q);
 	   }
 	   
 }

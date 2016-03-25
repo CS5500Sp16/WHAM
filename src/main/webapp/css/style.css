@@ -16,8 +16,7 @@ html {
 body {
   font-size: 1.6rem;
   font-family: "PT Sans", sans-serif;
-  color: #33414a;
-  background-color: #f2f2f2;
+  
 }
 
 a {
@@ -37,7 +36,8 @@ header {
   width: 100%;
   top: 0;
   left: 0;
-  background-color: #33414a;
+  background-image: url(../images/bg11.jpg);
+  background-size: 30% 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* Force Hardware Acceleration */

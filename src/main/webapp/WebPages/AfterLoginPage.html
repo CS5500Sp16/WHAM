@@ -13,24 +13,37 @@
     <link rel="stylesheet" href="../css/reset.css">
     <link href="../css/style.css" rel="stylesheet" />
     <link href="../css/Buttons/component.css" rel="stylesheet" />
+    <link href="../css/Buttons/default.css" rel="stylesheet" />
     <link href="../css/pageStyle.css" rel="stylesheet" />
+    <script src="../js/TopMenu/modernizr.custom.js"></script>
+    
 </head>
 <body>
     <header>
         <div class="cd-logo"><a href="AfterLoginPage.html"><img src="../images/msdlogs.JPG" alt="Logo"></a></div>
-        <nav class="cd-main-nav-wrapper">
-            <ul class="cd-main-nav" style="visibility: visible; color: #fff; height: 100%; width: 40%; background-color: transparent;float:right;">
-                <li class="loginBtn"> <a href="HomePage.html" type="button" class="btn btn-default" style="text-decoration: none;">LOG OUT</a></li>
+                    <ul id="cbp-tm-menu" class="cbp-tm-menu">
+
+                <li>
+                    <a href="#">Hi Student</a>
+                    <ul class="cbp-tm-submenu">
+                        <li><a href="create_event.html" class="cbp-tm-icon-pencil">Create Event</a></li>
+                        <li><a href="#" class="cbp-tm-icon-cog">Manage Preferences</a></li>
+                        <li><a href="HomePage.html" class="cbp-tm-icon-archive">Log Out</a></li>
+                    </ul>
+                </li>
             </ul>
-        </nav>
+       
     </header>
     <main class="cd-main-content" style="background-color:transparent">
         <div class="intrinsic-container-16x9" style="text-align:center;">
-            <button class="btnd btn-1 btn-1f">Manage Preferences</button>
-            <button class="btnd btn-1 btn-1f" onclick="window.location.href='create_event.html'">Create an event</button>
+                        
             <iframe src="maps.html" style="width: 90%"></iframe>
         </div>
     </main>
+    <script src="../js/TopMenu/cbpTooltipMenu.min.js"></script>
+    <script>
+			var menu = new cbpTooltipMenu( document.getElementById( 'cbp-tm-menu' ) );
+    </script>
 
 </body>
 </html>
