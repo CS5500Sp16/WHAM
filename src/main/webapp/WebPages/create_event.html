@@ -127,22 +127,22 @@
 
                         <div class="row">
                             <div class="col-xs-5" style="margin-left:5%">
-                                <label for="eventName"><b>Event Name</b></label>
+                                <label for="eventName"><b>Event Name*</b></label>
                                 <input type="text" name="eventName" id="eventName" maxlength="60"  required onblur="validateName('name')" />
                                 <span id="nameError" style="display: none;">You can only use alphabetic characters, hyphens and apostrophes</span>
                                 <label for="Event_Description"><b>Event Description</b></label>
                                 <input id="Event_Description" name="eventDesc" maxlength="500" type="text" onblur="validateNotEmpty('Event_Description')">
                                 <span id="Event_Description_Error" style="display: none;">Please enter an event description</span>
                                 <!--label for="Location"><b>Location*</b></label-->
-                                <label for="AddressLine1"><b>Address Line 1</b></label>
+                                <label for="AddressLine1"><b>Address Line 1*</b></label>
                                 <input id="AddressLine1" name="AddressLine1" type="text" value="" required oninput="populate()">
                                 <label for="AddressLine2"><b>Address Line 2 (optional)</b></label>
                                 <input id="AddressLine2" name="AddressLine2" type="text" value=""  oninput="populate()" >
-                                <label for="City"><b>City</b></label>
+                                <label for="City"><b>City*</b></label>
                                 <input id="City" name="city" type="text" value="" required oninput="populate()">
-                                <label for="State"><b>State</b></label>
+                                <label for="State"><b>State*</b></label>
                                 <input id="State" name="state" type="text" value="" required  oninput="populate()">
-                                <label for="zipcode"><b>Zip code</b></label>
+                                <label for="zipcode"><b>Zip code*</b></label>
                                 <input id="zipcode" name="zipcode" type="text" value="" required  oninput="populate()">
                                 <div id="locationField" >
                                     <!--label for="eventLocation"><b>Address*</b></label-->
@@ -170,16 +170,16 @@
 
                             <div class="col-xs-5" style="margin-left:10%">
 
-                                <label for="organiserName"><b>Organiser Name</b></label>
+                                <label for="organiserName"><b>Organiser Name*</b></label>
                                 <input id="organiserName"  name="organiserName" type="text" value="" required onblur="validateName('organiserName')">
                                 <span id="organiserNameError" style="display: none;">Please enter an organiser name</span>
-                                <label for="organiserDesc"><b>Organiser Description</b></label>
+                                <label for="organiserDesc"><b>Organiser Description*</b></label>
                                 <input id="organiserDesc" name="organiserDesc" type="text" value="" required onblur="validateNotEmpty('organiserDesc')">
                                 <span id="organiserDesc_Error" style="display: none;">Please enter an organiser description</span>
                                 <label for="Phone"><b>Phone (optional)</b></label>
                                 <input id="phone" name="phoneNumber" type="text" value="" onblur="validatePhone(phone)">
                                 <span id="phoneError" style="display: none;">Not a valid phone number</span>
-                                <label for="email"><b>Email</b></label>
+                                <label for="email"><b>Email*</b></label>
                                 <input type="text" name="emailId" id="email" required onblur="validateEmail(value)">
                                 <span id="emailError" style="display: none;">Enter a valid Northeastern email.</span>
                                 <div class="form-group">
