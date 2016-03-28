@@ -34,7 +34,6 @@
     padding:10px;
 }
 .checkboxtext {
-    font-size:70%;
     display: inline;
 }
 input[type=checkbox] {
@@ -55,8 +54,17 @@ input[type=checkbox] {
 }
 a{
     color:#36c;
+    font-size: 17px !important;
+    text-decoration: underline;
 }
 a:visited{
     color:#609;
+    font-size: 17px !important;
+}
+#error{
+    font-size: 17px !important;
+}
+#loginForm{
+    font-size: 17px;
 }
  
