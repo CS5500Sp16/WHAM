@@ -22,7 +22,6 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -32,6 +31,7 @@ import com.neu.wham.controllers.DataSourceController;
 import com.neu.wham.exceptions.LocationException;
 import com.neu.wham.model.Event;
 import com.neu.wham.services.GetEventService;
+import com.neu.wham.services.GetEventServiceImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -44,7 +44,7 @@ public class GetEventServiceTest {
 	private DataSourceController dataSourceController;
 	 
     @Mock
-    private GetEventService getEventServiceMock; 
+    private GetEventServiceImpl getEventServiceMock; 
     private LocationException locationException;
     
     @Autowired
@@ -225,6 +225,29 @@ public class GetEventServiceTest {
 		when(getEventServiceMock.getEvents(lat, lon, afterValidateRad, q)).thenReturn(GetEventServiceUtil.buildEvents());
 		
 		String url = "/datasource/" + lat + "/" + lon + "/" + rad;
+		mockMvc.perform(get(url))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType("application/json;charset=UTF-8"))
+				.andExpect(jsonPath("$", hasSize(3)))
+				.andExpect(jsonPath("$[0].eventName", is("Get Traction: The Virtual Growth Event [Tashkent]")))
+				.andExpect(jsonPath("$[1].eventName", is("인터넷바카라추천【DON963 쩜컴】카지노사이트")))
+				.andExpect(jsonPath("$[2].eventName", is("Встреча с Вице-Ректором университета Туриба, Рига, Латвия, Господином Имантсом Бергсом")));
+    }
+    
+    // Sprint 2 - test case 1
+    @Test
+    public void getEvents_keywordMusic() throws Exception{
+    	
+		String lat = "42.3389";
+		String lon = "71.0903";
+		String rad = "10";
+		String q = "music";
+		
+		String afterValidateRad = "10";
+		
+		when(getEventServiceMock.queryEventbrite(lat, lon, rad, q)).thenReturn(GetEventServiceUtil.getCannedEventbriteResponse());
+		
+		String url = "/datasource/" + lat + "/" + lon + "/" + rad + "?q=" + q;
 		mockMvc.perform(get(url))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType("application/json;charset=UTF-8"))

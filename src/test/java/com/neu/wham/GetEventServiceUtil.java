@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.TimeZone;
 
+import org.json.JSONArray;
+
 import com.neu.wham.model.Event;
 
 public class GetEventServiceUtil {
@@ -125,6 +127,10 @@ public class GetEventServiceUtil {
 		
 	}
 
-	
+	public static JSONArray getCannedEventbriteResponse() {
+		JSONArray cannedEvents = new JSONArray();
+		
+		return cannedEvents;
+	}
 	
 }

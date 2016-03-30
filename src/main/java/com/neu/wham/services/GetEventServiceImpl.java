@@ -53,28 +53,11 @@ public class GetEventServiceImpl implements GetEventService {
 	}
 	
 	public List<Event> getEventsFromAPI(String lat, String lon, String radius, String q) 
-			throws UnirestException, JSONException, ParseException, URISyntaxException
+			throws JSONException, ParseException, UnirestException, URISyntaxException
 	{
-		URIBuilder builder = new URIBuilder("https://www.eventbriteapi.com/v3/events/search");
-		builder.addParameter("expand", "venue");
-		builder.addParameter("location.latitude", lat);
-		builder.addParameter("location.longitude", lon);
-		builder.addParameter("location.within", radius + "mi");
-		builder.addParameter("token", "DXVHSQKC2T2GGBTUPOY2");
-		if(null != q)
-			builder.addParameter("q", q);
 		
-		System.out.println(builder);
-		System.out.println(builder.toString());
-		
-		HttpResponse<JsonNode> jsonResponse = Unirest.get(builder.toString()).asJson();
-		System.out.println(jsonResponse.getStatus());
-		System.out.println("*****");
-		
-		JsonNode obj = jsonResponse.getBody();
-		JSONObject response = obj.getObject();
-		JSONArray events = response.getJSONArray("events");
-		
+		JSONArray events = queryEventbrite(lat, lon, radius, q);
+
 		List<Event> eventList = new ArrayList<Event>();
 		
 		for(int i = 0; i < events.length(); i++){
@@ -133,6 +116,32 @@ public class GetEventServiceImpl implements GetEventService {
 		return eventList;
 		
 		
+	}
+	
+	public JSONArray queryEventbrite(String lat, String lon, String radius, String q) 
+			throws UnirestException, URISyntaxException, JSONException {
+		
+		URIBuilder builder = new URIBuilder("https://www.eventbriteapi.com/v3/events/search");
+		builder.addParameter("expand", "venue");
+		builder.addParameter("location.latitude", lat);
+		builder.addParameter("location.longitude", lon);
+		builder.addParameter("location.within", radius + "mi");
+		builder.addParameter("token", "DXVHSQKC2T2GGBTUPOY2");
+		if(null != q)
+			builder.addParameter("q", q);
+		
+		System.out.println(builder);
+		System.out.println(builder.toString());
+		
+		HttpResponse<JsonNode> jsonResponse = Unirest.get(builder.toString()).asJson();
+		JsonNode obj = jsonResponse.getBody();
+		JSONObject response = obj.getObject();
+		JSONArray events = response.getJSONArray("events");
+		
+		System.out.println(jsonResponse.getStatus());
+		System.out.println("*****");
+		
+		return events;
 	}
 
 }
