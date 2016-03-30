@@ -54,8 +54,7 @@ public class EventServiceImpl implements NewEventService {
 		}catch (IOException e) {
 			evntResponse.setMsg(e.getMessage());
 			evntResponse.setStatus(Status.ERROR);
-		}
-		catch (InvalidAddressException e) {
+		}catch (InvalidAddressException e) {
 			evntResponse.setMsg(e.getMessage());
 			evntResponse.setStatus(Status.ERROR);
 		} catch (SQLException e) {

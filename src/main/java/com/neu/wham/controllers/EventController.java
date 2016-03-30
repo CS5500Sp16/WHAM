@@ -42,14 +42,14 @@ public class EventController {
 	 * @see com.new.wham.messages.EventPostResponse 
 	 */
 	@RequestMapping(value = "/newevent", method = RequestMethod.POST)
-	public @ResponseBody EventPostResponse firstRequest(@Valid @ModelAttribute Event event, BindingResult result, @RequestParam(value="myFile",required=false) MultipartFile file){
+	public @ResponseBody EventPostResponse firstRequest(@Valid @ModelAttribute Event event, BindingResult result, @RequestParam(value="myFile",required=false) MultipartFile file,@RequestParam("isOfficialEvent") boolean officialEvent){
 		if(result.hasErrors()){
 			EventPostResponse errRes = new EventPostResponse();
 			errRes.setMsg(result.getAllErrors().toString());
 			errRes.setStatus(Status.ERROR);
 			return errRes;
 		}
-		event.setOfficialEvent(true);
+		event.setOfficialEvent(officialEvent);
 		return newEventService.submitNewEvent(event,file);
 	}
 }
