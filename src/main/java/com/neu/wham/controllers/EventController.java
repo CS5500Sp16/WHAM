@@ -48,7 +48,8 @@ public class EventController {
 			errRes.setMsg(result.getAllErrors().toString());
 			errRes.setStatus(Status.ERROR);
 			return errRes;
-		}		
+		}
+		event.setOfficialEvent(true);
 		return newEventService.submitNewEvent(event,file);
 	}
 }
