@@ -107,7 +107,7 @@
     <ul id="cbp-tm-menu" class="cbp-tm-menu" style="height: 50px;">
 
         <li>
-            <a href="#">Hi Student</a>
+            <a href="#" id="welcome"></a>
             <ul class="cbp-tm-submenu">
                 <li><a href="create_event.html" class="cbp-tm-icon-pencil disable">Create Event</a></li>
                 <li><a href="#" class="cbp-tm-icon-cog">Manage Preferences</a></li>
@@ -158,8 +158,8 @@
 
                                     </script>
                                 </div>
-                                <label class="checkbox inline" id="isOfficialEvent">
-                                    <input type="checkbox" name="isOfficialEvent" value="" >
+                                <label class="checkbox inline" id="OfficialEvent">
+                                    <input type="checkbox" name="isOfficialEvent"  id="isOfficialEvent" onchange="myCheckbox()">
                                     <b> Official NEU Event</b>
                                 </label>
                             </div>
@@ -271,6 +271,24 @@
     </div>
 </div>
 <script src="../js/TopMenu/cbpTooltipMenu.min.js"></script>
+<script>
+    var temp = localStorage.getItem("name") || "";
+    var name = temp.charAt(0).toUpperCase() + temp.slice(1);
+    document.getElementById("welcome").innerHTML = "Hi " + name;
+</script>
+<script>
+    function myCheckbox() {
+
+        if (document.getElementById("isOfficialEvent").checked == true) {
+            document.getElementById("isOfficialEvent").value = true;
+            console.log(document.getElementById("isOfficialEvent").value );
+        } else {
+            document.getElementById("isOfficialEvent").value = false;
+            console.log(document.getElementById("isOfficialEvent").value );
+
+        }
+    }
+</script>
 <script>
     var menu = new cbpTooltipMenu( document.getElementById( 'cbp-tm-menu' ) );
 </script>
