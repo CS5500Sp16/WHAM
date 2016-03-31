@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 import org.apache.http.client.utils.URIBuilder;
+import org.joda.time.LocalDateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,14 +30,15 @@ public class GetEventServiceImpl implements GetEventService {
 	private EventDAO eventDAO;
 	
 	@Override
-	public List<Event> getEvents(String lat, String lon, String rad, String q)
+	public List<Event> getEvents(String lat, String lon, String rad, String q, String statDT, String endDT)
 	{
+		System.out.println("in getEvents of impl");
 		List<Event> DBEvents = new ArrayList<Event>();
 		List<Event> APIEvents = new ArrayList<Event>();
 		List<Event> resultList = new ArrayList<Event>();
  		try
 		{
- 		APIEvents = getEventsFromAPI(lat, lon, rad, q);	
+ 		APIEvents = getEventsFromAPI(lat, lon, rad, q, statDT, endDT);	
 		DBEvents =  eventDAO.getEventsData(lat, lon, rad);
 		}
 		catch(Exception e)
@@ -52,9 +54,10 @@ public class GetEventServiceImpl implements GetEventService {
 		return resultList;
 	}
 	
-	public List<Event> getEventsFromAPI(String lat, String lon, String radius, String q) 
+	public List<Event> getEventsFromAPI(String lat, String lon, String radius, String q, String statDT, String endDT) 
 			throws UnirestException, JSONException, ParseException, URISyntaxException
 	{
+		System.out.println("in getEventsFromAPI");
 		URIBuilder builder = new URIBuilder("https://www.eventbriteapi.com/v3/events/search");
 		builder.addParameter("expand", "venue");
 		builder.addParameter("location.latitude", lat);
@@ -63,6 +66,15 @@ public class GetEventServiceImpl implements GetEventService {
 		builder.addParameter("token", "DXVHSQKC2T2GGBTUPOY2");
 		if(null != q)
 			builder.addParameter("q", q);
+		if(null != statDT){
+			System.out.println("XIWANG");
+			System.out.println("statDT in string:" + statDT);
+			builder.addParameter("start_date.range_start", statDT);
+		}
+		if(null != endDT){
+			System.out.println("endDT in string:" + endDT);
+			builder.addParameter("start_date.range_end", endDT);
+		}
 		
 		System.out.println(builder);
 		System.out.println(builder.toString());
