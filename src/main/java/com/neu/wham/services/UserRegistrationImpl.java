@@ -1,5 +1,7 @@
 package com.neu.wham.services;
 
+import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,24 @@ public class UserRegistrationImpl implements UserRegistrationService{
 	private UserRegistrationDAO registrationDAO;
 	
 	@Override
-	public User registerUser(User user) throws RegistrationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	public User registerUser(User user){
+		
+		 try {
+			return registrationDAO.createNewUser(user);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		 return null;
+	}
+
+	@Override
+	public User validateUser(String emailId, String password){
+		try {
+			return registrationDAO.validateUser(emailId, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		 return null;
 	}
 
 }
