@@ -51,8 +51,8 @@ public class EventDAOImpl implements EventDAO {
 		conn = DriverManager.getConnection(DB_URL,USER,PASS);
 		
 		String sql_statement = "insert into EVENT(name,description,is_official,phone,email,"
-				+ "address,latitude,longitude,create_datetime,last_update_datetime,org_name,org_desc,start_date_and_time,end_date_and_time,file_path)"
-				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+				+ "address,latitude,longitude,create_datetime,last_update_datetime,org_name,org_desc,start_date_and_time,end_date_and_time,file_path,event_type,event_topic,event_subtopic)"
+				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
 		
 		PreparedStatement stmt =conn.prepareStatement(sql_statement);
@@ -71,6 +71,9 @@ public class EventDAOImpl implements EventDAO {
 		stmt.setString(13, startDate);
 		stmt.setString(14, endDate);
 		stmt.setString(15, event.getFilePath());
+		stmt.setInt(16, event.getEventType());
+		stmt.setInt(17, event.getEventTopic());
+		stmt.setInt(18, event.getEventSubtopic());
 
 
 		try{

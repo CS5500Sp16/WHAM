@@ -158,8 +158,8 @@
 
                                     </script>
                                 </div>
-                                <label class="checkbox inline" id="isOfficialEvent">
-                                    <input type="checkbox" name="isOfficialEvent" value="" >
+                                <label class="checkbox inline" id="OfficialEvent">
+                                    <input type="checkbox" name="isOfficialEvent"  id="isOfficialEvent" onchange="myCheckbox()">
                                     <b> Official NEU Event</b>
                                 </label>
                             </div>
@@ -275,6 +275,19 @@
     var temp = localStorage.getItem("name") || "";
     var name = temp.charAt(0).toUpperCase() + temp.slice(1);
     document.getElementById("welcome").innerHTML = "Hi " + name;
+</script>
+<script>
+    function myCheckbox() {
+
+        if (document.getElementById("isOfficialEvent").checked == true) {
+            document.getElementById("isOfficialEvent").value = true;
+            console.log(document.getElementById("isOfficialEvent").value );
+        } else {
+            document.getElementById("isOfficialEvent").value = false;
+            console.log(document.getElementById("isOfficialEvent").value );
+
+        }
+    }
 </script>
 <script>
     var menu = new cbpTooltipMenu( document.getElementById( 'cbp-tm-menu' ) );
