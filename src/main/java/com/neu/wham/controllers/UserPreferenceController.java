@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.neu.wham.model.UserPreference;
+import com.neu.wham.model.UserSelectedPreference;
 import com.neu.wham.services.PreferenceService;
 
 
@@ -18,15 +19,19 @@ public class UserPreferenceController {
 	private PreferenceService prefService;
 	
 	@RequestMapping(value="/updatePref",method=RequestMethod.POST)
-	public boolean updateUserPreference(@RequestParam("userPreference") String userPref){
-		
-		return true;
+	public UserPreference updateUserPreference(@RequestParam("userId") String userId,@RequestParam("userPreference") String userPref){
+		if(userId==null || userPref == null || userId.isEmpty() || userPref.isEmpty()){
+			return null;
+		}
+		return prefService.updatePreference(userId, userPref);
 	}
 	
 	@RequestMapping(value="/getPref",method=RequestMethod.GET)
-	public void getUserPreference(@RequestParam("userPreference") String userId){
-		
-		//return null;
+	public UserSelectedPreference getUserPreference(@RequestParam("userPreference") String userId){
+		if(userId==null || userId.isEmpty()){
+			return null;
+		}
+		return prefService.getUserPreferences(userId);
 	}
 	
 	@RequestMapping(value="/getPrefList",method=RequestMethod.GET)
