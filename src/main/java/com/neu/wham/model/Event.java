@@ -38,6 +38,11 @@ public class Event {
 	private boolean isOfficialEvent;
 	private Date creationTime;
 	private Date lastUpdateTime;
+	//@NotNull(message="EventType cannot be null")
+	private int eventType;
+	//@NotNull(message="EventTopic cannot be null")
+	private int eventTopic;
+	private int eventSubtopic;
 	
 	public String getEventName() {
 		return eventName;
@@ -133,6 +138,24 @@ public class Event {
 		this.endDateAndTime = endDateAndTime;
 	}
 	
+	public int getEventType() {
+		return eventType;
+	}
+	public void setEventType(int eventType) {
+		this.eventType = eventType;
+	}
+	public int getEventTopic() {
+		return eventTopic;
+	}
+	public void setEventTopic(int eventTopic) {
+		this.eventTopic = eventTopic;
+	}
+	public int getEventSubtopic() {
+		return eventSubtopic;
+	}
+	public void setEventSubtopic(int eventSubtopic) {
+		this.eventSubtopic = eventSubtopic;
+	}
 	@Override
 	public String toString() {
 		return "Event [eventName=" + eventName + ", eventDesc=" + eventDesc + ", eventLocation=" + eventLocation
@@ -140,8 +163,11 @@ public class Event {
 				+ ", endDateAndTime=" + endDateAndTime + ", latitude=" + latitude + ", longitude=" + longitude
 				+ ", filePath=" + filePath + ", organiserName=" + organiserName + ", organiserDesc=" + organiserDesc
 				+ ", isOfficialEvent=" + isOfficialEvent + ", creationTime=" + creationTime + ", lastUpdateTime="
-				+ lastUpdateTime + "]";
+				+ lastUpdateTime + ", eventType=" + eventType + ", eventTopic=" + eventTopic + ", eventSubtopic="
+				+ eventSubtopic + "]";
 	}
+	
+	
 	
 	
 	
