@@ -26,7 +26,7 @@ public class PreferenceServiceImpl implements PreferenceService {
 	}
 
 	@Override
-	public UserPreference updatePreference(String userId, String userPrefAsString) {
+	public UserSelectedPreference updatePreference(String userId, String userPrefAsString) {
 		try{
 			UserSelectedPreference userPref = new Gson().fromJson(userPrefAsString, UserSelectedPreference.class);
 			return preferenceDAO.updatePreference(Integer.valueOf(userId), userPref);

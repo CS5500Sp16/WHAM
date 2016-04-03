@@ -102,11 +102,11 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 	}
 
 	@Override
-	public UserPreference updatePreference(int userId, UserSelectedPreference userPref) throws Exception {
+	public UserSelectedPreference updatePreference(int userId, UserSelectedPreference userPref) throws Exception {
 		conn = DriverManager.getConnection(DBConstants.DB_URL,DBConstants.USER,DBConstants.PASS);
 		deleteUserPreference(userId);
 		updateUserPreference(userId,userPref);
-		return null;
+		return userPref;
 	}
 	
 

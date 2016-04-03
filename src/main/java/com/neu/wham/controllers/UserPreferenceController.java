@@ -19,7 +19,7 @@ public class UserPreferenceController {
 	private PreferenceService prefService;
 	
 	@RequestMapping(value="/updatePref",method=RequestMethod.POST)
-	public UserPreference updateUserPreference(@RequestParam("userId") String userId,@RequestParam("userPreference") String userPref){
+	public UserSelectedPreference updateUserPreference(@RequestParam("userId") String userId,@RequestParam("userPreference") String userPref){
 		if(userId==null || userPref == null || userId.isEmpty() || userPref.isEmpty()){
 			return null;
 		}
