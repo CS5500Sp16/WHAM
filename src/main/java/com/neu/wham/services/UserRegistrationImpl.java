@@ -1,5 +1,6 @@
 package com.neu.wham.services;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class UserRegistrationImpl implements UserRegistrationService{
 			return registrationDAO.createNewUser(user);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			
+			e.printStackTrace();
 		}
 		 return null;
 	}
@@ -31,6 +35,9 @@ public class UserRegistrationImpl implements UserRegistrationService{
 		try {
 			return registrationDAO.validateUser(emailId, password);
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		 return null;
