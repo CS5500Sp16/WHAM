@@ -1,7 +1,11 @@
 package com.neu.wham.controllers;
 
+import java.text.ParseException;
 import java.util.List;
 
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -13,10 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-
+import com.neu.wham.exceptions.InvalidDateTimeException;
 import com.neu.wham.exceptions.LocationException;
 import com.neu.wham.model.Event;
 import com.neu.wham.services.GetEventService;
+import com.neu.wham.validations.DatesValidation;
 import com.neu.wham.validations.KeywordValidation;
 import com.neu.wham.validations.LocationValidation;
 
@@ -35,7 +40,9 @@ public class DataSourceController {
 	
 	@RequestMapping(value = "/datasource/{lat}/{lon}/{rad}", method = RequestMethod.GET)
 	public @ResponseBody List<Event> firstRequest(@PathVariable String lat, @PathVariable String lon, 
-			@PathVariable String rad, @RequestParam(required=false) String q) throws LocationException {
+			@PathVariable String rad, @RequestParam(required=false) String q, 
+			@RequestParam(required=false) String start,
+			@RequestParam(required=false) String end) throws LocationException, InvalidDateTimeException{
 
 		LocationValidation.validateLatitude(lat);
 		LocationValidation.validateLongitude(lon);
@@ -44,7 +51,10 @@ public class DataSourceController {
 		}
 		q = KeywordValidation.validateKeyword(q);
 		
-		return getEventService.getEvents(lat, lon, rad, q);
+		start = DatesValidation.validateDateTime(start);
+		end = DatesValidation.validateDateTime(end);
+
+		return getEventService.getEvents(lat, lon, rad, q, start, end);
 	}
    
 }
