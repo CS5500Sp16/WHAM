@@ -6,6 +6,6 @@ import com.neu.wham.model.UserPreference;
 
 public interface PreferenceDAO {
 	public UserPreference getAllPreferences() throws Exception;
-	public UserPreference updatePreference(int userId, UserSelectedPreference userPref) throws Exception;
+	public UserSelectedPreference updatePreference(int userId, UserSelectedPreference userPref) throws Exception;
 	public UserSelectedPreference getUserPreferences(int userId) throws Exception;
 }
