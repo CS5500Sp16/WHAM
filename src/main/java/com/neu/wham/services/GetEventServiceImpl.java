@@ -31,6 +31,7 @@ public class GetEventServiceImpl implements GetEventService {
 	@Override
 	public List<Event> getEvents(String lat, String lon, String rad, String q)
 	{
+		System.out.println("inside getEvents of impl");
 		List<Event> DBEvents = new ArrayList<Event>();
 		List<Event> APIEvents = new ArrayList<Event>();
 		List<Event> resultList = new ArrayList<Event>();
@@ -55,6 +56,7 @@ public class GetEventServiceImpl implements GetEventService {
 	public List<Event> getEventsFromAPI(String lat, String lon, String radius, String q) 
 			throws JSONException, ParseException, UnirestException, URISyntaxException
 	{
+		System.out.println("getEventsFromAPI start");
 		
 		JSONArray events = queryEventbrite(lat, lon, radius, q);
 
@@ -113,13 +115,14 @@ public class GetEventServiceImpl implements GetEventService {
 			eventList.add(e);
 		}
 		
-		return eventList;
-		
+		System.out.println("eventList: " + eventList);
+		return eventList;	
 		
 	}
 	
 	public JSONArray queryEventbrite(String lat, String lon, String radius, String q) 
 			throws UnirestException, URISyntaxException, JSONException {
+		System.out.println("inside queryEventbrite");
 		
 		URIBuilder builder = new URIBuilder("https://www.eventbriteapi.com/v3/events/search");
 		builder.addParameter("expand", "venue");
@@ -140,6 +143,8 @@ public class GetEventServiceImpl implements GetEventService {
 		
 		System.out.println(jsonResponse.getStatus());
 		System.out.println("*****");
+		System.out.println("Events: ");
+		System.out.println(events);
 		
 		return events;
 	}

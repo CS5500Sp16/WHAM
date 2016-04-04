@@ -44,6 +44,7 @@ public class DataSourceController {
 		}
 		q = KeywordValidation.validateKeyword(q);
 		
+		System.out.println("from controller to service");
 		return getEventService.getEvents(lat, lon, rad, q);
 	}
    
