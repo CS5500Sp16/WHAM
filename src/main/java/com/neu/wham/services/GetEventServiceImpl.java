@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 import org.apache.http.client.utils.URIBuilder;
-import org.joda.time.LocalDateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,7 +29,8 @@ public class GetEventServiceImpl implements GetEventService {
 	private EventDAO eventDAO;
 	
 	@Override
-	public List<Event> getEvents(String lat, String lon, String rad, String q, String statDT, String endDT)
+	public List<Event> getEvents(String lat, String lon, String rad, String q, String statDT, String endDT,
+			String[] formats, String[] categories, String[] subcategories)
 	{
 		System.out.println("in getEvents of impl");
 		List<Event> DBEvents = new ArrayList<Event>();
@@ -38,7 +38,7 @@ public class GetEventServiceImpl implements GetEventService {
 		List<Event> resultList = new ArrayList<Event>();
  		try
 		{
- 		APIEvents = getEventsFromAPI(lat, lon, rad, q, statDT, endDT);	
+ 		APIEvents = getEventsFromAPI(lat, lon, rad, q, statDT, endDT, formats, categories, subcategories);	
 		DBEvents =  eventDAO.getEventsData(lat, lon, rad);
 		}
 		catch(Exception e)
@@ -48,13 +48,31 @@ public class GetEventServiceImpl implements GetEventService {
  		resultList.addAll(APIEvents);
 		resultList.addAll(DBEvents);
  		
-//		if(resultList.isEmpty()){
-//			return JSONObject.NULL;
-//		}
 		return resultList;
 	}
 	
-	public List<Event> getEventsFromAPI(String lat, String lon, String radius, String q, String statDT, String endDT) 
+	@Override
+	public List<Event> getEvents(String lat, String lon, String rad) {
+		return getEvents(lat, lon, rad, null, null, null, null, null, null);
+	}
+	
+	@Override
+	public List<Event> getEvents(String lat, String lon, String rad, String q) {
+		return getEvents(lat, lon, rad, q, null, null, null, null, null);
+	}
+	
+	@Override
+	public List<Event> getEvents(String lat, String lon, String rad, String statDT, String endDT) {
+		return getEvents(lat, lon, rad, null, statDT, endDT, null, null, null);
+	}
+	
+	@Override
+	public List<Event> getEvents(String lat, String lon, String rad, String q, String statDT, String endDT) {
+		return getEvents(lat, lon, rad, q, statDT, endDT, null, null, null);
+	}
+	
+	public List<Event> getEventsFromAPI(String lat, String lon, String radius, String q, 
+			String statDT, String endDT, String[] formats, String[] categories, String[] subcategories) 
 			throws UnirestException, JSONException, ParseException, URISyntaxException
 	{
 		System.out.println("in getEventsFromAPI");
@@ -75,6 +93,12 @@ public class GetEventServiceImpl implements GetEventService {
 			System.out.println("endDT in string:" + endDT);
 			builder.addParameter("start_date.range_end", endDT);
 		}
+		if(null != formats)
+			builder.addParameter("formats", String.join(",", formats));
+		if(null != categories)
+			builder.addParameter("categories", String.join(",", categories));
+		if(null != subcategories)
+			builder.addParameter("subcategories", String.join(",", subcategories));
 		
 		System.out.println(builder);
 		System.out.println(builder.toString());
@@ -143,8 +167,5 @@ public class GetEventServiceImpl implements GetEventService {
 		}
 		
 		return eventList;
-		
-		
 	}
-
 }
