@@ -6,6 +6,7 @@ public class UserIdValidation {
 			Integer.parseInt(userId);
 			return userId;
 		} catch(NumberFormatException e) {
+			System.out.println("Warning: user id is not valid.  Returning null.");
 			return null;
 		}
 	}
