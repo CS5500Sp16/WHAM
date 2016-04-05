@@ -67,22 +67,16 @@ public class GetEventServiceImpl implements GetEventService {
 		String lat = params.get("lat");
 		String lon = params.get("lon");
 		String rad = params.get("rad");
-		String q = params.get("q");
-		String statDT = params.get("statDT");
-		String endDT = params.get("endDT");
 		String userId = params.get("userId");
 		
 		// build the Eventbrite preferences
 		EventbritePreferences ePrefs = new EventbritePreferences();
-		if(null != userId) {
-			if(prefService == null)
-				System.out.println("yup");
+		if(null != userId) 
 			ePrefs = prefService.buildEventbritePreferences(userId);
-		}
 			
  		try
 		{
-	 		APIEvents = getEventsFromAPI(lat, lon, rad, q, statDT, endDT, ePrefs.getFormats(), ePrefs.getCategories(), ePrefs.getSubcategories());	
+	 		APIEvents = getEventsFromAPI(lat, lon, rad, ePrefs.getFormats(), ePrefs.getCategories(), ePrefs.getSubcategories());	
 			DBEvents =  eventDAO.getEventsData(lat, lon, rad);
 	//		NEUEvents = getNEUEvents();
 		}
@@ -97,8 +91,8 @@ public class GetEventServiceImpl implements GetEventService {
 		return resultList;
 	}
 	
-	public List<Event> getEventsFromAPI(String lat, String lon, String radius, String q, 
-			String statDT, String endDT, String[] formats, String[] categories, String[] subcategories) 
+	public List<Event> getEventsFromAPI(String lat, String lon, String radius, 
+			String[] formats, String[] categories, String[] subcategories) 
 			throws UnirestException, JSONException, ParseException, URISyntaxException
 	{
 		System.out.println("in getEventsFromAPI");
@@ -108,17 +102,6 @@ public class GetEventServiceImpl implements GetEventService {
 		builder.addParameter("location.longitude", lon);
 		builder.addParameter("location.within", radius + "mi");
 		builder.addParameter("token", "DXVHSQKC2T2GGBTUPOY2");
-		if(null != q)
-			builder.addParameter("q", q);
-		if(null != statDT){
-			System.out.println("XIWANG");
-			System.out.println("statDT in string:" + statDT);
-			builder.addParameter("start_date.range_start", statDT);
-		}
-		if(null != endDT){
-			System.out.println("endDT in string:" + endDT);
-			builder.addParameter("start_date.range_end", endDT);
-		}
 		if(null != formats && formats.length > 0)
 			builder.addParameter("formats", String.join(",", formats));
 		if(null != categories && categories.length > 0)
