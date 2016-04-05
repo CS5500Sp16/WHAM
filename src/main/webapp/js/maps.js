@@ -6,7 +6,7 @@ function init() {
     var mapDiv = document.getElementById("myMap");
     var options = {
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        zoom: 12
+        zoom: 13
     };
 
     var map = new google.maps.Map(mapDiv, options);
@@ -14,7 +14,8 @@ function init() {
     // get current location of the user
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            var pinImage = new google.maps.MarkerImage("http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png");
+            var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FFFF00");
+                //new google.maps.MarkerImage("http://maps.google.com/mapfiles/kml/pal2/icon13.png");
                 //new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FFFF00");
             initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
             map.setCenter(initialLocation);
@@ -33,7 +34,7 @@ function init() {
 
             // api call
             $.get({ url: api_url }, function (data) {
-            var loc = data||[];
+            var loc = data;
 
             // adding dummy events as official events
             loc.push({ "eventName": "Dummy event @ MIT3", "eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
@@ -72,14 +73,10 @@ function init() {
                 }
                 var event_type = loc[i].officialEvent;
                 if (count > 1) {
-                    var multiImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00FF00");
+                    var multiimage = new google.maps.MarkerImage("http://maps.google.com/mapfiles/kml/pal4/icon50.png");                    
                     var marker = new google.maps.Marker({
                         position: new google.maps.LatLng(loc[i].latitude, loc[i].longitude),//locations[i].latlng,
-                        icon: {
-                            path: google.maps.SymbolPath.CIRCLE,
-                            scale: 9,
-                            strokeOpacity: 0.8,
-                        },
+                        icon: multiimage,
                         map: map,
                         title: loc[i].eventName
                     });
