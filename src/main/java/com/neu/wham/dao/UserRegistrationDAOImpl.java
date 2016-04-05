@@ -1,5 +1,7 @@
 package com.neu.wham.dao;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -25,11 +27,12 @@ public class UserRegistrationDAOImpl implements UserRegistrationDAO {
 	}
 	
 	@Override
-	public User createNewUser(User user) throws SQLException {
+	public User createNewUser(User user) throws SQLException, NoSuchAlgorithmException {
 		Connection conn = null;
 		conn = DriverManager.getConnection(DBConstants.DB_URL,DBConstants.USER,DBConstants.PASS);
 		
 		//TODO: encrypt Password
+        user.setPassword(encryptPassword(user.getPassword()));
 		
 		String sql_statement = "insert into USER(first_name,middle_name,last_name,emailId,"
 				+ "phone_no,password)"
@@ -55,7 +58,7 @@ public class UserRegistrationDAOImpl implements UserRegistrationDAO {
 	}
 
 	@Override
-	public User validateUser(String emailId, String password) throws SQLException {
+	public User validateUser(String emailId, String password) throws SQLException, NoSuchAlgorithmException {
 		User user = null;
 		Connection conn = null;
 		conn = DriverManager.getConnection(DBConstants.DB_URL,DBConstants.USER,DBConstants.PASS);
@@ -75,11 +78,22 @@ public class UserRegistrationDAOImpl implements UserRegistrationDAO {
 			user.setPhoneNo(rs.getString("phone_no"));
 			user.setEmailId(rs.getString("emailId"));
 			user.setPassword(rs.getString("password"));
-			if(user.getPassword().equals(password))
+			if(user.getPassword().equals(encryptPassword(password)))
 				return user;
 		}
 		
-		return user;
+		return null;
 	}
 	
+	private String encryptPassword(String password) throws NoSuchAlgorithmException {
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		md.update(password.getBytes());
+		byte byteData[] = md.digest();
+        //convert the byte to hex format method 1
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < byteData.length; i++) {
+         sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+        }
+        return sb.toString();
+	}
 }

@@ -113,7 +113,7 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 
 	private void updateUserPreference(int userId, UserSelectedPreference userPref) throws SQLException {
 		StringBuilder updateUserPreference = new StringBuilder();
-		updateUserPreference.append("insert into USER_PREFERENCES (?,?,?);");
+		updateUserPreference.append("insert into USER_PREFERENCES values(?,?,?);");
 		
 		PreparedStatement stmt = (PreparedStatement) conn.prepareStatement(updateUserPreference.toString());
 		Iterator<SelectedPreference> iter = userPref.getSelectedPreference().iterator();
@@ -123,7 +123,7 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 			stmt.setInt(2, tempPref.getEventCategory());
 			stmt.setInt(3, tempPref.getEventId());
 			int value = stmt.executeUpdate();
-			if(value!=0){
+			if(value == 0){
 				throw new SQLException();
 			}
 		}
