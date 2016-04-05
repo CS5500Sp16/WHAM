@@ -25,6 +25,19 @@ import com.neu.wham.validations.LocationValidation;
 public class DataSourceController {
 	@Autowired
 	private GetEventService getEventService;
+	
+	// for test
+	public DataSourceController() {
+	  // TODO Auto-generated constructor stub
+	}
+		
+	// for test
+	@Autowired
+	public DataSourceController(GetEventService getEventService) {
+		// TODO Auto-generated constructor stub
+		this.getEventService = getEventService;
+	}
+
 	 
 	 @RequestMapping(value = "*", method = RequestMethod.GET)
 	 @ResponseStatus(value = HttpStatus.NOT_FOUND)
