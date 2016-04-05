@@ -1,6 +1,6 @@
 package com.neu.wham.services;
 
-
+import com.neu.wham.keys.*;
 import java.util.List;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -109,7 +109,7 @@ public class GetEventServiceImpl implements GetEventService {
 		builder.addParameter("location.latitude", lat);
 		builder.addParameter("location.longitude", lon);
 		builder.addParameter("location.within", radius + "mi");
-		builder.addParameter("token", "DXVHSQKC2T2GGBTUPOY2");
+		builder.addParameter("token", Keys.EVENTBRITE_KEY);
 		if(null != formats && formats.length > 0)
 			builder.addParameter("formats", String.join(",", formats));
 		if(null != categories && categories.length > 0)
