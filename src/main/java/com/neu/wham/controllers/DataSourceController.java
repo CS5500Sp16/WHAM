@@ -1,6 +1,7 @@
 package com.neu.wham.controllers;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.joda.time.LocalDateTime;
@@ -17,11 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.neu.wham.exceptions.InvalidDateTimeException;
+
+//import com.neu.wham.exceptions.InvalidDateTimeException;
 import com.neu.wham.exceptions.LocationException;
 import com.neu.wham.model.Event;
 import com.neu.wham.services.GetEventService;
-import com.neu.wham.validations.DatesValidation;
+//import com.neu.wham.validations.DatesValidation;
 import com.neu.wham.validations.KeywordValidation;
 import com.neu.wham.validations.LocationValidation;
 
@@ -42,19 +44,20 @@ public class DataSourceController {
 	public @ResponseBody List<Event> firstRequest(@PathVariable String lat, @PathVariable String lon, 
 			@PathVariable String rad, @RequestParam(required=false) String q, 
 			@RequestParam(required=false) String start,
-			@RequestParam(required=false) String end) throws LocationException, InvalidDateTimeException{
+			@RequestParam(required=false) String end,
+			@RequestParam(required=false) String userId) throws LocationException {
+			//@RequestParam(required=false) String end) throws LocationException, InvalidDateTimeException{
 
-		LocationValidation.validateLatitude(lat);
-		LocationValidation.validateLongitude(lon);
-		if(!LocationValidation.validateRadius(rad)){
-			rad = "10";
-		}
-		q = KeywordValidation.validateKeyword(q);
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("lat", LocationValidation.validateLatitude(lat));
+		params.put("lon", LocationValidation.validateLongitude(lon));
+		params.put("rad", LocationValidation.validateRadius(rad));
+		params.put("q", KeywordValidation.validateKeyword(q));
+		//params.put("statDT", DatesValidation.validateDateTime(start));
+		//params.put("endDT", DatesValidation.validateDateTime(end));
+		params.put("userId", userId);  // TODO:  validate userId
 		
-		start = DatesValidation.validateDateTime(start);
-		end = DatesValidation.validateDateTime(end);
-
-		return getEventService.getEvents(lat, lon, rad, q, start, end);
+		return getEventService.getEvents(params);
 	}
    
 }

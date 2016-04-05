@@ -5,11 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.stereotype.Repository;
 
 import com.mysql.jdbc.PreparedStatement;
@@ -159,8 +156,7 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 		
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()){
-			System.out.println(rs.getInt("event_pref_type") + ", " + rs.getInt("event_pref_id"));
-			prefList.add(new SelectedPreference(rs.getInt("event_pref_type"), rs.getInt("event_pref_id")));
+			prefList.add(new SelectedPreference(rs.getInt("event_pref_id"), rs.getInt("event_pref_type")));
 		}
 		userPref.setSelectedPreference(prefList);
 		return userPref;
@@ -196,7 +192,6 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 		
 		ResultSet rs = stmt.executeQuery();
 		if(rs.next()){
-			System.out.println(rs.getString(columnKey));
 			prefString = rs.getString(columnKey);
 		}
 		return prefString;

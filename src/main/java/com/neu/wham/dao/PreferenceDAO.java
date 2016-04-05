@@ -1,6 +1,5 @@
 package com.neu.wham.dao;
 
-import com.neu.wham.model.SelectedPreference;
 import com.neu.wham.model.UserSelectedPreference;
 import com.neu.wham.model.UserPreference;
 
