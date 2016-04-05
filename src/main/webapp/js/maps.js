@@ -34,20 +34,20 @@ function init() {
 
             // api call
             $.get({ url: api_url }, function (data) {
-                var loc = data;
+                var loc = data || [];
 
                 // display number of envents
                 var div = document.getElementById('total');
                 div.innerHTML = div.innerHTML + 'There are total ' + loc.length + ' events happening arround you!!!!!';
 
                 // adding dummy events as official events
-                //loc.push({ "eventName": "Dummy event @ MIT3", "eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
+                //loc.push({ "eventName": "Dummy event @ MIT3", "eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": null, "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": null, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
                 //loc.push({ "eventName": "Dummy event @ some", "eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": "239 Holland Street null Somerville MA 02144 US", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3351, "longitude": -71.1704, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
                 //loc.push({ "eventName": "Dummy event @ MIT", "eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
                 //loc.push({ "eventName": "Dummy event @ some2", "eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": "239 Holland Street null Somerville MA 02144 US", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3351, "longitude": -71.1704, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": false });
                 //loc.push({ "eventName": "Dummy event @ MIT2", "eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
                 //loc.push({ "eventName": "Dummy event @ framingham", "eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3770, "longitude": -71.1167, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
-                //loc.push({ "eventName": "Dummy event @ fram", "eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3505, "longitude": -71.1054, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": false });
+                //loc.push({ "eventName": "Dummy event @ fram", "eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": null, "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": null, "startTime": null, "endTime": 1459389600000, "latitude": 42.3505, "longitude": -71.1054, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": false });
 
                 // make map responsive
                 google.maps.event.addDomListener(window, "resize", function () {
@@ -133,12 +133,20 @@ function init() {
                                 content = content + "<div class='sect1'>";
                             }
                             content += "<br/><br/>Name: " + hold[k].eventName
-                            + "<br/>" + "Event Location: " + hold[k].eventLocation
-                            + "<br/>" +
-                            "Distance: " + distance + " miles" + "<br/>" + "Start Time: " + start_date_time1 + "<br/>"
-                            + "End Time: " + end_date_time1 + "<br/><br/>";
+                            + "<br/>";
+                            if (hold[k].eventLocation != null) {
+                                content = content + "Event Location: " + hold[k].eventLocation + "<br/>"
+                            }
+                            content = content + "Distance: " + distance + " miles" + "<br/>" +
+                                "Start Time: " + start_date_time1 + "<br/>";
+                            if (hold[k].endDateAndTime != null) {
+                                content = content + "End Time: " + end_date_time1 + "<br/>";
+                            }
+                            if (hold[k].extLink != null) {
+                                content = content + "More Deatils: "+hold[k].extLink + "<br/>";
+                            }
                             if (hold[k].officialEvent) {
-                                content = content + "<img src='../images/paw.jpg' alt='Smiley face' height='25' width='25' title='NEU official event'>";
+                                content = content + "<br/><img src='../images/paw.jpg' alt='Smiley face' height='25' width='25' title='NEU official event'>";
                             }
                             content = content + "</div>"
                             count--;
@@ -147,10 +155,18 @@ function init() {
                     }
                     else {
                         var content = "Name: " + loc[i].eventName
-                        + "<br/>" + "Event Location: " + loc[i].eventLocation
-                        + "<br/>" +
-                        "Distance: " + distance + " miles" + "<br/>" + "Start Time: " + start_date_time + "<br/>"
-                        + "End Time: " + end_date_time + "<br/><br/>";
+                        + "<br/>";
+                        if (loc[i].eventLocation != null) {
+                            content = content + "Event Location: " + loc[i].eventLocation + "<br/>"
+                        }
+                        content = content + "Distance: " + distance + " miles" + "<br/>" +
+                            "Start Time: " + start_date_time + "<br/>";
+                        if (loc[i].endDateAndTime != null) {
+                            content = content + "End Time: " + end_date_time + "<br/><br/>";
+                        }
+                        if (loc[i].extLink != null) {
+                            content = content + "More Deatils: " + loc[i].extLink + "<br/>";
+                        }
                         if (event_type)
                             content = content + "<img src='../images/paw.jpg' alt='Smiley face' height='25' width='25' title='NEU official event'>";
                     }
