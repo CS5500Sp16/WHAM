@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 
+
 //import com.neu.wham.exceptions.InvalidDateTimeException;
 import com.neu.wham.exceptions.LocationException;
 import com.neu.wham.model.Event;
 import com.neu.wham.services.GetEventService;
 import com.neu.wham.validations.LocationValidation;
+import com.neu.wham.validations.UserIdValidation;
 
 
 @Controller
@@ -41,7 +43,7 @@ public class DataSourceController {
 		params.put("lat", LocationValidation.validateLatitude(lat));
 		params.put("lon", LocationValidation.validateLongitude(lon));
 		params.put("rad", LocationValidation.validateRadius(rad));
-		params.put("userId", userId);  // TODO:  validate userId
+		params.put("userId", UserIdValidation.validateUserId(userId));
 		
 		return getEventService.getEvents(params);
 	}

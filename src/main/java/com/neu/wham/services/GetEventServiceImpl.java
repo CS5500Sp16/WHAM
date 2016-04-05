@@ -60,8 +60,6 @@ public class GetEventServiceImpl implements GetEventService {
 	private PreferenceService prefService;
 	
 	@Override
-	//public List<Event> getEvents(String lat, String lon, String rad, String q, String statDT, String endDT,
-	//		String[] formats, String[] categories, String[] subcategories)
 	public List<Event> getEvents(HashMap<String, String> params)
 	{
 		// set up event lists
