@@ -132,7 +132,7 @@ function init() {
                             } else {
                                 content = content + "<div class='sect1'>";
                             }
-                            content += "<br/><br/>Name: " + hold[k].eventName
+                            content += "<br/>Name: " + hold[k].eventName
                             + "<br/>";
                             if (hold[k].eventLocation != null) {
                                 content = content + "Event Location: " + hold[k].eventLocation + "<br/>"
