@@ -14,9 +14,9 @@ function init() {
     // get current location of the user
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FFFF00");
-                //new google.maps.MarkerImage("http://maps.google.com/mapfiles/kml/pal2/icon13.png");
-                //new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FFFF00");
+            var pinImage = {
+                url: '../images/blue_dot_circle.png'
+            };
             initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
             map.setCenter(initialLocation);
             // set marker for user's current location
@@ -54,8 +54,7 @@ function init() {
 
             // image for the marker
             var image = {
-                url: '../images/paw_pin.png',
-                //size: new google.maps.Size(30, 35),
+                url: '../images/paw_pin.png'
             };
 
             // iterate through each event and it to the marker
