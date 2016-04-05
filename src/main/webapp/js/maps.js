@@ -146,9 +146,9 @@ function init() {
                                 content = content + "More Deatils: "+hold[k].extLink + "<br/>";
                             }
                             if (hold[k].officialEvent) {
-                                content = content + "<br/><img src='../images/paw.jpg' alt='Smiley face' height='25' width='25' title='NEU official event'>";
+                                content = content + "<img src='../images/paw.jpg' alt='Smiley face' height='25' width='25' title='NEU official event'>";
                             }
-                            content = content + "</div>"
+                            content = content + "<br/></div>"
                             count--;
                         }
                         content = "<div class=info>" + content + "</div>";
@@ -162,13 +162,14 @@ function init() {
                         content = content + "Distance: " + distance + " miles" + "<br/>" +
                             "Start Time: " + start_date_time + "<br/>";
                         if (loc[i].endDateAndTime != null) {
-                            content = content + "End Time: " + end_date_time + "<br/><br/>";
+                            content = content + "End Time: " + end_date_time + "<br/>";
                         }
                         if (loc[i].extLink != null) {
                             content = content + "More Deatils: " + loc[i].extLink + "<br/>";
                         }
                         if (event_type)
                             content = content + "<img src='../images/paw.jpg' alt='Smiley face' height='25' width='25' title='NEU official event'>";
+                        content = content + "<br/>"
                     }
 
                     var currentInfoWindow = null;
