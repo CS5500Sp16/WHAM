@@ -6,9 +6,16 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -60,15 +67,17 @@ public class GetEventServiceImpl implements GetEventService {
 		{
  		APIEvents = getEventsFromAPI(lat, lon, rad, q, statDT, endDT, formats, categories, subcategories);	
 		DBEvents =  eventDAO.getEventsData(lat, lon, rad);
-//		NEUEvents = getNEUEvents();
+		NEUEvents = getNEUEvents();
+		getNEUEventsFromPref("13");
 		}
 		catch(Exception e)
 		{
 			e.getStackTrace();
+			System.out.println(e.getMessage());
 		}
  		resultList.addAll(APIEvents);
 		resultList.addAll(DBEvents);
-//		resultList.addAll(NEUEvents);
+		resultList.addAll(NEUEvents);
  		
 		return resultList;
 	}
@@ -196,45 +205,49 @@ public class GetEventServiceImpl implements GetEventService {
 	{
 		List<Event> NEUCalenderEvents = new ArrayList<Event>();
 		
-		URL url = new URL("http://calendar.northeastern.edu/widget/view?schools=northeastern&days=20&num=50&all_instances=1&format=xml");
+		URL url = new URL("http://calendar.northeastern.edu/widget/view?schools=northeastern&days=31&num=50&format=xml");
 		URLConnection conn = url.openConnection();
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = builder.parse(conn.getInputStream());
-
-//		TransformerFactory Tfactory = TransformerFactory.newInstance();
-//		Transformer xform = Tfactory.newTransformer();
-//
-//		xform.transform(new DOMSource(doc), new StreamResult(System.out));
 	    
 		NodeList itemList = doc.getElementsByTagName("item");
-		
-//		System.out.println("Length:" + itemList.getLength());
 		
 		for (int i=0; i < itemList.getLength(); i++)
 		{
 			Node nNode = itemList.item(i);
 			Element eElement = (Element) nNode;	
-			
-			try
-			{
-				Event e = new Event();
-				if(eElement.getElementsByTagName("title").getLength() != 0)
-					e.setEventName(eElement.getElementsByTagName("title").item(0).getTextContent());
-				if(eElement.getElementsByTagName("description").getLength() != 0)
-					e.setEventDesc(eElement.getElementsByTagName("description").item(0).getTextContent());
-				if(eElement.getElementsByTagName("geo:lat").getLength() != 0)
-					e.setLatitude((double)Double.parseDouble(eElement.getElementsByTagName("geo:lat").item(0).getTextContent()));
-				if(eElement.getElementsByTagName("geo:lng").getLength() != 0)
-					e.setLongitude((double)Double.parseDouble(eElement.getElementsByTagName("geo:lng").item(0).getTextContent()));
-				e.setOfficialEvent(true);
-				
-				NEUCalenderEvents.add(e);
-			}
-			catch(Exception e)
-			{
-				System.out.println("Error:" + e.getStackTrace());
+			if(eElement.getElementsByTagName("geo:lat").getLength() != 0 &&
+					eElement.getElementsByTagName("geo:lng").getLength() != 0){
+
+				try
+				{
+					Event e = new Event();
+					if(eElement.getElementsByTagName("title").getLength() != 0)
+						e.setEventName(eElement.getElementsByTagName("title").item(0).getTextContent());
+					if(eElement.getElementsByTagName("description").getLength() != 0)
+						e.setEventDesc(eElement.getElementsByTagName("description").item(0).getTextContent());
+					if(eElement.getElementsByTagName("geo:lat").getLength() != 0)
+						e.setLatitude((double)Double.parseDouble(eElement.getElementsByTagName("geo:lat").item(0).getTextContent()));
+					if(eElement.getElementsByTagName("geo:lng").getLength() != 0)
+						e.setLongitude((double)Double.parseDouble(eElement.getElementsByTagName("geo:lng").item(0).getTextContent()));
+					if(eElement.getElementsByTagName("link").getLength() != 0)
+						e.setExtLink(eElement.getElementsByTagName("link").item(0).getTextContent());
+					if(eElement.getElementsByTagName("pubDate").getLength() != 0){
+						DateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss");
+						format.setTimeZone(TimeZone.getTimeZone("GMT-4:00"));
+						Date date = format.parse(eElement.getElementsByTagName("pubDate").item(0).getTextContent());
+						e.setStartDateAndTime(date);
+					}
+					e.setOfficialEvent(true);
+
+					NEUCalenderEvents.add(e);
+				}
+				catch(Exception e)
+				{
+					System.out.println("Error:" + e.getStackTrace());
+				}
 			}
 		}
 		
@@ -243,4 +256,82 @@ public class GetEventServiceImpl implements GetEventService {
 		return NEUCalenderEvents;
 		
 	}
+	
+	public List<Event> getNEUEventsFromPref(String userId) throws URISyntaxException, UnirestException, JSONException, SQLException
+	{
+		List<Event> NEUCalendarEvents = new ArrayList<Event>();
+		
+		URIBuilder builder = new URIBuilder("http://localhost:8080/wham/getPref");
+		builder.addParameter("userPreference", "13");
+		
+		HttpResponse<JsonNode> jsonResponse = Unirest.get(builder.toString()).asJson();
+		
+		JsonNode jsonNode = jsonResponse.getBody();
+		JSONObject jsonObject = jsonNode.getObject();
+		JSONArray selectedPrefs = jsonObject.getJSONArray("selectedPreference");
+		
+		for(int i = 0; i < selectedPrefs.length(); i++)
+		{
+			JSONObject pref = selectedPrefs.getJSONObject(i);
+			int category = pref.getInt("eventCategory");
+			int eventId = pref.getInt("eventId");
+			
+			String categoryName = "";
+			
+			switch(category)
+			{
+			case 0: {categoryName = connectDB("EVENT_TYPE_MASTER", "event_type", eventId, "event_type_id");
+			System.out.println("Category Name" + categoryName);}
+			break;
+			case 1: {categoryName = connectDB("EVENT_TOPIC_MASTER", "event_topic", eventId, "event_topic_id");
+			System.out.println("Category Name" + categoryName);}
+			break;
+			case 2: {categoryName = connectDB("EVENT_SUB_TOPIC_MASTER", "event_sub_topic", eventId, "event_sub_topic_id");
+			System.out.println("Category Name" + categoryName);}
+			break;
+			default: return null;
+			}
+		}
+		return NEUCalendarEvents;
+	}
+	
+	public String connectDB(String tableName, String col1, int eventId, String col2) throws SQLException
+	{
+		String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+		String DB_URL = "jdbc:mysql://ec2-52-87-159-69.compute-1.amazonaws.com:3306/whamDB";
+		String USER = "wham";
+		String PASS = "wham@123";
+
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		Connection conn = null;
+		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+		String query = "SELECT " + col1 + " FROM " + tableName + " WHERE " + col2 + "='" + eventId + "'";
+
+		PreparedStatement pstmt =conn.prepareStatement(query);
+		ResultSet rs = null;
+        String categoryName = "";
+		try {
+			rs = pstmt.executeQuery();
+			System.out.println(rs);
+			while(rs.next()) { 
+                  categoryName = rs.getString("event_type");
+                  
+			}
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());}
+		
+		return categoryName;
+
+	}
+	
+	
+		
 }

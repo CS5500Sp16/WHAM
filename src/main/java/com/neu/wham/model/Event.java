@@ -43,6 +43,7 @@ public class Event {
 	//@NotNull(message="EventTopic cannot be null")
 	private int eventTopic;
 	private int eventSubtopic;
+	private String extLink;
 	
 	public String getEventName() {
 		return eventName;
@@ -155,6 +156,14 @@ public class Event {
 	}
 	public void setEventSubtopic(int eventSubtopic) {
 		this.eventSubtopic = eventSubtopic;
+	}
+	public void setExtLink(String link)
+	{
+		this.extLink = link;
+	}
+	public String getExtLink()
+	{
+		return extLink;
 	}
 	@Override
 	public String toString() {

@@ -133,7 +133,7 @@ public class EventDAOImpl implements EventDAO {
 				//e.setStartDate(rs.getDate("start_date"));
 				//e.setEndDate(rs.getDate("end_date"));
 				//e.setStartTime(rs.getDate("start_time"));
-				//e.setEndTime(rs.getDate("end_time"));
+				//e.setEndTime(rs.getDate("end_time"));git
 
 				e.setLatitude(rs.getDouble("latitude"));
 				e.setLongitude(rs.getDouble("longitude"));
