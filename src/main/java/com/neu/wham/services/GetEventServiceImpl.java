@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.TimeZone;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -46,6 +47,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.neu.wham.dao.EventDAO;
 import com.neu.wham.model.Event;
+import com.neu.wham.model.EventbritePreferences;
 
 
 @Service
@@ -54,26 +56,41 @@ public class GetEventServiceImpl implements GetEventService {
 	@Autowired
 	private EventDAO eventDAO;
 	
+	@Autowired
+	private PreferenceService prefService;
+	
 	@Override
-	public List<Event> getEvents(String lat, String lon, String rad, String q, String statDT, String endDT,
-			String[] formats, String[] categories, String[] subcategories)
+	//public List<Event> getEvents(String lat, String lon, String rad, String q, String statDT, String endDT,
+	//		String[] formats, String[] categories, String[] subcategories)
+	public List<Event> getEvents(HashMap<String, String> params)
 	{
-		System.out.println("in getEvents of impl");
+		// set up event lists
 		List<Event> DBEvents = new ArrayList<Event>();
 		List<Event> APIEvents = new ArrayList<Event>();
 		List<Event> NEUEvents = new ArrayList<Event>();
 		List<Event> resultList = new ArrayList<Event>();
+		
+		// read the params
+		String lat = params.get("lat");
+		String lon = params.get("lon");
+		String rad = params.get("rad");
+		String userId = params.get("userId");
+		
+		// build the Eventbrite preferences
+		EventbritePreferences ePrefs = new EventbritePreferences();
+		if(null != userId) 
+			ePrefs = prefService.buildEventbritePreferences(userId);
+			
  		try
 		{
- 		APIEvents = getEventsFromAPI(lat, lon, rad, q, statDT, endDT, formats, categories, subcategories);	
-		DBEvents =  eventDAO.getEventsData(lat, lon, rad);
-		NEUEvents = getNEUEvents();
-		getNEUEventsFromPref("13");
+
+	 		APIEvents = getEventsFromAPI(lat, lon, rad, ePrefs.getFormats(), ePrefs.getCategories(), ePrefs.getSubcategories());	
+			DBEvents =  eventDAO.getEventsData(lat, lon, rad);
+	//		NEUEvents = getNEUEvents();
 		}
 		catch(Exception e)
 		{
-			e.getStackTrace();
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
  		resultList.addAll(APIEvents);
 		resultList.addAll(DBEvents);
@@ -82,28 +99,8 @@ public class GetEventServiceImpl implements GetEventService {
 		return resultList;
 	}
 	
-	@Override
-	public List<Event> getEvents(String lat, String lon, String rad) {
-		return getEvents(lat, lon, rad, null, null, null, null, null, null);
-	}
-	
-	@Override
-	public List<Event> getEvents(String lat, String lon, String rad, String q) {
-		return getEvents(lat, lon, rad, q, null, null, null, null, null);
-	}
-	
-	@Override
-	public List<Event> getEvents(String lat, String lon, String rad, String statDT, String endDT) {
-		return getEvents(lat, lon, rad, null, statDT, endDT, null, null, null);
-	}
-	
-	@Override
-	public List<Event> getEvents(String lat, String lon, String rad, String q, String statDT, String endDT) {
-		return getEvents(lat, lon, rad, q, statDT, endDT, null, null, null);
-	}
-	
-	public List<Event> getEventsFromAPI(String lat, String lon, String radius, String q, 
-			String statDT, String endDT, String[] formats, String[] categories, String[] subcategories) 
+	public List<Event> getEventsFromAPI(String lat, String lon, String radius, 
+			String[] formats, String[] categories, String[] subcategories) 
 			throws UnirestException, JSONException, ParseException, URISyntaxException
 	{
 		System.out.println("in getEventsFromAPI");
@@ -113,22 +110,11 @@ public class GetEventServiceImpl implements GetEventService {
 		builder.addParameter("location.longitude", lon);
 		builder.addParameter("location.within", radius + "mi");
 		builder.addParameter("token", "DXVHSQKC2T2GGBTUPOY2");
-		if(null != q)
-			builder.addParameter("q", q);
-		if(null != statDT){
-			System.out.println("XIWANG");
-			System.out.println("statDT in string:" + statDT);
-			builder.addParameter("start_date.range_start", statDT);
-		}
-		if(null != endDT){
-			System.out.println("endDT in string:" + endDT);
-			builder.addParameter("start_date.range_end", endDT);
-		}
-		if(null != formats)
+		if(null != formats && formats.length > 0)
 			builder.addParameter("formats", String.join(",", formats));
-		if(null != categories)
+		if(null != categories && categories.length > 0)
 			builder.addParameter("categories", String.join(",", categories));
-		if(null != subcategories)
+		if(null != subcategories && subcategories.length > 0)
 			builder.addParameter("subcategories", String.join(",", subcategories));
 		
 		System.out.println(builder);
