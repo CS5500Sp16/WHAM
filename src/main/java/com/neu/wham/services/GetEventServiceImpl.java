@@ -59,6 +59,7 @@ public class GetEventServiceImpl implements GetEventService {
 		System.out.println("getEventsFromAPI start");
 		
 		JSONArray events = queryEventbrite(lat, lon, radius, q);
+		System.out.println("Events length: " + events.length());
 
 		List<Event> eventList = new ArrayList<Event>();
 		
@@ -120,33 +121,48 @@ public class GetEventServiceImpl implements GetEventService {
 		
 	}
 	
-	public JSONArray queryEventbrite(String lat, String lon, String radius, String q) 
-			throws UnirestException, URISyntaxException, JSONException {
+	public JSONArray queryEventbrite(String lat, String lon, String radius, String q) {
 		System.out.println("inside queryEventbrite");
+		System.out.println("params: " + lat + "," + lon + "," + radius + "," + q);
 		
-		URIBuilder builder = new URIBuilder("https://www.eventbriteapi.com/v3/events/search");
-		builder.addParameter("expand", "venue");
-		builder.addParameter("location.latitude", lat);
-		builder.addParameter("location.longitude", lon);
-		builder.addParameter("location.within", radius + "mi");
-		builder.addParameter("token", "DXVHSQKC2T2GGBTUPOY2");
-		if(null != q)
-			builder.addParameter("q", q);
+		URIBuilder builder;
+		JSONArray events = null;
+		try {
+			builder = new URIBuilder("https://www.eventbriteapi.com/v3/events/search");
+			builder.addParameter("expand", "venue");
+			builder.addParameter("location.latitude", lat);
+			builder.addParameter("location.longitude", lon);
+			builder.addParameter("location.within", radius + "mi");
+			builder.addParameter("token", "DXVHSQKC2T2GGBTUPOY2");
+			if(null != q)
+				builder.addParameter("q", q);
+			
+			System.out.println(builder.toString());
+			
+			HttpResponse<JsonNode> jsonResponse = Unirest.get(builder.toString()).asJson();
+			JsonNode obj = jsonResponse.getBody();
+			JSONObject response = obj.getObject();
+			System.out.println("response length:" + response.length());
+			System.out.println(response.toString());
+			events = response.getJSONArray("events");
+			
+			System.out.println(jsonResponse.getStatus());
+			System.out.println("*****");
+			System.out.println("Events: ");
+			System.out.println(events);
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnirestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		System.out.println(builder);
-		System.out.println(builder.toString());
-		
-		HttpResponse<JsonNode> jsonResponse = Unirest.get(builder.toString()).asJson();
-		JsonNode obj = jsonResponse.getBody();
-		JSONObject response = obj.getObject();
-		JSONArray events = response.getJSONArray("events");
-		
-		System.out.println(jsonResponse.getStatus());
-		System.out.println("*****");
-		System.out.println("Events: ");
-		System.out.println(events);
 		
 		return events;
 	}
-
+	
 }

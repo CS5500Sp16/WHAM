@@ -12,7 +12,9 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -39,13 +41,20 @@ import com.neu.wham.services.GetEventServiceImpl;
 public class GetEventServiceTest {
 
 	private MockMvc mockMvc;
+
+//	@Mock (name = "getEventService")
+//	@Mock
+    private GetEventServiceImpl getEventServiceMock = mock(GetEventServiceImpl.class);
 	
-	@InjectMocks
+//	@InjectMocks
 	private DataSourceController dataSourceController;
-	 
-    @Mock
-    private GetEventServiceImpl getEventServiceMock; 
-    private LocationException locationException;
+	  
+	
+//	@Spy
+//    private GetEventServiceImpl getEventServiceMock;
+	
+	
+//    private LocationException locationException;
     
     @Autowired
     private WebApplicationContext context;
@@ -54,6 +63,7 @@ public class GetEventServiceTest {
     @Before
     public void setup() {
     	MockitoAnnotations.initMocks(this);
+    	dataSourceController = new DataSourceController(getEventServiceMock);
         mockMvc = MockMvcBuilders.standaloneSetup(dataSourceController)
         		.build();
       }
@@ -241,18 +251,21 @@ public class GetEventServiceTest {
 		String lat = "42.3389";
 		String lon = "71.0903";
 		String rad = "500";
-		String q = null;
+		String q = "";
 	
-		
 		when(getEventServiceMock.queryEventbrite(lat, lon, rad, q)).thenReturn(GetEventServiceUtil.getCannedEventbriteResponse());
+		when(getEventServiceMock.getEventsFromAPI(lat, lon, rad, q)).thenCallRealMethod();
+		when(getEventServiceMock.getEvents(lat, lon, rad, q)).thenCallRealMethod();
+
+
 		
 		String url = "/datasource/" + lat + "/" + lon + "/" + rad + "?q=" + q;
-		System.out.println("EMMA before perform");
+		
 		mockMvc.perform(get(url))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType("application/json;charset=UTF-8"))
 				.andExpect(jsonPath("$", hasSize(3)))
-				.andExpect(jsonPath("$[0].eventName", is("6ая Встреча Проекта Бизнес Нетворкинг")))
+				.andExpect(jsonPath("$[0].eventName", is("Boston Calling - May 27, 28, 29, 2016")))
 				.andExpect(jsonPath("$[1].eventName", is("IELTS lessons taught by one of the top IELTS teachers in Uzbekistan")))
 				.andExpect(jsonPath("$[2].eventName", is("Get Traction: The Virtual Growth Event [Tashkent]")));
     }

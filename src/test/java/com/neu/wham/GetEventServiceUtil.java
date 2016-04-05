@@ -153,12 +153,12 @@ public class GetEventServiceUtil {
 		
 		// create name object
 		JSONObject name1 = new JSONObject();
-		name1.put("text", "6ая Встреча Проекта Бизнес Нетворкинг");
-		name1.put("html", "6ая Встреча Проекта Бизнес Нетворкинг");
+		name1.put("text", "Boston Calling - May 27, 28, 29, 2016");
+		name1.put("html", "Boston Calling - May 27, 28, 29, 2016");
 		
 		// create description object
 		JSONObject description1 = new JSONObject();
-		String desText1 = "Если вы являетесь предпринимателем, бизнесменом или руководителем компании, а также консультантом или специалистом приглашаем вас принять участие в проекте \"Бизнес Нетворкинг\" нашего клуба и презентовать свою компанию/себя и найти клиентов, партнеров и расширить свой круг знакомств.  Программа встречи: 1. Презентации 2. Нетворкинг в формате speed dating (все знакомятся со всем)   Каждому презентатору выделяется по 5 мин.  Стоимость участия в качестве презентатора: 100 сом  Стоимость участия в качестве нетворкера: 0 сом";
+		String desText1 = "event1 description mock";
 		description1.put("text", desText1);
 		description1.put("html", desText1);
 		
@@ -209,7 +209,7 @@ public class GetEventServiceUtil {
 				
 		// create description object
 		JSONObject description2 = new JSONObject();
-		String desText2 = "MASTERMIND объявляет набор в мини группы по подготовке к сдаче международного экзамена IELTS.  Занятия будут проводиться одним из самых опытных сертифицированных преподавателей в Узбекистане, квалифицированным специалистом, а также с многолетним опытом преподавания Английского языка в международных высших учебных заведениях Республики Узбекистан.   Начало курсов с 4 апреля 2016 года  Дни занятий: Понедельник, Среда, Четверг.  Время: 15: 30   Количество до 10 человек.  Все вопросы по телефону 2410575, 5532900 или по электронной почте info@mastermind.uz";
+		String desText2 = "event2 description mock";
 		description2.put("text", desText2);
 		description2.put("html", desText2);
 				
@@ -260,7 +260,7 @@ public class GetEventServiceUtil {
 						
 		// create description object
 		JSONObject description3 = new JSONObject();
-		String desText3 = "Register Now>> http://re.tc/wwondecl \nLEARN STRATEGIES, TACTICS & TOOLS FOR GROWTH MARKETING IN 2016 \nIMPORTANT NOTE: This is a Virtual On-Demand Event. You will get access to all presentations immediately.  \n \nOverview: \nThere’s no denying that growth is hot and here to stay. But despite the buzz, many businesses still don’t have the framework they need to build a successful growth engine. Join a community of data-driven marketers, sales hackers and innovative entrepreneurs who will learn the fundamentals of rapid growth for 2016.  \nEvent Features: \n3 days of in-depth learning ( 15 interactive sessions) - covering growth fundamentals, advanced tactics, business development and sales \nConnect with 3K+ founders, growth marketing execs and innovation teams \nAll sessions will be recorded and available on-demand \nTopics include:  \n\nLean branding hacks and strategy\nEarly-stage growthProduct marketing & UX/UI\nLean management and hiring\nReferral marketing\nCommunity development\nDigital Marketing Best Practices\nSearch engine optimization\nWeb analytics\nSocial media & content marketing\nAffiliate marketing\nDigital advertising & Paid Search\nEmail marketing automation\nGrowth Hacking\nConversion optimization & testing\nMarketplace & viral growth\nGamification\nWeb Scraping\nSales Automation\nHacking partnerships\n\n  \nLEARN MORE \n  \n   \nWho should Attend:  \nGrowth Hackers • Growth Marketers• Founders • CEOs • Marketing Directors •  Software Engineers • \nProduct Managers • Small Business Owners • Marketing Consultants • Investors • Mentors • Entrepreneurs • Sales Executives \nPARTNERS: \n\n\n\n\n  \n\n\n  \n  \n\n\n\n \n\n  \n\n\n\n\n  \n\n\n  \n\n\n\n\n  \n\n\n  \n\n\n\n\n  \n\n\n  \n\n\n\n\n  \n\n\n   \n\n\n\n\nIf you would like to learn more about sponsorship packages, please send us an email to sponsor@startupsocials.com \nFollow US \nWeb I Linkedin I Facebook I Meetup   \n  \n  \n•";
+		String desText3 = "event3 description mock";
 		description3.put("text", desText3);
 		description3.put("html", desText3);
 						
@@ -287,13 +287,10 @@ public class GetEventServiceUtil {
 		
 		
 		
-		
-		
-		
-		
 		cannedEvents.put(event1);
 		cannedEvents.put(event2);
 		cannedEvents.put(event3);
+				
 		
 		System.out.println("return cannedEvents: " + cannedEvents);
 		return cannedEvents;
