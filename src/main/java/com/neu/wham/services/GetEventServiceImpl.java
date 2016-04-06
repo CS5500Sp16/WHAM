@@ -47,7 +47,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.neu.wham.dao.EventDAO;
 import com.neu.wham.model.Event;
-import com.neu.wham.model.EventbritePreferences;
+import com.neu.wham.model.PreferencesStore;
 
 
 @Service
@@ -75,14 +75,14 @@ public class GetEventServiceImpl implements GetEventService {
 		String userId = params.get("userId");
 		
 		// build the Eventbrite preferences
-		EventbritePreferences ePrefs = new EventbritePreferences();
+		PreferencesStore prefStore = new PreferencesStore();
 		if(null != userId) 
-			ePrefs = prefService.buildEventbritePreferences(userId);
+			prefStore = prefService.buildPreferencesStore(userId);
 			
  		try
 		{
 
-	 		APIEvents = getEventsFromAPI(lat, lon, rad, ePrefs.getFormats(), ePrefs.getCategories(), ePrefs.getSubcategories());	
+	 		APIEvents = getEventsFromAPI(lat, lon, rad, prefStore.getFormats(), prefStore.getCategories(), prefStore.getSubcategories());	
 			DBEvents =  eventDAO.getEventsData(lat, lon, rad);
 	//		NEUEvents = getNEUEvents();
 		}

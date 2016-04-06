@@ -2,10 +2,10 @@ package com.neu.wham.model;
 
 import java.util.ArrayList;
 
-public class EventbritePreferences {
+public class PreferencesStore {
 	private ArrayList<String> formats, categories, subcategories;
 	
-	public EventbritePreferences() {
+	public PreferencesStore() {
 		formats = new ArrayList<String>();
 		categories = new ArrayList<String>();
 		subcategories = new ArrayList<String>();

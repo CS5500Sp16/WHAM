@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.neu.wham.dao.PreferenceDAO;
-import com.neu.wham.model.EventbritePreferences;
+import com.neu.wham.model.PreferencesStore;
 import com.neu.wham.model.SelectedPreference;
 import com.neu.wham.model.UserSelectedPreference;
 import com.neu.wham.model.UserPreference;
@@ -48,26 +48,26 @@ public class PreferenceServiceImpl implements PreferenceService {
 	}
 
 	@Override
-	public EventbritePreferences buildEventbritePreferences(String userId) {
-		EventbritePreferences ePrefs = new EventbritePreferences();
+	public PreferencesStore buildPreferencesStore(String userId) {
+		PreferencesStore prefStore = new PreferencesStore();
 		
 		// let's get the intermediate form of preferences from the local database
 		UserSelectedPreference userPrefs = this.getUserPreferences(userId);
 		
 		// for each preference mapping, do a db lookup.  I'm going to pretend this is efficient :)
-		String ePrefString = "";
+		String prefString = "";
 		for(SelectedPreference pref : userPrefs.getSelectedPreference()) {
 			try {
-				ePrefString = preferenceDAO.getPreferenceString(pref.getEventId(), pref.getEventCategory());
+				prefString = preferenceDAO.getPreferenceString(pref.getEventId(), pref.getEventCategory());
 				switch(pref.getEventCategory()) {
 					case 0:
-						ePrefs.addFormat(ePrefString);
+						prefStore.addFormat(prefString);
 						break;
 					case 1:
-						ePrefs.addCategory(ePrefString);
+						prefStore.addCategory(prefString);
 						break;
 					case 2:
-						ePrefs.addSubcategory(ePrefString);
+						prefStore.addSubcategory(prefString);
 						break;
 					default:
 						System.out.println("Unknown preference type! " + pref.getEventCategory());
@@ -78,6 +78,6 @@ public class PreferenceServiceImpl implements PreferenceService {
 		}
 		
 		// return the EventbritePreferences object
-		return ePrefs;
+		return prefStore;
 	}
 }
