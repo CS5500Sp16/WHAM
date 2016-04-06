@@ -47,7 +47,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.neu.wham.dao.EventDAO;
 import com.neu.wham.model.Event;
-import com.neu.wham.model.EventbritePreferences;
+import com.neu.wham.model.PreferencesStore;
 
 
 @Service
@@ -75,15 +75,15 @@ public class GetEventServiceImpl implements GetEventService {
 		String userId = params.get("userId");
 		
 		// build the Eventbrite preferences
-		EventbritePreferences ePrefs = new EventbritePreferences();
+		PreferencesStore prefStore = new PreferencesStore();
 		if(null != userId) 
-			ePrefs = prefService.buildEventbritePreferences(userId);
+			prefStore = prefService.buildPreferencesStore(userId);
 			
  		try
 		{
 
-	 		APIEvents = getEventsFromAPI(lat, lon, rad, ePrefs.getFormats(), ePrefs.getCategories(), ePrefs.getSubcategories());	
-//			DBEvents =  eventDAO.getEventsData(lat, lon, rad);
+	 		APIEvents = getEventsFromAPI(lat, lon, rad, prefStore.getFormats(), prefStore.getCategories(), prefStore.getSubcategories());	
+			DBEvents =  eventDAO.getEventsData(lat, lon, rad);
 	//		NEUEvents = getNEUEvents();
 		}
 		catch(Exception e)
@@ -320,8 +320,11 @@ public class GetEventServiceImpl implements GetEventService {
 			JSONObject response = obj.getObject();
 			System.out.println("response length:" + response.length());
 			System.out.println(response.toString());
-			events = response.getJSONArray("events");
-			
+			if(response.has("events"))
+				events = response.getJSONArray("events");
+			else
+				events = new JSONArray();
+				
 			System.out.println(jsonResponse.getStatus());
 			System.out.println("*****");
 			System.out.println("Events: ");
