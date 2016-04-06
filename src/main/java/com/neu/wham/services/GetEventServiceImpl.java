@@ -320,8 +320,11 @@ public class GetEventServiceImpl implements GetEventService {
 			JSONObject response = obj.getObject();
 			System.out.println("response length:" + response.length());
 			System.out.println(response.toString());
-			events = response.getJSONArray("events");
-			
+			if(response.has("events"))
+				events = response.getJSONArray("events");
+			else
+				events = new JSONArray();
+				
 			System.out.println(jsonResponse.getStatus());
 			System.out.println("*****");
 			System.out.println("Events: ");
