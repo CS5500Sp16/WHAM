@@ -2,7 +2,6 @@ package com.neu.wham;
 
 import static org.junit.Assert.assertEquals;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -167,17 +166,39 @@ public class UserRegistrationDAOTest {
 		}
 	}
 	
-	@Test(expected=SQLException.class)
-	public void testFirstNameNeg() throws SQLException {
+	@Test
+	public void testPasswordNull() throws SQLException {
 		User user = new User();
-		user.setFirstName(null);
+		user.setFirstName("test");
 		user.setMiddleName("ma");
-		user.setLastName("Red");
+		user.setLastName("red");
 		user.setEmailId("red@husky.neu.edu");
 		user.setPhoneNo("1112221234");
-		user.setPassword("abc");
+		user.setPassword(null);
 		try {
 			userRegistrationDAOImpl.createNewUser(user);
+			Connection conn = null;
+			
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			
+			String sql_statement = "select * from USER where emailId = ?;";
+
+			PreparedStatement ppdStmt = conn.prepareStatement(sql_statement);
+			ppdStmt.setString(1, user.getEmailId());
+			
+			ResultSet rs = ppdStmt.executeQuery();
+			User u = new User();
+			if (rs.next()) {
+				
+				u.setUserId(rs.getInt("user_id"));
+				u.setFirstName(rs.getString("first_name"));
+				u.setMiddleName(rs.getString("middle_name"));
+				u.setLastName(rs.getString("last_name"));
+				u.setPhoneNo(rs.getString("phone_no"));
+				u.setEmailId(rs.getString("emailId"));
+				u.setPassword(rs.getString("password"));
+			}
+			assertEquals(user.getPassword(), u.getPassword());
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
@@ -210,7 +231,7 @@ public class UserRegistrationDAOTest {
 		user.setPassword("1318hjd@");
 		try {
 			userRegistrationDAOImpl.createNewUser(user);
-Connection conn = null;
+			Connection conn = null;
 			
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			
@@ -269,6 +290,44 @@ Connection conn = null;
 			userRegistrationDAOImpl.createNewUser(user);
 			User u = userRegistrationDAOImpl.validateUser("tValidate@husky.neu.edu", "1234");
 			assertEquals(u, null);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testUserId() throws SQLException{
+		User user = new User();
+		user.setFirstName("test");
+		user.setMiddleName("mi");
+		user.setLastName("testUserId");
+		user.setEmailId("testUserId@husky.neu.edu");
+		user.setPhoneNo("1112221234");
+		user.setPassword("neu1234");
+		try {
+			User newUser = userRegistrationDAOImpl.createNewUser(user);
+			Connection conn = null;
+			
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			
+			String sql_statement = "select * from USER where emailId = ?;";
+
+			PreparedStatement ppdStmt = conn.prepareStatement(sql_statement);
+			ppdStmt.setString(1, user.getEmailId());
+			
+			ResultSet rs = ppdStmt.executeQuery();
+			User u = new User();
+			if (rs.next()) {
+				
+				u.setUserId(rs.getInt("user_id"));
+				u.setFirstName(rs.getString("first_name"));
+				u.setMiddleName(rs.getString("middle_name"));
+				u.setLastName(rs.getString("last_name"));
+				u.setPhoneNo(rs.getString("phone_no"));
+				u.setEmailId(rs.getString("emailId"));
+				u.setPassword(rs.getString("password"));
+			}
+			assertEquals(newUser.getUserId(), u.getUserId());
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
