@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Your Preferences</title>
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link href='http://fonts.googleapis.com/css?family=Terminal+Dosis' rel='stylesheet' type='text/css' />
+    <link href="../css/bootstrap.css" rel="stylesheet" />
+    <link href="../css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link href="../css/Top Menu/component01.css" rel="stylesheet" />
+    <link href="../css/Top Menu/default01.css" rel="stylesheet" />
+    <link href="../css/pageStyle.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="Stylesheet" type="text/css">
+<style>
+
+    table,td,th{
+
+        border-radius: 10px;
+        margin: 10px;
+        padding: 10px;
+        border-color: darkred;
+        border-style: solid;
+        border-width: 2px;
+        margin-left: 125px;
+
+    }
+
+    button{
+
+        font-family:'Comic Sans MS';
+        background-color:darkred;
+        border-radius: 10px;
+        color: white;
+        height: 30px;
+        width: 180px;
+        font-weight: bold;
+        margin: 12px;
+        margin-left: 125px;
+    }
+
+
+
+</style>
+
+
+    <script>
+        var eventTopicArray = null;
+        var xmlhttp = new XMLHttpRequest();
+        var url = "http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/getPrefList";
+
+        xmlhttp.onreadystatechange=function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                myFunction(xmlhttp.responseText);
+            }
+        }
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+
+        function myFunction(response) {
+
+            var serverResponse = JSON.parse(response);
+            console.log(serverResponse);
+            var userId = serverResponse.userId;
+            var eventTypeArray = serverResponse.eventType;
+            eventTopicArray = serverResponse.eventTopic;
+
+
+            var i,j;
+
+            for (i = 0; i < eventTypeArray.length; i++) {
+
+                var option = document.createElement("option");
+
+                option.text = eventTypeArray[i].eventName;
+                document.getElementById('eventName').appendChild(option);
+            }
+
+            for (i = 0; i < eventTopicArray.length; i++) {
+                var option = document.createElement("option");
+
+                option.text = eventTopicArray[i].topicName;
+                document.getElementById('eventTopic').appendChild(option);
+            }
+
+
+            var subTopicsListArray  = eventTopicArray[0].subTopicsList;
+            for (i = 0; i < subTopicsListArray.length; i++) {
+                var option = document.createElement("option");
+
+                option.text = subTopicsListArray[i].eventName;
+                document.getElementById('eventSubTopic').appendChild(option);
+            }
+
+        }
+
+        function onSelectEventTopic(){
+            var selectedValue =  document.getElementById('eventTopic').value;
+            for(var i =0;i< eventTopicArray.length;i++){
+                if(eventTopicArray[i].topicName.localeCompare(selectedValue) == 0){
+                    //var select = document.getElementById("eventSubTopic");
+                    document.getElementById('eventSubTopic').innerHTML = "";
+                    var subTopicsListArray  = eventTopicArray[i].subTopicsList;
+                    for (i = 0; i < subTopicsListArray.length; i++) {
+                        var option = document.createElement("option");
+                        option.text = subTopicsListArray[i].eventName;
+                        document.getElementById('eventSubTopic').appendChild(option);
+                    }
+                    break;
+                }
+            }
+            console.log(selectedValue);
+        }
+    </script>
+    <script>
+        $(document).ready(function(){
+            var i=0;
+            $("#add_row").click(function(){
+                $('#addr'+i).html("<td>"+ (i+1) +"</td><td>" +
+                        "<label name='eventName"+i+"' id='eventName"+i+"' type='text' >"+document.getElementById('eventName').value+"</label></td>" +
+                        "<td><label  name='eventTopic"+i+"' type='text' >"+document.getElementById('eventTopic').value+" </label></td>" +
+                        "<td><label  name='eventSubTopic"+i+"' type='text'>"+document.getElementById('eventSubTopic').value+" </label></td>");
+
+                $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
+                i++;
+            });
+            /*$("#delete_row").click(function(){
+                if(i>1){
+                    $("#addr"+(i-1)).html('');
+                    i--;
+                }
+            });*/
+
+        });
+    </script>
+
+</head>
+<body>
+
+<header>
+    <div class="cd-logo">
+        <a href=""><img src="../images/WHAM Logo.png" alt="Logo"></a>
+    </div>
+</header>
+
+<div class="cd-main-content" style="background-color:transparent">
+    <div class="intrinsic-container-16x9" align="center">
+
+            <div class="form_container container">
+                <h2 style="text-align:center;">Choose Your Preferences</h2><br/>
+
+
+                    <select id="eventName"></select>
+                    <select id="eventTopic" onchange="onSelectEventTopic()"></select>
+                    <select id="eventSubTopic"></select>
+                    <br>
+                    <br>
+                <div >
+                    <div class="col-md-12 column">
+                        <table id="tab_logic">
+                            <thead>
+                            <tr >
+                                <th class="text-center">
+                                    #
+                                </th>
+                                <th class="text-center">
+                                    Event Name
+                                </th>
+                                <th class="text-center">
+                                    Event Topic
+                                </th>
+                                <th class="text-center">
+                                    Event Sub Topic
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!--tr id='addr0'>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    <input type="text" name='name0'  placeholder='Name' class="form-control"/>
+                                </td>
+                                <td>
+                                    <input type="text" name='mail0' placeholder='Mail' class="form-control"/>
+                                </td>
+                                <td>
+                                    <input type="text" name='mobile0' placeholder='Mobile' class="form-control"/>
+                                </td>
+                            </tr-->
+                            <tr id='addr0'></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <a id="add_row" class="btn btn-default pull-left">Add Row</a>
+
+
+
+
+
+            </div>
+
+            <button >Save</button>
+
+    </div>
+</div>
+
+</body>
+</html>
