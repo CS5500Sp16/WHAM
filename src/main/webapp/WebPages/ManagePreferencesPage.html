@@ -18,40 +18,47 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="Stylesheet" type="text/css">
-<style>
+    <style>
 
-    table,td,th{
+        table,td,th{
 
-        border-radius: 10px;
-        margin: 10px;
-        padding: 10px;
-        border-color: darkred;
-        border-style: solid;
-        border-width: 2px;
-        margin-left: 125px;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 10px;
+            border-color: darkred;
+            border-style: solid;
+            border-width: 2px;
+            margin-left: 10px;
 
-    }
+        }
 
-    button{
+        .button{
 
-        font-family:'Comic Sans MS';
-        background-color:darkred;
-        border-radius: 10px;
-        color: white;
-        height: 30px;
-        width: 180px;
-        font-weight: bold;
-        margin: 12px;
-        margin-left: 125px;
-    }
+            font-family:'Comic Sans MS';
+            background-color:darkred;
+            border-radius: 10px;
+            color: white;
+            height: 30px;
+            width: 150px;
+            font-weight: bold;
+            margin: 12px;
+            margin-left: 20px;
+        }
 
 
 
-</style>
+    </style>
 
 
     <script>
+        var eventTypeArray = null;
         var eventTopicArray = null;
+        function subPreference(eventId,eventCategory){
+            this.eventId = eventId;
+            this.eventCategory = eventCategory;
+        }
+
+        var userPreference = new Array();
         var xmlhttp = new XMLHttpRequest();
         var url = "http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/getPrefList";
 
@@ -68,7 +75,7 @@
             var serverResponse = JSON.parse(response);
             console.log(serverResponse);
             var userId = serverResponse.userId;
-            var eventTypeArray = serverResponse.eventType;
+            eventTypeArray = serverResponse.eventType;
             eventTopicArray = serverResponse.eventTopic;
 
 
@@ -77,14 +84,12 @@
             for (i = 0; i < eventTypeArray.length; i++) {
 
                 var option = document.createElement("option");
-
                 option.text = eventTypeArray[i].eventName;
                 document.getElementById('eventName').appendChild(option);
             }
 
             for (i = 0; i < eventTopicArray.length; i++) {
                 var option = document.createElement("option");
-
                 option.text = eventTopicArray[i].topicName;
                 document.getElementById('eventTopic').appendChild(option);
             }
@@ -93,7 +98,6 @@
             var subTopicsListArray  = eventTopicArray[0].subTopicsList;
             for (i = 0; i < subTopicsListArray.length; i++) {
                 var option = document.createElement("option");
-
                 option.text = subTopicsListArray[i].eventName;
                 document.getElementById('eventSubTopic').appendChild(option);
             }
@@ -117,27 +121,115 @@
             }
             console.log(selectedValue);
         }
-    </script>
-    <script>
+
         $(document).ready(function(){
-            var i=0;
-            $("#add_row").click(function(){
-                $('#addr'+i).html("<td>"+ (i+1) +"</td><td>" +
-                        "<label name='eventName"+i+"' id='eventName"+i+"' type='text' >"+document.getElementById('eventName').value+"</label></td>" +
-                        "<td><label  name='eventTopic"+i+"' type='text' >"+document.getElementById('eventTopic').value+" </label></td>" +
-                        "<td><label  name='eventSubTopic"+i+"' type='text'>"+document.getElementById('eventSubTopic').value+" </label></td>");
+            var row=0;
+            $("#add_row").click(function() {
+                $('#addr' + row).html("<td>" + (row + 1) + "</td><td>" +
+                        "<label name='eventName" + row + "'  id='eventNameId" + row + "' type='text' >" + document.getElementById('eventName').value + "</label></td>" +
+                        "<td><label  name='eventTopic" + row + "' id='eventTopicId" + row + "' type='text' >" + document.getElementById('eventTopic').value + " </label></td>" +
+                        "<td><label  name='eventSubTopic" + row + "' id='eventSubTopicId" + row + "' type='text'>" + document.getElementById('eventSubTopic').value + " </label></td>");
 
-                $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
-                i++;
-            });
-            /*$("#delete_row").click(function(){
-                if(i>1){
-                    $("#addr"+(i-1)).html('');
-                    i--;
+                $('#tab_pref').append('<tr id="addr' + (row + 1) + '"></tr>');
+                row++;
+                //});
+
+                var selectedEventType =  document.getElementById('eventName').value;
+                var selectedEventTopic =  document.getElementById('eventTopic').value;
+                var selectedEventSubTopic =  document.getElementById('eventSubTopic').value;
+                console.log(selectedEventType);
+
+                for (i = 0; i < eventTypeArray.length; i++) {
+                    if (eventTypeArray[i].eventName.localeCompare(selectedEventType) == 0) {
+
+                        var b = new subPreference(eventTypeArray[i].eventId, "0");
+                        userPreference.push(b);
+                        break;
+                    }
                 }
-            });*/
+                for(var i =0;i< eventTopicArray.length;i++){
+                    if(eventTopicArray[i].topicName.localeCompare(selectedEventTopic) == 0){
+                        var b = new subPreference(eventTopicArray[i].topicId, "1");
+                        userPreference.push(b);
 
+                        //var select = document.getElementById("eventSubTopic");
+                        // document.getElementById('eventSubTopic').innerHTML = "";
+                        var subTopicsListArray  = eventTopicArray[i].subTopicsList;
+                        for (i = 0; i < subTopicsListArray.length; i++) {
+                            if(subTopicsListArray[i].eventName.localeCompare(selectedEventSubTopic) == 0) {
+                                var b = new subPreference(subTopicsListArray[i].eventId, "2");
+                                userPreference.push(b);
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+                console.log("hello");
+                console.log(userPreference);
+
+
+
+
+
+                /*$("#delete_row").click(function(){
+                 if(i>1){
+                 $("#addr"+(i-1)).html('');
+                 i--;
+                 }
+                 });*/
+
+
+            });
         });
+    </script>
+
+
+    <script>
+
+
+
+        function savePreferences(){
+//            var a = new subPreference("1","0");
+//            var b = new subPreference("2","1");
+//            userPreferences.push(a);
+//            userPreferences.push(b);
+//            var jsonString = JSON.stringify(userPreferences);
+//            console.log(jsonString);
+            /*
+             var preference;
+             var table = document.getElementById("tab_pref");
+             var rowCount = table.rows.length;
+             var rows = rowCount-2;
+             for( var i=0;i<rows;i++){
+             preference =
+             {"eventId" : document.getElementById("eventNameId"+i).value,
+             "eventCategory":0}
+             }*/
+            var userId = "2";
+
+            var b = JSON.stringify(userPreference);
+            console.log(b);
+            var body = { userId,b };
+
+            jQuery.ajax({
+                url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/updatePref',
+                data : {
+                    userId : 2,
+                    // will be accessible in $_POST['data1']
+                },
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                success: function(data) {
+                    console.log(data);
+
+                    //$('#creat_event_form').trigger("reset");
+
+                }
+            });
+        }
     </script>
 
 </head>
@@ -152,63 +244,50 @@
 <div class="cd-main-content" style="background-color:transparent">
     <div class="intrinsic-container-16x9" align="center">
 
-            <div class="form_container container">
-                <h2 style="text-align:center;">Choose Your Preferences</h2><br/>
+        <div class="form_container container">
+            <h2 style="text-align:center;">Choose Your Preferences</h2><br/>
 
 
-                    <select id="eventName"></select>
-                    <select id="eventTopic" onchange="onSelectEventTopic()"></select>
-                    <select id="eventSubTopic"></select>
-                    <br>
-                    <br>
-                <div >
-                    <div class="col-md-12 column">
-                        <table id="tab_logic">
-                            <thead>
-                            <tr >
-                                <th class="text-center">
-                                    #
-                                </th>
-                                <th class="text-center">
-                                    Event Name
-                                </th>
-                                <th class="text-center">
-                                    Event Topic
-                                </th>
-                                <th class="text-center">
-                                    Event Sub Topic
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <!--tr id='addr0'>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    <input type="text" name='name0'  placeholder='Name' class="form-control"/>
-                                </td>
-                                <td>
-                                    <input type="text" name='mail0' placeholder='Mail' class="form-control"/>
-                                </td>
-                                <td>
-                                    <input type="text" name='mobile0' placeholder='Mobile' class="form-control"/>
-                                </td>
-                            </tr-->
-                            <tr id='addr0'></tr>
-                            </tbody>
-                        </table>
-                    </div>
+            <select id="eventName"></select>
+            <select id="eventTopic" onchange="onSelectEventTopic()"></select>
+            <select id="eventSubTopic"></select>
+            <!--a id="add_row" class=" btn btn-default " >Add Row</a-->
+            <button  id="add_row" class=" button" padding = >More Preferences</button>
+            <br>
+            <br>
+            <div >
+                <div class="col-md-12 column">
+                    <table id="tab_pref">
+                        <thead>
+                        <tr >
+                            <th class="text-center">
+                                #
+                            </th>
+                            <th class="text-center">
+                                Event Name
+                            </th>
+                            <th class="text-center">
+                                Event Topic
+                            </th>
+                            <th class="text-center">
+                                Event Sub Topic
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr id='addr0'></tr>
+                        </tbody>
+                    </table>
                 </div>
-                <a id="add_row" class="btn btn-default pull-left">Add Row</a>
-
-
-
-
-
             </div>
 
-            <button >Save</button>
+
+
+
+
+        </div>
+
+        <button  onclick="savePreferences()" class=" button">Save</button>
 
     </div>
 </div>
