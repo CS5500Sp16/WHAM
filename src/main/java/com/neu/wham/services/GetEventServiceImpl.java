@@ -179,7 +179,7 @@ public class GetEventServiceImpl implements GetEventService {
 				for(int i =0; i < types.length; i++)
 				{
 					String id = NEUEventsPrefMapping.getNEUPref(types[i]);
-					url_string += (id != null ? id + "%" : "");
+					url_string += (id != null ? id + "%2C" : "");
 				}
 			}
 			
@@ -188,7 +188,7 @@ public class GetEventServiceImpl implements GetEventService {
 				for(int i =0; i < categories.length; i++)
 				{
 					String id = NEUEventsPrefMapping.getNEUPref(categories[i]);
-					url_string += (id != null ? id + "%" : "");
+					url_string += (id != null ? id + "%2C" : "");
 				}
 			}
 			
@@ -197,10 +197,10 @@ public class GetEventServiceImpl implements GetEventService {
 				for(int i =0; i < sub_categories.length; i++)
 				{
 					String id = NEUEventsPrefMapping.getNEUPref(sub_categories[i]);
-					url_string += (id != null ? id + "%" : "");
+					url_string += (id != null ? id + "%2C" : "");
 				}
 			}
-			url_string = url_string.substring(0, url_string.length() - 1);
+			url_string = url_string.substring(0, url_string.lastIndexOf("%2C"));
 			url_string += "&days=31&num=50&format=xml";
 			System.out.println("URL String:" + url_string);
 		    url = new URL(url_string);	
