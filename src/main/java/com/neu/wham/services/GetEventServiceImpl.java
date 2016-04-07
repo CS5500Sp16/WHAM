@@ -48,7 +48,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.neu.wham.dao.EventDAO;
 import com.neu.wham.model.Event;
 import com.neu.wham.model.PreferencesStore;
-
+import com.neu.wham.model.UserSelectedPreference;
 
 @Service
 public class GetEventServiceImpl implements GetEventService {
@@ -67,6 +67,7 @@ public class GetEventServiceImpl implements GetEventService {
 		List<Event> APIEvents = new ArrayList<Event>();
 		List<Event> NEUEvents = new ArrayList<Event>();
 		List<Event> resultList = new ArrayList<Event>();
+		UserSelectedPreference userPref = null;
 		
 		// read the params
 		String lat = params.get("lat");
@@ -77,13 +78,15 @@ public class GetEventServiceImpl implements GetEventService {
 		// build the Eventbrite preferences
 		PreferencesStore prefStore = new PreferencesStore();
 		if(null != userId) 
+		{
 			prefStore = prefService.buildPreferencesStore(userId);
-			
+			userPref = prefService.getUserPreferences(userId);
+		}
+		
  		try
 		{
-
 	 		APIEvents = getEventsFromAPI(lat, lon, rad, prefStore.getFormats(), prefStore.getCategories(), prefStore.getSubcategories());	
-			DBEvents =  eventDAO.getEventsData(lat, lon, rad);
+			DBEvents =  eventDAO.getEventsData(lat, lon, rad, userPref);
 	//		NEUEvents = getNEUEvents();
 		}
 		catch(Exception e)

@@ -1,8 +1,9 @@
 package com.neu.wham.keys;
 
 /**
- * Keys used for google location api
+ * Keys used for google location api & event brite api
  * @author Vijet Badigannavar
+ * @author AswinMuthiah
  */
 public class Keys {
 	/**
