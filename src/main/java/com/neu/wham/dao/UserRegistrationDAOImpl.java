@@ -7,13 +7,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.neu.wham.keys.DBConstants;
 import com.neu.wham.model.User;
-import com.neu.wham.services.UserRegistrationService;
 
 @Repository
 public class UserRegistrationDAOImpl implements UserRegistrationDAO {
@@ -32,12 +31,13 @@ public class UserRegistrationDAOImpl implements UserRegistrationDAO {
 		conn = DriverManager.getConnection(DBConstants.DB_URL,DBConstants.USER,DBConstants.PASS);
 		
 		//TODO: encrypt Password
-        user.setPassword(encryptPassword(user.getPassword()));
+		if (user.getPassword() != null)
+			user.setPassword(encryptPassword(user.getPassword()));
 		
 		String sql_statement = "insert into USER(first_name,middle_name,last_name,emailId,"
 				+ "phone_no,password)"
 				+ "values(?,?,?,?,?,?);";
-		PreparedStatement stmt =conn.prepareStatement(sql_statement);
+		PreparedStatement stmt =conn.prepareStatement(sql_statement, Statement.RETURN_GENERATED_KEYS);
 		stmt.setString(1, user.getFirstName());
 		stmt.setString(2, user.getMiddleName());
 		stmt.setString(3, user.getLastName());
@@ -48,6 +48,10 @@ public class UserRegistrationDAOImpl implements UserRegistrationDAO {
 		try{
 			int val = stmt.executeUpdate();
 			if(val!=0){
+				ResultSet rs = stmt.getGeneratedKeys();
+				rs.next();
+				int userId = rs.getInt(1);
+				user.setUserId(userId);
 				return user;
 			}
 			}catch(Exception e){

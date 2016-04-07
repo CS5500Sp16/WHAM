@@ -31,7 +31,7 @@ public class UserRegistrationController {
 	}
 	
 	@RequestMapping(value="/validateUser",method=RequestMethod.POST)
-	public @ResponseBody User registerUser(@RequestParam("emailId") String emailId, @RequestParam("password") String password){
+	public @ResponseBody User validateUser(@RequestParam("emailId") String emailId, @RequestParam("password") String password){
 		if(emailId== null ||  password == null ||emailId.isEmpty() || password.isEmpty()){
 			return null;
 		}
