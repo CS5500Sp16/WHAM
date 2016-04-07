@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+
 import com.neu.wham.model.PreferencesStore;
 import com.neu.wham.services.PreferenceServiceImpl;
 
@@ -20,18 +21,10 @@ import com.neu.wham.services.PreferenceServiceImpl;
 @ContextConfiguration("test-context.xml")
 public class PreferenceServiceTest {
 	
-	// JDBC driver name and database URL
-	private final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-	private final String DB_URL = "jdbc:mysql://ec2-52-87-159-69.compute-1.amazonaws.com:3306/whamDB";
-
-	//  Database credentials
-	private final String USER = "wham";
-	private final String PASS = "wham@123";
-
-	
 	@Autowired 
 	private PreferenceServiceImpl prefServiceImpl; 
 	
+	// positive test, valid userId
 	@Test
 	public void buildPreferencesStoreTest() {
 		String userId = "13";
@@ -59,4 +52,19 @@ public class PreferenceServiceTest {
 		assertTrue(Arrays.equals(result.getSubcategoriesAsEventbrite(), eSubcategories));
 	
 	}
+	
+	// negative test, invalid userId
+	@Test(expected=NullPointerException.class)
+	public void buildPreferencesStoreNegTest_foo(){
+		String userId = "foo";
+		prefServiceImpl.buildPreferencesStore(userId);
+	}
+	
+	// negative test, invalid userId
+	@Test(expected=NullPointerException.class)
+	public void buildPreferencesStoreNegTest_oddChars(){
+		String userId = "foo*~bar";
+		prefServiceImpl.buildPreferencesStore(userId);
+	}
+	
 }
