@@ -106,6 +106,7 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 		conn = DriverManager.getConnection(DBConstants.DB_URL,DBConstants.USER,DBConstants.PASS);
 		deleteUserPreference(userId);
 		updateUserPreference(userId,userPref);
+		System.out.println("Preference saved!");
 		return userPref;
 	}
 	
