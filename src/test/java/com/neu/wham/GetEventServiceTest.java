@@ -58,6 +58,12 @@ public class GetEventServiceTest {
         		.build();
       }
     
+    
+    /**
+     * 	test getEventService getEventsFromAPI() without userId
+     * 
+     */
+    
     // testcase 1     
     @Test 
     public void getEvents_validLatLonRadTest_withoutUserId() throws Exception{
@@ -350,7 +356,7 @@ public class GetEventServiceTest {
     
     
     
-    // invalid userId
+    // invalid userId, the check is in controller
     @Test
     public void getEventsFromAPI_invalidUserId() throws Exception{
     	String lat = "42.338407";
@@ -382,6 +388,37 @@ public class GetEventServiceTest {
 				.andExpect(jsonPath("$[2].eventName", is("Get Traction: The Virtual Growth Event [Tashkent]")));
     }
     
+    
+    @Test
+    public void getEventsFromAPI_oddUserId() throws Exception{
+    	String lat = "42.338407";
+		String lon = "-71.092625";
+		String rad = "10";
+		String userId = "foo*~bar";
+ 		String[] eFormats = new String[0];
+ 		String[] eCategories = new String[0];
+ 		String[] eSubcategories = new String[0];
+ 		
+ 		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("lat", lat);
+		params.put("lon", lon);
+		params.put("rad", rad);
+		params.put("userId", null);
+ 		
+ 		// if userId is invalid, we will set it to null and return events without user preference
+ 		when(getEventServiceMock.queryEventbrite(lat, lon, rad, eFormats, eCategories, eSubcategories)).thenReturn(GetEventServiceUtil.getCannedEventbriteResponse_withoutUserId());
+		when(getEventServiceMock.getEventsFromAPI(lat, lon, rad, eFormats, eCategories, eSubcategories)).thenCallRealMethod();
+		when(getEventServiceMock.getEvents(params)).thenCallRealMethod();
+		
+		String url = "/datasource/" + lat + "/" + lon + "/" + rad + "?userId=" + userId;
+		mockMvc.perform(get(url))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType("application/json;charset=UTF-8"))
+				.andExpect(jsonPath("$", hasSize(3)))
+				.andExpect(jsonPath("$[0].eventName", is("Boston Calling - May 27, 28, 29, 2016")))
+				.andExpect(jsonPath("$[1].eventName", is("IELTS lessons taught by one of the top IELTS teachers in Uzbekistan")))
+				.andExpect(jsonPath("$[2].eventName", is("Get Traction: The Virtual Growth Event [Tashkent]")));
+    }
     
     
 }

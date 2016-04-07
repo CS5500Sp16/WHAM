@@ -144,6 +144,7 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 
 	@Override
 	public UserSelectedPreference getUserPreferences(int userId) throws Exception {
+		System.out.println("in getUserPreferences, userId: " + userId);
 		UserSelectedPreference userPref = new UserSelectedPreference();
 		List<SelectedPreference> prefList = new ArrayList<SelectedPreference>();
 		
@@ -158,6 +159,7 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 		while(rs.next()){
 			prefList.add(new SelectedPreference(rs.getInt("event_pref_id"), rs.getInt("event_pref_type")));
 		}
+		System.out.println("prefList size: " + prefList.size());
 		userPref.setSelectedPreference(prefList);
 		return userPref;
 	}

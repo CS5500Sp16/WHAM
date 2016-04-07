@@ -79,7 +79,7 @@ public class GetEventServiceImpl implements GetEventService {
 		{
  			APIEvents = getEventsFromAPI(lat, lon, rad, prefStore.getFormatsAsEventbrite(), 
  				prefStore.getCategoriesAsEventbrite(), prefStore.getSubcategoriesAsEventbrite());	
-			//DBEvents =  eventDAO.getEventsData(lat, lon, rad, userPref);
+			DBEvents =  eventDAO.getEventsData(lat, lon, rad, userPref);
 			NEUEvents = getNEUEvents(prefStore.getFormats(), prefStore.getCategories(), prefStore.getSubcategories());
 		}
 		catch(Exception e)
