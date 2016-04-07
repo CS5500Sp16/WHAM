@@ -34,44 +34,7 @@ public class UserRegistrationDAOTest {
 	
 	UserRegistrationDAOImpl userRegistrationDAOImpl = new UserRegistrationDAOImpl();
 	
-	@Test
-	public void testPasswordPos() {
-		User user = new User();
-		user.setFirstName("test");
-		user.setMiddleName("ma");
-		user.setLastName("jason");
-		user.setEmailId("abc@husky.neu.edu");
-		user.setPhoneNo("1112221234");
-		user.setPassword("abc");
-		try {
-			userRegistrationDAOImpl.createNewUser(user);
-			Connection conn = null;
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			
-			String sql_statement = "select * from USER where emailId = ?;";
-
-			PreparedStatement ppdStmt = conn.prepareStatement(sql_statement);
-			ppdStmt.setString(1, user.getEmailId());
-			
-			ResultSet rs = ppdStmt.executeQuery();
-			User u = new User();
-			if (rs.next()) {
-				
-				u.setUserId(rs.getInt("user_id"));
-				u.setFirstName(rs.getString("first_name"));
-				u.setMiddleName(rs.getString("middle_name"));
-				u.setLastName(rs.getString("last_name"));
-				u.setPhoneNo(rs.getString("phone_no"));
-				u.setEmailId(rs.getString("emailId"));
-				u.setPassword(rs.getString("password"));
-			}
-			assertEquals(user.getPassword(), u.getPassword());
-			
-		} catch (NoSuchAlgorithmException | SQLException e) {
-			e.printStackTrace();
-		}
-		
-	}
+	
 	
 	@Test
 	public void testPasswordNeg() {
