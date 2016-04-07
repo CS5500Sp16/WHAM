@@ -79,7 +79,7 @@ public class GetEventServiceImpl implements GetEventService {
 		{
  			APIEvents = getEventsFromAPI(lat, lon, rad, prefStore.getFormatsAsEventbrite(), 
  				prefStore.getCategoriesAsEventbrite(), prefStore.getSubcategoriesAsEventbrite());	
-			DBEvents =  eventDAO.getEventsData(lat, lon, rad, userPref);
+			//DBEvents =  eventDAO.getEventsData(lat, lon, rad, userPref);
 			NEUEvents = getNEUEvents(prefStore.getFormats(), prefStore.getCategories(), prefStore.getSubcategories());
 		}
 		catch(Exception e)
@@ -274,7 +274,9 @@ public class GetEventServiceImpl implements GetEventService {
 			if(null != subcategories && subcategories.length > 0)
 				builder.addParameter("subcategories", String.join(",", subcategories));
 			
-			System.out.println(builder.toString());
+			System.out.println("EMMAEMMAEMMAEMMA");
+			System.out.println("eventBrite url: " + builder.toString());
+			System.out.println("EMMAEMMAEMMAEMMA");
 			
 			HttpResponse<JsonNode> jsonResponse = Unirest.get(builder.toString()).asJson();
 			JsonNode obj = jsonResponse.getBody();

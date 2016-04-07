@@ -3,7 +3,12 @@ package com.neu.wham;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import javax.validation.constraints.AssertTrue;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -305,38 +311,77 @@ public class GetEventServiceTest {
 				.andExpect(jsonPath("$[2].eventName", is("Get Traction: The Virtual Growth Event [Tashkent]")));
     }
     
-    // Test cases for user preference
-    // Sprint3 - Query with valid userId
-//    @Test
-//    public void getEvents_validUserId() throws Exception{
-//    	
-//		String lat = "42.3389";
-//		String lon = "71.0903";
-//		String rad = "500";
-//		String userId = null;
-//		String[] formats = new String[0];
-//		String[] categories = new String[0];
-//		String[] subcategories = new String[0];
-//		
-//		HashMap<String, String> params = new HashMap<String, String>();
-//		params.put("lat", lat);
-//		params.put("lon", lon);
-//		params.put("rad", rad);
-//		params.put("userId", userId);
-//		
-//		when(getEventServiceMock.queryEventbrite(lat, lon, rad, formats, categories, subcategories)).thenReturn(GetEventServiceUtil.getCannedEventbriteResponse());
-//		when(getEventServiceMock.getEventsFromAPI(lat, lon, rad, formats, categories, subcategories)).thenCallRealMethod();
-//		when(getEventServiceMock.getEvents(params)).thenCallRealMethod();
-//		
-//		String url = "/datasource/" + lat + "/" + lon + "/" + rad + "?userId=";
-//		mockMvc.perform(get(url))
-//				.andExpect(status().isOk())
-//				.andExpect(content().contentType("application/json;charset=UTF-8"))
-//				.andExpect(jsonPath("$", hasSize(3)))
-//				.andExpect(jsonPath("$[0].eventName", is("Boston Calling - May 27, 28, 29, 2016")))
-//				.andExpect(jsonPath("$[1].eventName", is("IELTS lessons taught by one of the top IELTS teachers in Uzbekistan")))
-//				.andExpect(jsonPath("$[2].eventName", is("Get Traction: The Virtual Growth Event [Tashkent]")));
-//    }
+    
+    
+  
+    /**
+     * 	test getEventsFromAPI() based on userId
+     * 
+     */
+    
+    // valid userId
+    @Test
+    public void getEventsFromAPI_validUserId() throws Exception{
+    	String lat = "42.338407";
+		String lon = "-71.092625";
+		String rad = "10";
+		String userId = "13";
+ 		String[] eFormats = new String[0];
+ 		String[] eCategories = {"118", "101", "110", "105"};
+ 		String[] eSubcategories = {"5010", "4005", "4002"};
+ 		
+ 		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("lat", lat);
+		params.put("lon", lon);
+		params.put("rad", rad);
+		params.put("userId", userId);
+ 		
+ 		
+ 		when(getEventServiceMock.queryEventbrite(lat, lon, rad, eFormats, eCategories, eSubcategories)).thenReturn(GetEventServiceUtil.getCannedEventbriteResponse_withUserId13());
+		when(getEventServiceMock.getEventsFromAPI(lat, lon, rad, eFormats, eCategories, eSubcategories)).thenCallRealMethod();
+		
+ 		
+		assertEquals(getEventServiceMock.getEventsFromAPI(lat, lon, rad, eFormats, eCategories, eSubcategories).size(), 4);
+		assertEquals(getEventServiceMock.getEventsFromAPI(lat, lon, rad, eFormats, eCategories, eSubcategories).get(0).getEventName(), "Laugh Owt Loud 2.0");
+		assertEquals(getEventServiceMock.getEventsFromAPI(lat, lon, rad, eFormats, eCategories, eSubcategories).get(1).getEventName(), "Dan Crohn's Live Album Recording!");
+		assertEquals(getEventServiceMock.getEventsFromAPI(lat, lon, rad, eFormats, eCategories, eSubcategories).get(2).getEventName(), "Roast Battle Boston");
+		assertEquals(getEventServiceMock.getEventsFromAPI(lat, lon, rad, eFormats, eCategories, eSubcategories).get(3).getEventName(), "Pavement Comedy Night: Spring Has Sprung");
+    }
+    
+    
+    
+    // invalid userId
+    @Test
+    public void getEventsFromAPI_invalidUserId() throws Exception{
+    	String lat = "42.338407";
+		String lon = "-71.092625";
+		String rad = "10";
+		String userId = "foo";
+ 		String[] eFormats = new String[0];
+ 		String[] eCategories = new String[0];
+ 		String[] eSubcategories = new String[0];
+ 		
+ 		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("lat", lat);
+		params.put("lon", lon);
+		params.put("rad", rad);
+		params.put("userId", null);
+ 		
+ 		// if userId is invalid, we will set it to null and return events without user preference
+ 		when(getEventServiceMock.queryEventbrite(lat, lon, rad, eFormats, eCategories, eSubcategories)).thenReturn(GetEventServiceUtil.getCannedEventbriteResponse_withoutUserId());
+		when(getEventServiceMock.getEventsFromAPI(lat, lon, rad, eFormats, eCategories, eSubcategories)).thenCallRealMethod();
+		when(getEventServiceMock.getEvents(params)).thenCallRealMethod();
+		
+		String url = "/datasource/" + lat + "/" + lon + "/" + rad + "?userId=" + userId;
+		mockMvc.perform(get(url))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType("application/json;charset=UTF-8"))
+				.andExpect(jsonPath("$", hasSize(3)))
+				.andExpect(jsonPath("$[0].eventName", is("Boston Calling - May 27, 28, 29, 2016")))
+				.andExpect(jsonPath("$[1].eventName", is("IELTS lessons taught by one of the top IELTS teachers in Uzbekistan")))
+				.andExpect(jsonPath("$[2].eventName", is("Get Traction: The Virtual Growth Event [Tashkent]")));
+    }
+    
     
     
 }
