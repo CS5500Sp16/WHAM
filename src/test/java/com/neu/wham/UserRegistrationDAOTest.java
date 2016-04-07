@@ -156,7 +156,7 @@ public class UserRegistrationDAOTest {
 		user.setFirstName("test");
 		user.setMiddleName("ma");
 		user.setLastName("Green");
-		user.setEmailId(null);
+		user.setEmailId("abc@husky.neu.edu");
 		user.setPhoneNo("1112221234");
 		user.setPassword("abc");
 		try {
