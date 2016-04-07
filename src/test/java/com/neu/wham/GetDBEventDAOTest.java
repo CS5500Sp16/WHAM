@@ -140,7 +140,7 @@ public class GetDBEventDAOTest {
 	@Test 
 	public void getDBEventTest() throws SQLException, JSONException, UnirestException{
 		
-		List<Event> eventList = eventDAOImpl.getEventsData("45", "45", "15");
+		List<Event> eventList = eventDAOImpl.getEventsData("45", "45", "15", null);
 				
 		Assert.isTrue(eventList.size() == 1);
 		Assert.isTrue(eventList.get(0).getEventName().equals("e2"));
