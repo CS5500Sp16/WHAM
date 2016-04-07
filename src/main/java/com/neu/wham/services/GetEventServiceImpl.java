@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,6 +52,8 @@ public class GetEventServiceImpl implements GetEventService {
 	@Autowired
 	private PreferenceService prefService;
 	
+	
+	
 	@Override
 	public List<Event> getEvents(HashMap<String, String> params)
 	{
@@ -78,8 +81,8 @@ public class GetEventServiceImpl implements GetEventService {
  		try
 		{
  			APIEvents = getEventsFromAPI(lat, lon, rad, prefStore.getFormatsAsEventbrite(), 
- 				prefStore.getCategoriesAsEventbrite(), prefStore.getSubcategoriesAsEventbrite());	
-			DBEvents =  eventDAO.getEventsData(lat, lon, rad, userPref);
+ 				prefStore.getCategoriesAsEventbrite(), prefStore.getSubcategoriesAsEventbrite());
+ 			DBEvents =  getEventsFromDB(lat, lon, rad, userPref);
 			NEUEvents = getNEUEvents(prefStore.getFormats(), prefStore.getCategories(), prefStore.getSubcategories());
 		}
 		catch(Exception e)
@@ -158,6 +161,9 @@ public class GetEventServiceImpl implements GetEventService {
 		return eventList;
 	}
 
+	public List<Event> getEventsFromDB(String lat, String lon, String radius, UserSelectedPreference userPrefs) throws SQLException, JSONException, UnirestException{
+		return eventDAO.getEventsData(lat, lon, radius, userPrefs);
+	}
 	
 	public List<Event> getNEUEvents(String[] types, String[] categories, String[] sub_categories) throws URISyntaxException, UnirestException, IOException, JSONException, ParserConfigurationException, SAXException, TransformerException
 	{

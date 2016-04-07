@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-
-
+import com.neu.wham.dao.EventDAOImpl;
 //import com.neu.wham.exceptions.InvalidDateTimeException;
 import com.neu.wham.exceptions.LocationException;
 import com.neu.wham.model.Event;
@@ -39,6 +38,7 @@ public class DataSourceController {
 		// TODO Auto-generated constructor stub
 		this.getEventService = getEventService;
 	}
+	
 
 	 
 	 @RequestMapping(value = "*", method = RequestMethod.GET)
