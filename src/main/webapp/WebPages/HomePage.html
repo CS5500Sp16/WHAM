@@ -16,6 +16,7 @@
     <link href="../css/pageStyle.css" rel="stylesheet" />
     <link href="../css/homePageBlocks.css" rel="stylesheet" />
     <script>
+        // navigate to AfterLoginPage if user is signed in
         if (localStorage.getItem("name") === null) { }
         else
         if (localStorage.getItem("name") != "") {
@@ -36,8 +37,8 @@
         <div class="intrinsic-container-16x9" style="text-align:center">
             <iframe src="maps.html" style="width: 90%; margin-top:50px"></iframe>
         </div>
-        <div class="content-desktop">
-            <div class="content">
+        <div class="content-desktop" style="padding-top:30px">
+            <div class="content" onclick="navigate()" style="cursor:pointer">
                 <div class="content-header">
                     <h1>Sports</h1>
                 </div>
@@ -48,11 +49,11 @@
                     <img class="middle2" src="http://img0.study.com.ua/images/colleges/bostnorth/bostnorth-5.jpg" style="position: absolute; left: 2px; top: 0;" alt="Sports">
                 </div>              
                 <div class="content-footer">
-                    <a href="Login.html"> <h1>Post your event now</h1></a>
+                    <h1>Post your event now</h1>
                 </div>
             </div>
  
-            <div class="content content-2">
+            <div class="content content-2" onclick="navigate()" style="cursor:pointer">
                 <div class="content-header">
                     <h1>Culture</h1>
                 </div>
@@ -61,12 +62,12 @@
                     <img class="bottom" src="http://www.northeastern.edu/camd/cfa/wp-content/uploads/sites/10/2015/01/NEU_BlackCake_1440x500.jpg" style="position: absolute; left: 2px; top: 0;" alt="Cultural">
                     <img class="middle" src="http://www.tourismus.ulm.de/web/we-bilder/inhalt/03_feste_veranstaltungen/bindertanz/00_Bindertanz.jpg" style="position: absolute; left: 2px; top: 0;" alt="Cultural">
                     <img class="middle2" src="http://www.northeastern.edu/news/wp-content/uploads/2014/11/icecarving1400-740x493.jpg" style="position: absolute; left: 2px; top: 0;" alt="Cultural">
-                </div> 
+                </div>
                 <div class="content-footer">
-                    <a href="Login.html"> <h1>Post your event now</h1></a>
+                    <h1>Post your event now</h1>
                 </div>
             </div>
-            <div class="content content-3">
+            <div class="content content-3" onclick="navigate()" style="cursor:pointer">
                 <div class="content-header">
                     <h1>More</h1>
                 </div>
@@ -75,19 +76,23 @@
                     <img class="bottom" src="http://thecherawchronicle.com/wp-content/uploads/2015/11/web1_CynthiaMcCormick.jpg" style="position: absolute; left: 2px; top: 0;" alt="More">
                     <img class="middle" src="http://www.neiu.edu/sites/neiu.edu/files/styles/splash_feature_medium/public/marketing-images/2014/01/31/slide1_learn.jpg?itok=2m0g5QOf" style="position: absolute; left: 2px; top: 0;" alt="More">
                     <img class="middle2" src="http://www.northeastern.edu/news/wp-content/uploads/2015/06/SeattleSTEM2.jpeg" style="position: absolute; left: 2px; top: 0;" alt="More">
-                </div> 
+                </div>
                 <div class="content-footer">
-                    <a href="Login.html"> <h1>Post your event now</h1></a>
+                    <h1>Post your event now</h1>
                 </div>
             </div>
         </div>
         <div class="content-mobile">
             <div>
-                mobile
+               
             </div>
         </div>
     </main>
-
+    <script>
+        function navigate() {
+            window.location.href = "Login.html"
+        }
+    </script>
 </body>
 </html>
 
