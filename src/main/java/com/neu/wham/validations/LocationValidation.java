@@ -4,31 +4,31 @@ import com.neu.wham.exceptions.LocationException;
 import com.neu.wham.exceptions.LocationException.LocationExceptionType;
 
 public class LocationValidation {
-	public static boolean validateLatitude(String lat) throws LocationException {
+	public static String validateLatitude(String lat) throws LocationException {
 		double dLat = parseCoordinate(lat); 
 		
 		if(dLat < -90 || dLat > 90)
 			throw new LocationException(LocationExceptionType.LOCATION_OUT_OF_BOUNDS);
 		
-		return true;
+		return lat;
 	}
 	
-	public static boolean validateLongitude(String lon) throws LocationException {
+	public static String validateLongitude(String lon) throws LocationException {
 		double dLong = parseCoordinate(lon);
 		
 		if(dLong < -180 || dLong > 180)
 			throw new LocationException(LocationExceptionType.LOCATION_OUT_OF_BOUNDS);
 		
-		return true;
+		return lon;
 	}
 	
-	public static Boolean validateRadius(String r) throws LocationException {
+	public static String validateRadius(String r) throws LocationException {
 			
 		if(!r.matches("^[0-9]*$") || (parseCoordinate(r) <= 0)){
-			return false;
+			return "10";
 		}
 			
-		return true;
+		return r;
 	}
 	
 	private static double parseCoordinate(String val) throws LocationException {

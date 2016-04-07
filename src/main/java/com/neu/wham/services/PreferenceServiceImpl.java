@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.neu.wham.dao.PreferenceDAO;
+import com.neu.wham.model.PreferencesStore;
 import com.neu.wham.model.SelectedPreference;
 import com.neu.wham.model.UserSelectedPreference;
 import com.neu.wham.model.UserPreference;
@@ -46,4 +47,37 @@ public class PreferenceServiceImpl implements PreferenceService {
 		return null;
 	}
 
+	@Override
+	public PreferencesStore buildPreferencesStore(String userId) {
+		PreferencesStore prefStore = new PreferencesStore();
+		
+		// let's get the intermediate form of preferences from the local database
+		UserSelectedPreference userPrefs = this.getUserPreferences(userId);
+		
+		// for each preference mapping, do a db lookup.  I'm going to pretend this is efficient :)
+		String prefString = "";
+		for(SelectedPreference pref : userPrefs.getSelectedPreference()) {
+			try {
+				prefString = preferenceDAO.getPreferenceString(pref.getEventId(), pref.getEventCategory());
+				switch(pref.getEventCategory()) {
+					case 0:
+						prefStore.addFormat(prefString);
+						break;
+					case 1:
+						prefStore.addCategory(prefString);
+						break;
+					case 2:
+						prefStore.addSubcategory(prefString);
+						break;
+					default:
+						System.out.println("Unknown preference type! " + pref.getEventCategory());
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}	
+		}
+		
+		// return the EventbritePreferences object
+		return prefStore;
+	}
 }
