@@ -134,6 +134,13 @@
                 row++;
                 //});
 
+
+                $("#delete_row").click(function(){
+                    if(row>1){
+                        $("#addr"+(row-1)).html('');
+                        row--;
+                    }
+                });
                 var selectedEventType =  document.getElementById('eventName').value;
                 var selectedEventTopic =  document.getElementById('eventTopic').value;
                 var selectedEventSubTopic =  document.getElementById('eventSubTopic').value;
@@ -165,20 +172,8 @@
                         break;
                     }
                 }
-                console.log("hello");
+
                 console.log(userPreferences);
-
-
-
-
-
-                /*$("#delete_row").click(function(){
-                 if(i>1){
-                 $("#addr"+(i-1)).html('');
-                 i--;
-                 }
-                 });*/
-
 
             });
         });
@@ -190,31 +185,12 @@
 
 
         function savePreferences(){
-//            var a = new subPreference("1","0");
-//            var b = new subPreference("2","1");
-//            userPreferencess.push(a);
-//            userPreferencess.push(b);
-//            var jsonString = JSON.stringify(userPreferencess);
-//            console.log(jsonString);
-            /*
-             var preference;
-             var table = document.getElementById("tab_pref");
-             var rowCount = table.rows.length;
-             var rows = rowCount-2;
-             for( var i=0;i<rows;i++){
-             preference =
-             {"eventId" : document.getElementById("eventNameId"+i).value,
-             "eventCategory":0}
-             }*/
-            //var userId = {'userId' : 2};
-            //userPreferences.push(userId);
+
             var response = {
                 'userId' : 2,
                 'userPreference':userPreferences
             }
-            //var userPreference = JSON.stringify(userPreferences);
-//            var body = {userId,userPreference};
-//            var a = JSON.stringify(body);
+
             
 
             jQuery.ajax({
@@ -249,12 +225,17 @@
         <div class="form_container container">
             <h2 style="text-align:center;">Choose Your Preferences</h2><br/>
 
-
-            <select id="eventName"></select>
+            <label for="eventName">EVENT TYPE</label>
+            <select id="eventName" style="width: 400px"></select>
+            <br>
+            <br>
+            <label for="eventName" padding="10px">EVENT TOPIC</label>
             <select id="eventTopic" onchange="onSelectEventTopic()"></select>
-            <select id="eventSubTopic"></select>
+            <label for="eventName" style="width: 200px">EVENT TOPIC</label>
+            <select id="eventSubTopic" style="width: 200px"></select>
             <!--a id="add_row" class=" btn btn-default " >Add Row</a-->
-            <button  id="add_row" class=" button" padding = >More Preferences</button>
+            <button  id="add_row" class=" button" >Add Preferences</button>
+            <button  id="delete_row" class=" button" >Delete</button>
             <br>
             <br>
             <div >
@@ -266,7 +247,7 @@
                                 #
                             </th>
                             <th class="text-center">
-                                Event Name
+                                Event Type
                             </th>
                             <th class="text-center">
                                 Event Topic
