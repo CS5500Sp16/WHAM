@@ -47,9 +47,8 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.neu.wham.dao.EventDAO;
 import com.neu.wham.model.Event;
-import com.neu.wham.model.EventbritePreferences;
+import com.neu.wham.model.PreferencesStore;
 import com.neu.wham.model.UserSelectedPreference;
-
 
 @Service
 public class GetEventServiceImpl implements GetEventService {
@@ -61,8 +60,6 @@ public class GetEventServiceImpl implements GetEventService {
 	private PreferenceService prefService;
 	
 	@Override
-	//public List<Event> getEvents(String lat, String lon, String rad, String q, String statDT, String endDT,
-	//		String[] formats, String[] categories, String[] subcategories)
 	public List<Event> getEvents(HashMap<String, String> params)
 	{
 		// set up event lists
@@ -79,17 +76,16 @@ public class GetEventServiceImpl implements GetEventService {
 		String userId = params.get("userId");
 		
 		// build the Eventbrite preferences
-		EventbritePreferences ePrefs = new EventbritePreferences();
+		PreferencesStore prefStore = new PreferencesStore();
 		if(null != userId) 
 		{
-			ePrefs = prefService.buildEventbritePreferences(userId);
+			prefStore = prefService.buildPreferencesStore(userId);
 			userPref = prefService.getUserPreferences(userId);
 		}
-			
+		
  		try
 		{
-
-	 		APIEvents = getEventsFromAPI(lat, lon, rad, ePrefs.getFormats(), ePrefs.getCategories(), ePrefs.getSubcategories());	
+	 		APIEvents = getEventsFromAPI(lat, lon, rad, prefStore.getFormats(), prefStore.getCategories(), prefStore.getSubcategories());	
 			DBEvents =  eventDAO.getEventsData(lat, lon, rad, userPref);
 	//		NEUEvents = getNEUEvents();
 		}
@@ -108,30 +104,8 @@ public class GetEventServiceImpl implements GetEventService {
 			String[] formats, String[] categories, String[] subcategories) 
 			throws UnirestException, JSONException, ParseException, URISyntaxException
 	{
-		System.out.println("in getEventsFromAPI");
-		URIBuilder builder = new URIBuilder("https://www.eventbriteapi.com/v3/events/search");
-		builder.addParameter("expand", "venue");
-		builder.addParameter("location.latitude", lat);
-		builder.addParameter("location.longitude", lon);
-		builder.addParameter("location.within", radius + "mi");
-		builder.addParameter("token", Keys.EVENTBRITE_KEY);
-		if(null != formats && formats.length > 0)
-			builder.addParameter("formats", String.join(",", formats));
-		if(null != categories && categories.length > 0)
-			builder.addParameter("categories", String.join(",", categories));
-		if(null != subcategories && subcategories.length > 0)
-			builder.addParameter("subcategories", String.join(",", subcategories));
-		
-		System.out.println(builder);
-		System.out.println(builder.toString());
-		
-		HttpResponse<JsonNode> jsonResponse = Unirest.get(builder.toString()).asJson();
-		System.out.println(jsonResponse.getStatus());
-		System.out.println("*****");
-		
-		JsonNode obj = jsonResponse.getBody();
-		JSONObject response = obj.getObject();
-		JSONArray events = response.getJSONArray("events");
+		JSONArray events = queryEventbrite(lat, lon, radius, formats, categories, subcategories);
+		System.out.println("Events length: " + events.length());
 		
 		List<Event> eventList = new ArrayList<Event>();
 		
@@ -321,6 +295,55 @@ public class GetEventServiceImpl implements GetEventService {
 		
 		return categoryName;
 
+	}
+	
+	public JSONArray queryEventbrite(String lat, String lon, String radius, 
+			String[] formats, String[] categories, String[] subcategories) {
+		
+		URIBuilder builder;
+		JSONArray events = null;
+		try {
+			builder = new URIBuilder("https://www.eventbriteapi.com/v3/events/search");
+			builder.addParameter("expand", "venue");
+			builder.addParameter("location.latitude", lat);
+			builder.addParameter("location.longitude", lon);
+			builder.addParameter("location.within", radius + "mi");
+			builder.addParameter("token", Keys.EVENTBRITE_KEY);
+			if(null != formats && formats.length > 0)
+				builder.addParameter("formats", String.join(",", formats));
+			if(null != categories && categories.length > 0)
+				builder.addParameter("categories", String.join(",", categories));
+			if(null != subcategories && subcategories.length > 0)
+				builder.addParameter("subcategories", String.join(",", subcategories));
+			
+			System.out.println(builder.toString());
+			
+			HttpResponse<JsonNode> jsonResponse = Unirest.get(builder.toString()).asJson();
+			JsonNode obj = jsonResponse.getBody();
+			JSONObject response = obj.getObject();
+			System.out.println("response length:" + response.length());
+			System.out.println(response.toString());
+			if(response.has("events"))
+				events = response.getJSONArray("events");
+			else
+				events = new JSONArray();
+				
+			System.out.println(jsonResponse.getStatus());
+			System.out.println("*****");
+			System.out.println("Events: ");
+			System.out.println(events);
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnirestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return events;
 	}
 	
 	
