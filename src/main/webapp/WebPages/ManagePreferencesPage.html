@@ -60,7 +60,7 @@
 
         var userPreferences = new Array();
         var xmlhttp = new XMLHttpRequest();
-        var url = "../getPrefList";
+        var url = "http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/getPrefList";
 
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -206,16 +206,20 @@
              {"eventId" : document.getElementById("eventNameId"+i).value,
              "eventCategory":0}
              }*/
-            var userId = "2";
-
-            var userPreference = JSON.stringify(userPreferences);
-            var body = {userId,userPreference};
-            var a = JSON.stringify(body);
+            //var userId = {'userId' : 2};
+            //userPreferences.push(userId);
+            var response = {
+                'userId' : 2,
+                'userPreference':userPreferences
+            }
+            //var userPreference = JSON.stringify(userPreferences);
+//            var body = {userId,userPreference};
+//            var a = JSON.stringify(body);
             
 
             jQuery.ajax({
-                url: '../updatePref',
-                data : a,
+                url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/updatePref',
+                data : JSON.stringify(response),
                 cache: false,
                 contentType: false,
                 processData: false,
