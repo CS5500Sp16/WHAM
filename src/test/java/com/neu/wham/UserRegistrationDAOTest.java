@@ -113,21 +113,7 @@ public class UserRegistrationDAOTest {
 		}
 	}
 	
-	@Test(expected=SQLException.class)
-	public void testEmailNeg() throws SQLException {
-		User user = new User();
-		user.setFirstName("test");
-		user.setMiddleName("ma");
-		user.setLastName("Green");
-		user.setEmailId("abc@neu.edu");
-		user.setPhoneNo("1112221234");
-		user.setPassword("abc");
-		try {
-			userRegistrationDAOImpl.createNewUser(user);
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-	}
+
 	
 	@Test
 	public void testPasswordNull() throws SQLException {
