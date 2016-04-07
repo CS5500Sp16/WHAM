@@ -72,10 +72,19 @@ public class PreferenceServiceImpl implements PreferenceService {
 					default:
 						System.out.println("Unknown preference type! " + pref.getEventCategory());
 				}
+				
 			} catch(Exception e) {
 				e.printStackTrace();
 			}	
 		}
+		
+		System.out.println("formats: " + prefStore.getFormats().toString());
+		System.out.println("categories: " + prefStore.getCategories().toString());
+		System.out.println("sub categories: " + prefStore.getSubcategories().toString());
+		System.out.println("e formats: " + prefStore.getFormatsAsEventbrite().toString());
+		System.out.println("e categories: " + prefStore.getCategoriesAsEventbrite().toString());
+		System.out.println("e sub categories: " + prefStore.getSubcategoriesAsEventbrite().toString());
+		
 		
 		// return the EventbritePreferences object
 		return prefStore;
