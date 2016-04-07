@@ -28,7 +28,7 @@ public class UserPreferenceController {
 	}
 
 	@RequestMapping(value="/getPref",method=RequestMethod.GET)
-	public UserSelectedPreference getUserPreference(@RequestParam("userPreference") String userId){
+	public @ResponseBody UserSelectedPreference getUserPreference(@RequestParam("userPreference") String userId){
 		if(userId==null || userId.isEmpty()){
 			return null;
 		}
