@@ -146,6 +146,15 @@ function init() {
                                 var anc = "<a href='" + hold[k].extLink + "' target = '_blank'>Click for more details </a>"
                                 content = content + anc + "<br/>";
                             }
+                            else {
+                                var ancModal = "More Details: " + "<a href = '#'" + " data-toggle='modal' data-target ='#infoModal'>" + "Click Here" + "</a>";
+                                content = content + ancModal + "<br/>";
+
+                                var modalDiv = document.getElementById('details');
+                                modalDiv.innerHTML = "Event Name: " + hold[k].eventName + "<br/>" + "Event Description: " + hold[k].eventDesc + "<br/>" + "Event Location: " + hold[k].eventLocation + "<br/>" + "Distance: " + "</b>" + distance + "miles" + "<br/>" + "Organiser(s): " + + "</b>" + hold[k].organiserName + "<br/>" + "              " + hold[k].organiserDesc + "<br>" + "Conatct Number: " + hold[k].phoneNumber + " ," + hold[k].emailId + "<br/>" + "Event Start Time: " + start_date_time1 + "<br/>" + "Event End Time: " + end_date_time1 + "<br/>";
+
+                            }
+
                             if (hold[k].officialEvent) {
                                 content = content + "<img src='../images/paw.jpg' alt='Smiley face' height='25' width='25' title='NEU official event'>";
                             }
@@ -169,6 +178,15 @@ function init() {
                             var a = "<a href='" + loc[i].extLink + "' target = '_blank'>Click for more details </a>"
                             content = content + a + "<br/>";
                         }
+
+                        else {
+                            var aModal = "More Details: " + "<a href = '#'" + " data-toggle='modal' data-target ='#infoModal'>" + "Click Here" + "</a>";
+                            content = content + aModal + "<br/>";
+
+                            var modalDiv = document.getElementById('details');
+                            modalDiv.innerHTML = "<b>Event Name: " + "</b>" + loc[i].eventName + "<br/>" + "<b>Event Description: " + "</b>" + loc[i].eventDesc + "<br/>" + "<b>Event Location: " + "</b>" + loc[i].eventLocation + "<br/>" + "<b>Distance: " + "</b>" + distance + "miles" + "<br/>" + "<b>Organiser(s): " + "</b>" + loc[i].organiserName + "<br/>" + "              " + loc[i].organiserDesc + "<br>" + "<b>Conatct Details: " + "</b>" + loc[i].phoneNumber + " ," + loc[i].emailId + "<br/>" + "<b>Event Start Time: " + "</b>" + start_date_time + "<br/>" + "<b>Event End Time: " + "</b>" + end_date_time + "<br/>";
+                        }
+
                         if (event_type)
                             content = content + "<img src='../images/paw.jpg' alt='Smiley face' height='25' width='25' title='NEU official event'>";
                         content = content + "<br/>"
