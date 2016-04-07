@@ -58,9 +58,9 @@
             this.eventCategory = eventCategory;
         }
 
-        var userPreference = new Array();
+        var userPreferences = new Array();
         var xmlhttp = new XMLHttpRequest();
-        var url = "http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/getPrefList";
+        var url = "../getPrefList";
 
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -143,14 +143,14 @@
                     if (eventTypeArray[i].eventName.localeCompare(selectedEventType) == 0) {
 
                         var b = new subPreference(eventTypeArray[i].eventId, "0");
-                        userPreference.push(b);
+                        userPreferences.push(b);
                         break;
                     }
                 }
                 for(var i =0;i< eventTopicArray.length;i++){
                     if(eventTopicArray[i].topicName.localeCompare(selectedEventTopic) == 0){
                         var b = new subPreference(eventTopicArray[i].topicId, "1");
-                        userPreference.push(b);
+                        userPreferences.push(b);
 
                         //var select = document.getElementById("eventSubTopic");
                         // document.getElementById('eventSubTopic').innerHTML = "";
@@ -158,7 +158,7 @@
                         for (i = 0; i < subTopicsListArray.length; i++) {
                             if(subTopicsListArray[i].eventName.localeCompare(selectedEventSubTopic) == 0) {
                                 var b = new subPreference(subTopicsListArray[i].eventId, "2");
-                                userPreference.push(b);
+                                userPreferences.push(b);
                                 break;
                             }
                         }
@@ -166,7 +166,7 @@
                     }
                 }
                 console.log("hello");
-                console.log(userPreference);
+                console.log(userPreferences);
 
 
 
@@ -192,9 +192,9 @@
         function savePreferences(){
 //            var a = new subPreference("1","0");
 //            var b = new subPreference("2","1");
-//            userPreferences.push(a);
-//            userPreferences.push(b);
-//            var jsonString = JSON.stringify(userPreferences);
+//            userPreferencess.push(a);
+//            userPreferencess.push(b);
+//            var jsonString = JSON.stringify(userPreferencess);
 //            console.log(jsonString);
             /*
              var preference;
@@ -208,16 +208,14 @@
              }*/
             var userId = "2";
 
-            var b = JSON.stringify(userPreference);
-            console.log(b);
-            var body = { userId,b };
+            var userPreference = JSON.stringify(userPreferences);
+            var body = {userId,userPreference};
+            var a = JSON.stringify(body);
+            
 
             jQuery.ajax({
-                url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/updatePref',
-                data : {
-                    userId : 2,
-                    // will be accessible in $_POST['data1']
-                },
+                url: '../updatePref',
+                data : a,
                 cache: false,
                 contentType: false,
                 processData: false,
