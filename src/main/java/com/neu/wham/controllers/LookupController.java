@@ -1,5 +1,8 @@
 package com.neu.wham.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +31,19 @@ public class LookupController {
 	
 	@RequestMapping(value = "/lookup/{location}", method = RequestMethod.GET)
 	public @ResponseBody Location lookup(@PathVariable String location) throws JSONException{
-		String address = lookupService.lookup(location);
+		List<Location> locList = new ArrayList<Location>();
+		String[] addressArr = location.split("[ \\,]");
+		for(String addr : addressArr){
+			String address = lookupService.lookup(addr);
+			locList.add(new Location(location, address));
+		}
 		
-		Location loc = new Location(location, address);
-		return loc;
+		for(Location loc : locList){
+			if(!loc.getAddress().equals("error")){
+				return loc;
+			}
+		}
+		
+		return new Location("location", "error");
 	}
 }

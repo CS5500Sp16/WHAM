@@ -1,19 +1,29 @@
 package com.neu.wham.dao;
 
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.json.JSONException;
 import org.springframework.stereotype.Repository;
+
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.neu.wham.dao.EventDAO;
 import com.neu.wham.model.Event;
+import com.neu.wham.model.SelectedPreference;
+import com.neu.wham.model.UserSelectedPreference;
 
+/**
+ * EventDAO implementaion
+ * @author Vijet Badigannavar, Surbhi, Ryan, Ashwin
+ */
 @Repository
 public class EventDAOImpl implements EventDAO {
 
@@ -90,14 +100,101 @@ public class EventDAOImpl implements EventDAO {
 	}
 	
 	@Override
-	public List<Event> getEventsData(String lat, String lon, String radius) throws SQLException, JSONException, UnirestException
+	public List<Event> getEventsData(String lat, String lon, String radius, UserSelectedPreference userPrefs) throws SQLException, JSONException, UnirestException
 	{ 
-		return getEventsFromDB(lat, lon, radius);
+		if(null != userPrefs){
+			try {
+				return getEventsFromDBWithPref(lat, lon, radius, userPrefs);
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return getEventsFromDBWithoutPref(lat, lon, radius);
 	}
 	
 	
-	
-	public List<Event> getEventsFromDB(String lat, String lon, String radius) throws SQLException
+	public List<Event> getEventsFromDBWithPref(String lat, String lon, String radius, UserSelectedPreference userPrefs) throws SQLException, URISyntaxException, UnirestException
+	{
+		
+		List<SelectedPreference> prefs = userPrefs.getSelectedPreference();
+		List<Event> DBEvents = new ArrayList<Event>();
+		String tableName = null;
+		
+		for(SelectedPreference pref : prefs){
+			
+			switch(pref.getEventCategory()) {
+				case 1:
+					tableName = "event_type";
+					break;
+				case 2:
+					tableName = "event_topic";
+					break;
+				case 3:
+					tableName = "event_subtopic";
+					break;
+				default:
+					System.out.println("Unknown preference type! " + pref.getEventCategory());
+			}
+		
+			double lat_rad_sin = Math.sin(((double)Double.parseDouble(lat) * 3.14) / 180);
+			double lat_rad_cos = Math.cos(((double)Double.parseDouble(lat) * 3.14) / 180);
+			double lon_rad = ((double)Double.parseDouble(lon) * 3.14) / 180;
+			
+			String query = "SELECT * FROM EVENT WHERE "
+					+ "acos(? * sin(latitude * 3.14 / 180) + ? * cos(latitude * 3.14 / 180) * cos(longitude * 3.14 / 180 - ?)) * 6371 <= ? AND " + tableName + " = ?";
+			
+			Connection conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setDouble(1, lat_rad_sin);
+			pstmt.setDouble(2, lat_rad_cos);
+			pstmt.setDouble(3, lon_rad);
+			pstmt.setDouble(4, (double)Double.parseDouble(radius) / 0.62137);
+			pstmt.setInt(5, pref.getEventId());
+			
+			ResultSet rs = null;
+
+			try {
+				rs = pstmt.executeQuery();
+				while(rs.next()) { 
+					Event e = new Event();
+					e.setEventName(rs.getString("name"));
+					e.setEventDesc(rs.getString("description"));
+					e.setEventLocation(rs.getString("address"));
+					e.setPhoneNumber(rs.getString("phone"));
+					e.setEmailId(rs.getString("email"));
+
+					e.setStartDateAndTime(rs.getDate("start_date_and_time"));
+					e.setEndDateAndTime(rs.getDate("end_date_and_time"));
+
+					e.setLatitude(rs.getDouble("latitude"));
+					e.setLongitude(rs.getDouble("longitude"));
+					e.setFilePath(rs.getString("file_path"));			
+					e.setOrganiserName(rs.getString("org_name"));
+					e.setOrganiserDesc(rs.getString("org_desc"));
+					e.setOfficialEvent(rs.getBoolean("is_official"));
+					e.setCreationTime(rs.getDate("create_datetime"));
+					e.setLastUpdateTime(rs.getDate("last_update_datetime"));
+					DBEvents.add(e);
+				}
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			    throw e;
+			}
+			finally {
+				conn.close();
+			}
+			System.out.println(DBEvents.size());
+		}
+		
+		Set<Event> filterDupEvents = new HashSet<Event>(DBEvents);
+		List<Event> filteredEvents = new ArrayList<Event>(filterDupEvents);
+		return filteredEvents;
+	}
+
+	public List<Event> getEventsFromDBWithoutPref(String lat, String lon, String radius) throws SQLException
 	{
 		double lat_rad_sin = Math.sin(((double)Double.parseDouble(lat) * 3.14) / 180);
 		double lat_rad_cos = Math.cos(((double)Double.parseDouble(lat) * 3.14) / 180);
@@ -129,11 +226,6 @@ public class EventDAOImpl implements EventDAO {
 
 				e.setStartDateAndTime(rs.getDate("start_date_and_time"));
 				e.setEndDateAndTime(rs.getDate("end_date_and_time"));
-
-				//e.setStartDate(rs.getDate("start_date"));
-				//e.setEndDate(rs.getDate("end_date"));
-				//e.setStartTime(rs.getDate("start_time"));
-				//e.setEndTime(rs.getDate("end_time"));
 
 				e.setLatitude(rs.getDouble("latitude"));
 				e.setLongitude(rs.getDouble("longitude"));
