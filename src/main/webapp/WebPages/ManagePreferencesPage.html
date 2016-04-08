@@ -17,6 +17,12 @@
     <link href="../css/pageStyle.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/t4t5/sweetalert/master/dist/sweetalert.min.js"></script>
+    <script src="../js/TopMenu/modernizr.custom.js"></script>
+    <script src="../js/TopMenu/cbpTooltipMenu.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/t4t5/sweetalert/master/dist/sweetalert.css">
+
     <link href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="Stylesheet" type="text/css">
     <style>
 
@@ -39,10 +45,10 @@
             border-radius: 10px;
             color: white;
             height: 30px;
-            width: 150px;
+            width: 100px;
             font-weight: bold;
-            margin: 12px;
-            margin-left: 20px;
+
+
         }
 
 
@@ -94,7 +100,9 @@
                 document.getElementById('eventTopic').appendChild(option);
             }
 
-
+            var allOption = document.createElement("option");
+            allOption.text = "All sub topics";
+            document.getElementById('eventSubTopic').appendChild(allOption);
             var subTopicsListArray  = eventTopicArray[0].subTopicsList;
             for (i = 0; i < subTopicsListArray.length; i++) {
                 var option = document.createElement("option");
@@ -111,6 +119,9 @@
                     //var select = document.getElementById("eventSubTopic");
                     document.getElementById('eventSubTopic').innerHTML = "";
                     var subTopicsListArray  = eventTopicArray[i].subTopicsList;
+                    var allOption = document.createElement("option");
+                    allOption.text = "All sub topics";
+                    document.getElementById('eventSubTopic').appendChild(allOption);
                     for (i = 0; i < subTopicsListArray.length; i++) {
                         var option = document.createElement("option");
                         option.text = subTopicsListArray[i].eventName;
@@ -132,15 +143,7 @@
 
                 $('#tab_pref').append('<tr id="addr' + (row + 1) + '"></tr>');
                 row++;
-                //});
 
-
-                $("#delete_row").click(function(){
-                    if(row>1){
-                        $("#addr"+(row-1)).html('');
-                        row--;
-                    }
-                });
                 var selectedEventType =  document.getElementById('eventName').value;
                 var selectedEventTopic =  document.getElementById('eventTopic').value;
                 var selectedEventSubTopic =  document.getElementById('eventSubTopic').value;
@@ -158,13 +161,11 @@
                     if(eventTopicArray[i].topicName.localeCompare(selectedEventTopic) == 0){
                         var b = new subPreference(eventTopicArray[i].topicId, "1");
                         userPreferences.push(b);
-
-                        //var select = document.getElementById("eventSubTopic");
-                        // document.getElementById('eventSubTopic').innerHTML = "";
                         var subTopicsListArray  = eventTopicArray[i].subTopicsList;
                         for (i = 0; i < subTopicsListArray.length; i++) {
                             if(subTopicsListArray[i].eventName.localeCompare(selectedEventSubTopic) == 0) {
                                 var b = new subPreference(subTopicsListArray[i].eventId, "2");
+                                userPreferences.pop();
                                 userPreferences.push(b);
                                 break;
                             }
@@ -174,6 +175,18 @@
                 }
 
                 console.log(userPreferences);
+
+            });
+
+            $("#delete_row").click(function(){
+                if(row >= 0){
+                    $("#addr"+(row-1)).html('');
+                    row--;
+                }
+                if(userPreferences.length > 0){
+                    userPreferences.pop();
+                    userPreferences.pop();
+                }
 
             });
         });
@@ -187,7 +200,7 @@
         function savePreferences(){
 
             var response = {
-                'userId' : 2,
+                'userId' : 3,
                 'userPreference':userPreferences
             }
 
@@ -201,7 +214,7 @@
                 processData: false,
                 type: 'POST',
                 success: function(data) {
-                    console.log(data);
+                    sweetAlert("Congrats!", "Your have saved your preferences!", "success");
 
                     //$('#creat_event_form').trigger("reset");
 
@@ -210,12 +223,14 @@
         }
     </script>
 
+
 </head>
 <body>
 
 <header>
     <div class="cd-logo">
-        <a href=""><img src="../images/WHAM Logo.png" alt="Logo"></a>
+        <a href="#"><img src="../images/WHAM Logo.png" alt="Logo">
+        </a>
     </div>
 </header>
 
@@ -223,22 +238,52 @@
     <div class="intrinsic-container-16x9" align="center">
 
         <div class="form_container container">
-            <h2 style="text-align:center;">Choose Your Preferences</h2><br/>
+            <h2 style="text-align:center;">Choose Your Preferences
 
-            <label for="eventName">EVENT TYPE</label>
-            <select id="eventName" style="width: 400px"></select>
+            </h2>
             <br>
             <br>
-            <label for="eventName" padding="10px">EVENT TOPIC</label>
-            <select id="eventTopic" onchange="onSelectEventTopic()"></select>
-            <label for="eventName" style="width: 200px">EVENT TOPIC</label>
-            <select id="eventSubTopic" style="width: 200px"></select>
-            <!--a id="add_row" class=" btn btn-default " >Add Row</a-->
-            <button  id="add_row" class=" button" >Add Preferences</button>
-            <button  id="delete_row" class=" button" >Delete</button>
+            <label for="eventName" ><h4>EVENT TYPE</h4></label>
+            <select id="eventName" style=" width:500px" >
+            </select>
+
+          <br>
+            <table style="border: hidden">
+                <tr>
+                    <td align="center" style="border: hidden">
+                        <label for="eventTopic"><h4>EVENT TOPIC</h4></label>
+                        <select id="eventTopic" onchange="onSelectEventTopic()" style ="width: 240px" >
+                        </select>
+                    </td>
+                    <td align="center" style="border: hidden">
+                        <label for="eventSubTopic"><h4>EVENT SUB-TOPIC</h4></label>
+                        <select id="eventSubTopic" style="width: 240px ; margin-left: 20px">
+                            <!--option disabled selected value>Select Event Sub Topic</option-->
+                        </select>
+                    </td>
+                </tr>
+            </table>
             <br>
-            <br>
-            <div >
+            <table style="border: hidden">
+                <tr>
+                    <td align="center" style="border: hidden">
+                        <button  id="add_row" class=" button" >Add </button>
+                        </select>
+                    </td>
+                    <td align="center" style="border: hidden">
+                        <button id="delete_row" class=" button "  >Delete</button>
+                        </select>
+                    </td>
+                    <td align="center" style="border: hidden">
+                        <button  onclick="savePreferences()" class=" button ">Save</button>
+                        </select>
+                    </td>
+
+                </tr>
+            </table>
+
+
+            <div>
                 <div class="col-md-12 column">
                     <table id="tab_pref">
                         <thead>
@@ -270,10 +315,11 @@
 
         </div>
 
-        <button  onclick="savePreferences()" class=" button">Save</button>
+
 
     </div>
 </div>
+
 
 </body>
 </html>
