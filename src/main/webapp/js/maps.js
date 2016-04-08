@@ -171,7 +171,7 @@ function init(checked) {
                                 content = content + modal_link1 + "<br/>";
 
                                 // set the content for modal
-                                content_modal= "Event Name: " + hold[k].eventName + "<br/>" + "Event Description: " + hold[k].eventDesc + "<br/>" + "Event Location: " + hold[k].eventLocation + "<br/>" + "Distance: " + "</b>" + distance + "miles" + "<br/>" + "Organiser(s): " + + "</b>" + hold[k].organiserName + "<br/>" + "              " + hold[k].organiserDesc + "<br>" + "Conatct Number: " + hold[k].phoneNumber + " ," + hold[k].emailId + "<br/>" + "Event Start Time: " + start_date_time1 + "<br/>" + "Event End Time: " + end_date_time1 + "<br/>";
+                                content_modal= "<b>Event Name: " + "</b>"+ hold[k].eventName + "<br/>" + "<b>Event Description: " +"</b>"+ hold[k].eventDesc + "<br/>" + "<b>Event Location: " + "</b>"+ hold[k].eventLocation + "<br/>" + "<b>Distance: " + "</b>" + distance + "miles" + "<br/>" + "<b>Organiser(s): " + + "</b>" + hold[k].organiserName + "<br/>" + "              " + hold[k].organiserDesc + "<br>" + "<b>Conatct Number: " + "</b>"+hold[k].phoneNumber + " ," + hold[k].emailId + "<br/>" + "<b>Event Start Time: " + "</b>"+ start_date_time1 + "<br/>" + "<b>Event End Time: " + "</b>"+ end_date_time1 + "<br/>";
 
                             }
 
