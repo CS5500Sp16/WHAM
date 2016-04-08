@@ -1,7 +1,7 @@
 ﻿var distanceF;
 var initialLocation;
 
-function init() {
+function init(checked) {
     //set options for map
     var mapDiv = document.getElementById("myMap");
     var options = {
@@ -30,7 +30,14 @@ function init() {
             // get host name and port number of current host to create the api url
             var url = window.location.href;
             var arr = url.split("/");
-            var api_url = "http://" + arr[2] + "/WHAM/datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10";
+            // get user ID
+            var ID = 13;
+            //var ID = localStorage.getItem("name") || 13;
+            if (checked && ID !== "") {
+                var api_url = "http://" + arr[2] + "/WHAM/datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10/?userId=" + ID;
+            } else {
+                var api_url = "http://" + arr[2] + "/WHAM/datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10";
+            }
 
             // api call
             $.get({ url: api_url }, function (data) {
@@ -38,7 +45,7 @@ function init() {
 
                 // display number of envents
                 var div = document.getElementById('total');
-                div.innerHTML = div.innerHTML + 'There are total ' + loc.length + ' events happening arround you!!!!!';
+                div.innerHTML = 'There are total ' + loc.length + ' events happening arround you!!!!!';
 
                 // adding dummy events as official events
                 //loc.push({ "eventName": "Dummy event @ MIT3", extLink:"www.abc1.com","eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": null, "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": null, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
@@ -75,7 +82,10 @@ function init() {
                         }
                     }
                     var event_type = loc[i].officialEvent;
+
+                    // for multiple events on same location
                     if (count > 1) {
+                        // different marker pin
                         var multiimage = new google.maps.MarkerImage("http://maps.google.com/mapfiles/kml/pal4/icon50.png");
                         var marker = new google.maps.Marker({
                             position: new google.maps.LatLng(loc[i].latitude, loc[i].longitude),//locations[i].latlng,
@@ -84,7 +94,9 @@ function init() {
                             title: loc[i].eventName
                         });
 
-                    } else {
+                    }
+                        // Else
+                    else {
                         if (event_type) {
                             var marker = new google.maps.Marker({
                                 position: new google.maps.LatLng(loc[i].latitude, loc[i].longitude),//locations[i].latlng,
@@ -102,8 +114,12 @@ function init() {
                     }
 
                     var infowindow = new google.maps.InfoWindow();
+
+                    // find distance between user's current location and event
                     distanceF = (google.maps.geometry.spherical.computeDistanceBetween(initialLocation, new google.maps.LatLng(loc[i].latitude, loc[i].longitude))) / 1609.34;
                     var distance = distanceF.toFixed(1);
+                    
+                    // format the date
                     var start = new Date(loc[i].startDateAndTime);
                     var end = new Date(loc[i].endDateAndTime);
                     function convert(h, ampm) {
@@ -113,11 +129,15 @@ function init() {
                         }
                         return (h + ":00 " + ampm);
                     }
+
+                    // generate date and time string in desired format
                     var h1 = convert(start.getHours(), "AM");
                     var h2 = convert(end.getHours(), "AM");
                     var startTime = start.getTime();
                     var start_date_time = start.getMonth() + "/" + start.getDate() + "/" + start.getFullYear() + " " + h1;
                     var end_date_time = end.getMonth() + "/" + end.getDate() + "/" + end.getFullYear() + " " + h2;
+
+                    // if multiple events are happening in same location content would be different
                     if (count > 1) {
                         var content = "";
                         for (var k = 0; k < hold.length && count > 0; k++) {
@@ -127,11 +147,15 @@ function init() {
                             var h21 = convert(end1.getHours(), "AM");
                             var start_date_time1 = start1.getMonth() + "/" + start1.getDate() + "/" + start1.getFullYear() + " " + h11;
                             var end_date_time1 = end1.getMonth() + "/" + end1.getDate() + "/" + end1.getFullYear() + " " + h21;
+
+                            /* for applying different classes to alternate events 
+                             happening on same location so that we can give different color background */
                             if (k % 2 == 0) {
                                 content = content + "<div class='sect'>";
                             } else {
                                 content = content + "<div class='sect1'>";
                             }
+
                             content += "<br/>Name: " + hold[k].eventName
                             + "<br/>";
                             if (hold[k].eventLocation != null) {
@@ -146,6 +170,8 @@ function init() {
                                 var anc = "<a href='" + hold[k].extLink + "' target = '_blank'>Click for more details </a>"
                                 content = content + anc + "<br/>";
                             }
+
+                                // modal thingie
                             else {
                                 var ancModal = "More Details: " + "<a href = '#'" + " data-toggle='modal' data-target ='#infoModal'>" + "Click Here" + "</a>";
                                 content = content + ancModal + "<br/>";
@@ -208,4 +234,15 @@ function init() {
         });// end of navigator
     }
 }
-window.onload = init;
+
+/* apply method will apply user's preferences based on whether check box is selected or not.
+That is if user wants to apply his preferences on event search or not
+*/
+function apply() {
+    if (document.getElementById("check").checked) {
+        init(true);
+    } else {
+        init(false);
+    }
+}
+window.onload = apply;
