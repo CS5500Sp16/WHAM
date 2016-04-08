@@ -25,17 +25,11 @@ public class PreferenceServiceTest {
 	private PreferenceServiceImpl prefServiceImpl; 
 	
 	// positive test, valid userId
+	// check PreferenceStore object according to valid userId
 	@Test
 	public void buildPreferencesStoreTest() {
 		String userId = "13";
 		PreferencesStore result = prefServiceImpl.buildPreferencesStore(userId);
-		
-		System.out.println("formats: " + Arrays.toString(result.getFormats()));
-		System.out.println("categories: " + Arrays.toString(result.getCategories()));
-		System.out.println("sub categories: " + Arrays.toString(result.getSubcategories()));
-		System.out.println("e formats: " + Arrays.toString(result.getFormatsAsEventbrite()));
-		System.out.println("e categories: " + Arrays.toString(result.getCategoriesAsEventbrite()));
-		System.out.println("e sub categories: " + Arrays.toString(result.getSubcategoriesAsEventbrite()));
 		
 		String[] formats = new String[0];
 		String[] categories = { "Academic Events", "Auto, Boat And Air", "Business And Professional", "Food And Drink", "Performing And Visual Arts"};
@@ -54,6 +48,7 @@ public class PreferenceServiceTest {
 	}
 	
 	// negative test, invalid userId
+	// check PreferenceStore object according to invalid userId
 	@Test(expected=NullPointerException.class)
 	public void buildPreferencesStoreNegTest_foo(){
 		String userId = "foo";
@@ -61,6 +56,7 @@ public class PreferenceServiceTest {
 	}
 	
 	// negative test, invalid userId
+	// check PreferenceStore object according to odd userId
 	@Test(expected=NullPointerException.class)
 	public void buildPreferencesStoreNegTest_oddChars(){
 		String userId = "foo*~bar";

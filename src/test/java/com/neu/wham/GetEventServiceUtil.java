@@ -481,9 +481,5 @@ public class GetEventServiceUtil {
 		
 		return result;
 	}
-	
-//	public static UserSelectedPreference getUserPreferences() throws NumberFormatException, Exception{
-//		String userId = "13";
-//		return preferenceDAO.getUserPreferences(Integer.valueOf(userId));
-//	}
+
 }

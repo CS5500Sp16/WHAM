@@ -41,10 +41,7 @@ public class GetDBEventDAOTest {
 	private final String USER = "wham";
 	private final String PASS = "wham@123";
 	
-
 	private EventDAOImpl eventDAOImpl = new EventDAOImpl();
-	
-	
 	
 	@Autowired
     private WebApplicationContext context;
@@ -143,6 +140,7 @@ public class GetDBEventDAOTest {
 	 }
 	
 	// testcase 21
+	// get database events according to latitude, longtitude and radius
 	@Test 
 	public void getDBEventTest_withoutUserId() throws SQLException, JSONException, UnirestException{
 		
@@ -158,6 +156,7 @@ public class GetDBEventDAOTest {
 	 */
 	
 	// valid userId
+	// get database events according to latitude, longitude, radius and valid userId
 	// invalid userId is tested in getEventServiceImpl
 	@Test 
 	public void getDBEventTest_withValidUserId() throws NumberFormatException, Exception{
