@@ -134,8 +134,8 @@ function init(checked) {
                     var h1 = convert(start.getHours(), "AM");
                     var h2 = convert(end.getHours(), "AM");
                     var startTime = start.getTime();
-                    var start_date_time = start.getMonth() + "/" + start.getDate() + "/" + start.getFullYear() + " " + h1;
-                    var end_date_time = end.getMonth() + "/" + end.getDate() + "/" + end.getFullYear() + " " + h2;
+                    var start_date_time = (start.getMonth() + 1)+ "/" + start.getDate() + "/" + start.getFullYear() + " " + h1;
+                    var end_date_time = (end.getMonth() +1) + "/" + end.getDate() + "/" + end.getFullYear() + " " + h2;
 
                     // if multiple events are happening in same location content would be different
                     if (count > 1) {
@@ -145,8 +145,8 @@ function init(checked) {
                             var end1 = new Date(hold[k].endDateAndTime);
                             var h11 = convert(start1.getHours(), "AM");
                             var h21 = convert(end1.getHours(), "AM");
-                            var start_date_time1 = start1.getMonth() + "/" + start1.getDate() + "/" + start1.getFullYear() + " " + h11;
-                            var end_date_time1 = end1.getMonth() + "/" + end1.getDate() + "/" + end1.getFullYear() + " " + h21;
+                            var start_date_time1 = (start1.getMonth() +1) + "/" + start1.getDate() + "/" + start1.getFullYear() + " " + h11;
+                            var end_date_time1 = (end1.getMonth()+1) + "/" + end1.getDate() + "/" + end1.getFullYear() + " " + h21;
 
                             /* for applying different classes to alternate events 
                              happening on same location so that we can give different color background */
