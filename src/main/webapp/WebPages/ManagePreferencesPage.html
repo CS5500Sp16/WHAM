@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -54,7 +54,72 @@
 
 
     </style>
+    <script>
+        //get url
+        var url = window.location.href;
+        var arr = url.split("/");
+        //create api url with current domain and port number arr[2]
+        var api_url1 = "http://" + "ec2-52-87-159-69.compute-1.amazonaws.com:8080" + "/WHAM/getPrefList";
+        var api_url2 = "http://" + "ec2-52-87-159-69.compute-1.amazonaws.com:8080" + "/WHAM/getPref?userPreference=13";
+        var preferences;
+        var userPref;
+        /* Get th json by hitting ../getPrefList api*/
+        $.get({ url: api_url1 }, function (data) {
+            preferences = data;
 
+            /* Get th json by hitting ../getPref api*/
+            $.get({ url: api_url2 }, function (data1) {
+                userPref = data1.selectedPreference;
+                // create list of all event topics. Use this if category = 1.
+                var eventTopicList = preferences.eventTopic;
+                // for holding user selected preferences of selected event topics
+                var userEventTopics = [];
+
+                // create list of all event types. Use this if category = 0.
+                var eventTypeList = preferences.eventType;
+                // for holding user selected preferences for selected event types
+                var userEventTypes = [];
+
+                // create map of all event sub-topics. Use this if category = 2.
+                var map = new Object();
+                for (var i = 0; i < eventTopicList.length; i++) {
+                    var subTops = eventTopicList[i].subTopicsList;
+                    for (var j = 0 ; j < subTops.length; j++) {
+                        map[subTops[j].eventId] = subTops[j].eventName;
+                    }
+                }
+                // for holding user selected preferences for selected event sub-topics
+                var userSubTopics = [];
+
+                //var eventSubTopicList = preferences.eventTopic;
+                for (var i = 0; i < userPref.length; i++) {
+                    switch (userPref[i].eventCategory) {
+                        // if category is event type
+                        case 0: {
+                            userEventTypes.push(eventTypeList[userPref[i].eventId - 1].eventName);
+                            break;
+                        }
+                            // if category is event topic
+                        case 1: {
+                            userEventTopics.push(eventTopicList[userPref[i].eventId - 1].topicName);
+                            break;
+                        }
+                            // if category is event sub-topic
+                        case 2: {
+                            userSubTopics.push(map[userPref[i].eventId]);
+                            break;
+                        }
+
+                    }
+                }
+
+                // print all the three lists of user preferences (Currently I am just printing this. You can now display these lists)
+                console.log("Event Topic Pref: " + userEventTopics);
+                console.log("Event Type Pref: " + userEventTypes);
+                console.log("Event Sub-Topic Pref: " + userSubTopics);
+            });
+        });
+    </script>
 
     <script>
         var eventTypeArray = null;
@@ -79,7 +144,7 @@
         function myFunction(response) {
 
             var serverResponse = JSON.parse(response);
-            console.log(serverResponse);
+            //console.log(serverResponse);
             var userId = serverResponse.userId;
             eventTypeArray = serverResponse.eventType;
             eventTopicArray = serverResponse.eventTopic;
@@ -130,7 +195,7 @@
                     break;
                 }
             }
-            console.log(selectedValue);
+            //console.log(selectedValue);
         }
 
         $(document).ready(function(){
@@ -147,7 +212,7 @@
                 var selectedEventType =  document.getElementById('eventName').value;
                 var selectedEventTopic =  document.getElementById('eventTopic').value;
                 var selectedEventSubTopic =  document.getElementById('eventSubTopic').value;
-                console.log(selectedEventType);
+                //console.log(selectedEventType);
 
                 for (i = 0; i < eventTypeArray.length; i++) {
                     if (eventTypeArray[i].eventName.localeCompare(selectedEventType) == 0) {
@@ -174,7 +239,7 @@
                     }
                 }
 
-                console.log(userPreferences);
+                //console.log(userPreferences);
 
             });
 
