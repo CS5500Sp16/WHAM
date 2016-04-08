@@ -40,8 +40,6 @@ public class PreferenceServiceImpl implements PreferenceService {
 	@Override
 	public UserSelectedPreference getUserPreferences(String userId) {
 		try{
-			System.out.println("userId class: " + Integer.valueOf(userId).getClass());
-			System.out.println("userId: " + Integer.valueOf(userId));
 			return preferenceDAO.getUserPreferences(Integer.valueOf(userId));
 		}catch(Exception e){
 			e.printStackTrace();
@@ -76,6 +74,7 @@ public class PreferenceServiceImpl implements PreferenceService {
 				}
 				
 			} catch(Exception e) {
+				System.out.println("in exception");
 				e.printStackTrace();
 			}	
 		}

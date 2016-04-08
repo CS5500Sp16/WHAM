@@ -70,16 +70,19 @@ public class GetEventServiceImpl implements GetEventService {
 		String rad = params.get("rad");
 		String userId = params.get("userId");
 		
+		System.out.println("userId in getEvent service: " + userId);
+		
 		// build the Eventbrite preferences
 		PreferencesStore prefStore = new PreferencesStore();
 		if(null != userId) 
 		{
-			prefStore = prefService.buildPreferencesStore(userId);
+			prefStore = prefService.buildPreferencesStore(userId);	
 			userPref = prefService.getUserPreferences(userId);
 		}
 		
  		try
 		{
+ 			System.out.println("prefStore is null?: " + prefStore);
  			APIEvents = getEventsFromAPI(lat, lon, rad, prefStore.getFormatsAsEventbrite(), 
  				prefStore.getCategoriesAsEventbrite(), prefStore.getSubcategoriesAsEventbrite());
  			DBEvents =  getEventsFromDB(lat, lon, rad, userPref);
@@ -279,10 +282,6 @@ public class GetEventServiceImpl implements GetEventService {
 				builder.addParameter("categories", String.join(",", categories));
 			if(null != subcategories && subcategories.length > 0)
 				builder.addParameter("subcategories", String.join(",", subcategories));
-			
-			System.out.println("EMMAEMMAEMMAEMMA");
-			System.out.println("eventBrite url: " + builder.toString());
-			System.out.println("EMMAEMMAEMMAEMMA");
 			
 			HttpResponse<JsonNode> jsonResponse = Unirest.get(builder.toString()).asJson();
 			JsonNode obj = jsonResponse.getBody();

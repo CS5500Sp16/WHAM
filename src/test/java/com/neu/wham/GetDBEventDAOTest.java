@@ -161,16 +161,13 @@ public class GetDBEventDAOTest {
 	// invalid userId is tested in getEventServiceImpl
 	@Test 
 	public void getDBEventTest_withValidUserId() throws NumberFormatException, Exception{
-		
-		PreferenceDAOImpl preferenceDAO = new PreferenceDAOImpl();
-		
-		String userId = "13";
-		
+				
 		// get 9 preference items
-		UserSelectedPreference userPref = preferenceDAO.getUserPreferences(Integer.valueOf(userId));
+		UserSelectedPreference userPref = GetEventServiceUtil.getUserPreference_withUserId13();
 			
 		List<Event> eventList = eventDAOImpl.getEventsData("42.4667", "-71.3456", "15", userPref);
-					
+			
+		// after filter, there is only 1 
 		Assert.isTrue(eventList.size() == 1);
 		Assert.isTrue(eventList.get(0).getEventName().equals("e4"));
 	}

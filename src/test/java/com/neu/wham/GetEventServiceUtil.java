@@ -2,21 +2,33 @@ package com.neu.wham;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.neu.wham.dao.PreferenceDAO;
+import com.neu.wham.dao.PreferenceDAOImpl;
 import com.neu.wham.model.Event;
+import com.neu.wham.model.PreferencesStore;
+import com.neu.wham.model.UserPreference;
+import com.neu.wham.model.UserSelectedPreference;
+import com.neu.wham.services.PreferenceServiceImpl;
 
 public class GetEventServiceUtil {
 	
+	private static PreferenceServiceImpl prefServiceImpl;
+	@Autowired
+	private static PreferenceDAO preferenceDAO;
+	
 	public static JSONArray getCannedEventbriteResponse_withoutUserId() throws JSONException {
 		JSONArray cannedEvents = new JSONArray();
-		
 		
 		// first object
 		JSONObject event1 = new JSONObject();
@@ -235,7 +247,6 @@ public class GetEventServiceUtil {
 		event1.put("venue", venue1);
 		
 		
-		
 		// second object
 		JSONObject event2 = new JSONObject();
 				
@@ -394,8 +405,85 @@ public class GetEventServiceUtil {
 		cannedEvents.put(event2);
 		cannedEvents.put(event3);
 		cannedEvents.put(event4);
-				
+		
+		System.out.println("finish eventbrite response with 13");
+		
 		return cannedEvents;
 	}
 	
+	public static UserSelectedPreference getUserPreference_withUserId13() throws NumberFormatException, Exception {
+		PreferenceDAOImpl preferenceDAO = new PreferenceDAOImpl();
+		String userId = "13";
+		
+		UserSelectedPreference userPref = preferenceDAO.getUserPreferences(Integer.valueOf(userId));
+		
+		return userPref;
+	}
+	
+	public static List<Event> getCannedDBResponse_withUserId13() throws ParseException{
+		List<Event> events = new ArrayList<Event>();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date d = sdf.parse("2016-04-01 11:00:01");
+		
+		//events 
+		Event e1 = new Event();
+		Event e2 = new Event();
+		
+		e1.setEventName("event1 from DB");
+		e1.setEventDesc("dummy event for test");
+		e1.setLatitude(42.4667);
+		e1.setLongitude(-71.3456);
+		e1.setStartDateAndTime(d);
+		e1.setEndDateAndTime(d);
+		e1.setCreationTime(d);
+		e1.setLastUpdateTime(d);
+		e1.setOfficialEvent(true);
+		e1.setPhoneNumber("617232645");
+		e1.setEmailId("email@husky.neu.edu");
+		e1.setEventLocation("360 Huntington Ave., Boston, Massachusetts 02115");
+		e1.setOrganiserName("Mike");
+		e1.setOrganiserDesc("a description");
+		e1.setFilePath("");
+		e1.setEventTopic(5);
+		e1.setEventType(1);
+		
+		
+		e2.setEventName("event2 from DB");
+		e2.setEventDesc("dummy event for test");
+		e2.setLatitude(42.4667);
+		e2.setLongitude(-71.3456);
+		e2.setStartDateAndTime(d);
+		e2.setEndDateAndTime(d);
+		e2.setCreationTime(d);
+		e2.setLastUpdateTime(d);
+		e2.setOfficialEvent(false);
+		e2.setPhoneNumber("65243535234");
+		e2.setEmailId("dummy@husky.neu.edu");
+		e2.setEventLocation("360 Huntington Ave., Boston, Massachusetts 02115");
+		e2.setOrganiserName("CCIS");
+		e2.setOrganiserDesc("a description");
+		e2.setFilePath("");
+		e2.setEventTopic(429);
+		e2.setEventType(2);
+		
+		events.add(e1);
+		events.add(e2);
+		
+		System.out.println("finish DB response with 13");
+		return events;
+	}
+	
+	public static PreferencesStore cannedUserPrefStore(){
+		
+		String userId = "13";
+		PreferencesStore result = prefServiceImpl.buildPreferencesStore(userId);
+		
+		return result;
+	}
+	
+//	public static UserSelectedPreference getUserPreferences() throws NumberFormatException, Exception{
+//		String userId = "13";
+//		return preferenceDAO.getUserPreferences(Integer.valueOf(userId));
+//	}
 }
