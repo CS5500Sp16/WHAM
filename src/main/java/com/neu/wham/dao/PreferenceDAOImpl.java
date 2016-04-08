@@ -17,6 +17,10 @@ import com.neu.wham.model.SelectedPreference;
 import com.neu.wham.model.UserSelectedPreference;
 import com.neu.wham.model.UserPreference;
 
+/**
+ * Implemenation of PreferenceDAO
+ * @author Vijet,Vaibhav,Harsh,Mavez,Yue, Ryan, Surbhi, Ashwin
+ */
 @Repository
 public class PreferenceDAOImpl implements PreferenceDAO {
 

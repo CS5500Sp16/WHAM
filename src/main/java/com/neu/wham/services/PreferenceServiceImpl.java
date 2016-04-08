@@ -10,9 +10,15 @@ import com.neu.wham.model.SelectedPreference;
 import com.neu.wham.model.UserSelectedPreference;
 import com.neu.wham.model.UserPreference;
 
+/**
+ * PreferenceService Implementation that handles the PreferenceEngine
+ * @author Vijet Badigannavar, Ryan Millay, Surbhi Gupta, Ashwin 
+ */
 @Service
 public class PreferenceServiceImpl implements PreferenceService {
-	
+	/**
+	 * DAO Class for storing the preferences.
+	 */
 	@Autowired
 	private PreferenceDAO preferenceDAO;
 	

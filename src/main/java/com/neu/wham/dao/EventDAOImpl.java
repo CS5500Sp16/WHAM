@@ -20,6 +20,10 @@ import com.neu.wham.model.Event;
 import com.neu.wham.model.SelectedPreference;
 import com.neu.wham.model.UserSelectedPreference;
 
+/**
+ * EventDAO implementaion
+ * @author Vijet Badigannavar, Surbhi, Ryan, Ashwin
+ */
 @Repository
 public class EventDAOImpl implements EventDAO {
 
