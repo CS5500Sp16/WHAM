@@ -73,7 +73,10 @@ public class UserRegistrationDAOTest {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * test Case for checking Email
+	 * this is a positive test scenario
+	 * */
 	@Test
 	public void testEmailPos() {
 		User user = new User();
@@ -114,7 +117,11 @@ public class UserRegistrationDAOTest {
 	}
 	
 
-	
+	/**
+	 * test Case for checking Password
+	 * Password is set null
+	 * this is a negative test scenario
+	 * */
 	@Test
 	public void testPasswordNull() throws SQLException {
 		User user = new User();
@@ -152,7 +159,11 @@ public class UserRegistrationDAOTest {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * test Case for checking Password
+	 * Password is not encrypted
+	 * this is a negative test scenario
+	 * */
 	@Test(expected=SQLException.class)
 	public void testLastNameNeg() throws SQLException {
 		User user = new User();
@@ -168,7 +179,11 @@ public class UserRegistrationDAOTest {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * test Case for checking  Name
+	 * Name contains special Characters.
+	 * this is a negative test scenario
+	 * */
 	@Test
 	public void testNameNeg() throws SQLException {
 		User user = new User();
@@ -207,7 +222,11 @@ public class UserRegistrationDAOTest {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * test Case for validating User
+	 * User is validated after putying a check on user
+	 * this is a positive test scenario
+	 * */
 	@Test
 	public void testValidatedUser() throws SQLException{
 		User user = new User();
@@ -226,6 +245,12 @@ public class UserRegistrationDAOTest {
 		}
 	}
 	
+	/**
+	 * test Case for validating User
+	 * User is validated after putting a check on user
+	 * As password is not encrypted ,user is not validated and an exception is thrown
+	 * this is a negative test scenario
+	 * */
 	@Test
 	public void testInValidatedUser() throws SQLException{
 		User user = new User();
@@ -282,7 +307,10 @@ public class UserRegistrationDAOTest {
 		}
 	}
 	
-	// clean up
+	/** clean up
+	 * this metod is implemented to delete the users which are created while testing the system.
+	 * No unneccessary data is stored in the database by virtue of this method.
+	 * **/
 	@After
     public void doYourOneTimeTeardown() throws SQLException {
 		Connection conn = null;
