@@ -47,15 +47,6 @@ function init(checked) {
                 var div = document.getElementById('total');
                 div.innerHTML = 'There are total ' + loc.length + ' events happening arround you!!!!!';
 
-                // adding dummy events as official events
-                //loc.push({ "eventName": "Dummy event @ MIT3", extLink:"www.abc1.com","eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": null, "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": null, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
-                //loc.push({ "eventName": "Dummy event @ some",extLink: null, "eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": "239 Holland Street null Somerville MA 02144 US", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3351, "longitude": -71.1704, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
-                //loc.push({ "eventName": "Dummy event @ MIT",extLink: null, "eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": false });
-                //loc.push({ "eventName": "Dummy event @ some2",extLink: null, "eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": "239 Holland Street null Somerville MA 02144 US", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3351, "longitude": -71.1704, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": false });
-                //loc.push({ "eventName": "Dummy event @ MIT2", extLink: null,"eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
-                //loc.push({ "eventName": "Dummy event @ framingham",extLink: null, "eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3770, "longitude": -71.1167, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
-                //loc.push({ "eventName": "Dummy event @ fram", extLink: "www.abc.com","eventDesc": "A new game of thrones beer release by ommegang. Prizes and great beer - more details to come!  \nBeer List:  \nSeven Kingdoms - GoT Hoppy Wheat Beer\nRosetta Kriek\nGlimmerglass Spring Saison\nShadow Brewer Imperial Stout\nHoublon Chouffe Belgian-Style Scotch Ale", "eventLocation": null, "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": null, "startTime": null, "endTime": 1459389600000, "latitude": 42.3505, "longitude": -71.1054, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": false });
-
                 // make map responsive
                 google.maps.event.addDomListener(window, "resize", function () {
                     var center = map.getCenter();
@@ -140,7 +131,9 @@ function init(checked) {
                     // if multiple events are happening in same location content would be different
                     if (count > 1) {
                         var content = "";
+                        var content_modal = "";
                         for (var k = 0; k < hold.length && count > 0; k++) {
+                            // date format
                             var start1 = new Date(hold[k].startDateAndTime);
                             var end1 = new Date(hold[k].endDateAndTime);
                             var h11 = convert(start1.getHours(), "AM");
@@ -156,6 +149,7 @@ function init(checked) {
                                 content = content + "<div class='sect1'>";
                             }
 
+                            // setting content
                             content += "<br/>Name: " + hold[k].eventName
                             + "<br/>";
                             if (hold[k].eventLocation != null) {
@@ -173,11 +167,11 @@ function init(checked) {
 
                                 // modal thingie
                             else {
-                                var ancModal = "More Details: " + "<a href = '#'" + " data-toggle='modal' data-target ='#infoModal'>" + "Click Here" + "</a>";
-                                content = content + ancModal + "<br/>";
+                                var modal_link1 = "More Details: " + "<a href = '#'" + " data-toggle='modal' data-target ='#infoModal'>" + "Click Here" + "</a>";
+                                content = content + modal_link1 + "<br/>";
 
-                                var modalDiv = document.getElementById('details');
-                                modalDiv.innerHTML = "Event Name: " + hold[k].eventName + "<br/>" + "Event Description: " + hold[k].eventDesc + "<br/>" + "Event Location: " + hold[k].eventLocation + "<br/>" + "Distance: " + "</b>" + distance + "miles" + "<br/>" + "Organiser(s): " + + "</b>" + hold[k].organiserName + "<br/>" + "              " + hold[k].organiserDesc + "<br>" + "Conatct Number: " + hold[k].phoneNumber + " ," + hold[k].emailId + "<br/>" + "Event Start Time: " + start_date_time1 + "<br/>" + "Event End Time: " + end_date_time1 + "<br/>";
+                                // set the content for modal
+                                content_modal= "Event Name: " + hold[k].eventName + "<br/>" + "Event Description: " + hold[k].eventDesc + "<br/>" + "Event Location: " + hold[k].eventLocation + "<br/>" + "Distance: " + "</b>" + distance + "miles" + "<br/>" + "Organiser(s): " + + "</b>" + hold[k].organiserName + "<br/>" + "              " + hold[k].organiserDesc + "<br>" + "Conatct Number: " + hold[k].phoneNumber + " ," + hold[k].emailId + "<br/>" + "Event Start Time: " + start_date_time1 + "<br/>" + "Event End Time: " + end_date_time1 + "<br/>";
 
                             }
 
@@ -204,13 +198,12 @@ function init(checked) {
                             var a = "<a href='" + loc[i].extLink + "' target = '_blank'>Click for more details </a>"
                             content = content + a + "<br/>";
                         }
-
+                            
+                            // Modal thingie
                         else {
-                            var aModal = "More Details: " + "<a href = '#'" + " data-toggle='modal' data-target ='#infoModal'>" + "Click Here" + "</a>";
-                            content = content + aModal + "<br/>";
-
-                            var modalDiv = document.getElementById('details');
-                            modalDiv.innerHTML = "<b>Event Name: " + "</b>" + loc[i].eventName + "<br/>" + "<b>Event Description: " + "</b>" + loc[i].eventDesc + "<br/>" + "<b>Event Location: " + "</b>" + loc[i].eventLocation + "<br/>" + "<b>Distance: " + "</b>" + distance + "miles" + "<br/>" + "<b>Organiser(s): " + "</b>" + loc[i].organiserName + "<br/>" + "              " + loc[i].organiserDesc + "<br>" + "<b>Conatct Details: " + "</b>" + loc[i].phoneNumber + " ," + loc[i].emailId + "<br/>" + "<b>Event Start Time: " + "</b>" + start_date_time + "<br/>" + "<b>Event End Time: " + "</b>" + end_date_time + "<br/>";
+                            var modal_link = "More Details: " + "<a href = '#'" + " data-toggle='modal' data-target ='#infoModal'>" + "Click Here" + "</a>";
+                            content = content + modal_link + "<br/>";
+                            var content_modal= "<b>Event Name: " + "</b>" + loc[i].eventName + "<br/>" + "<b>Event Description: " + "</b>" + loc[i].eventDesc + "<br/>" + "<b>Event Location: " + "</b>" + loc[i].eventLocation + "<br/>" + "<b>Distance: " + "</b>" + distance + "miles" + "<br/>" + "<b>Organiser(s): " + "</b>" + loc[i].organiserName + "<br/>" + "              " + loc[i].organiserDesc + "<br>" + "<b>Conatct Details: " + "</b>" + loc[i].phoneNumber + " ," + loc[i].emailId + "<br/>" + "<b>Event Start Time: " + "</b>" + start_date_time + "<br/>" + "<b>Event End Time: " + "</b>" + end_date_time + "<br/>";
                         }
 
                         if (event_type)
@@ -219,7 +212,7 @@ function init(checked) {
                     }
 
                     var currentInfoWindow = null;
-                    google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow) {
+                    google.maps.event.addListener(marker, 'click', (function (marker, content,content_modal, infowindow) {
                         return function () {
                             infowindow.setContent(content);
                             if (currentInfoWindow != null) {
@@ -227,8 +220,12 @@ function init(checked) {
                             }
                             infowindow.open(map, marker);
                             currentInfoWindow = infowindow;
+
+                            // adding modal content in info window so that every pin will show content related to that pin
+                            var modalDiv = document.getElementById('details');
+                            modalDiv.innerHTML = content_modal;
                         };
-                    })(marker, content, infowindow));
+                    })(marker, content, content_modal, infowindow));
                 } // end of for loop
             });// end of api call
         });// end of navigator
