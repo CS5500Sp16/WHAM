@@ -24,13 +24,15 @@ public class UserRegistrationDAOImpl implements UserRegistrationDAO {
 			e.printStackTrace();
 		}
 	}
-	
+	/** 
+	 * This method provides the database connectivity to the user registration controller.
+	 **/
 	@Override
 	public User createNewUser(User user) throws SQLException, NoSuchAlgorithmException {
 		Connection conn = null;
 		conn = DriverManager.getConnection(DBConstants.DB_URL,DBConstants.USER,DBConstants.PASS);
 		
-		//TODO: encrypt Password
+	
 		if (user.getPassword() != null)
 			user.setPassword(encryptPassword(user.getPassword()));
 		
@@ -88,7 +90,10 @@ public class UserRegistrationDAOImpl implements UserRegistrationDAO {
 		
 		return null;
 	}
-	
+	/**
+	 * This method is used for encrypting the password of the usser.
+	 * MD5 encryption technique is used to store the password of the user in the database.
+	 * */
 	private String encryptPassword(String password) throws NoSuchAlgorithmException {
 		MessageDigest md = MessageDigest.getInstance("MD5");
 		md.update(password.getBytes());
