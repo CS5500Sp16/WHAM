@@ -5,11 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.stereotype.Repository;
 
 import com.mysql.jdbc.PreparedStatement;
@@ -152,7 +149,7 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 		List<SelectedPreference> prefList = new ArrayList<SelectedPreference>();
 		
 		conn = DriverManager.getConnection(DBConstants.DB_URL,DBConstants.USER,DBConstants.PASS);
-
+		
 		StringBuilder stmtBuilder = new StringBuilder();
 		stmtBuilder.append("select * from USER_PREFERENCES where user_id=?;");
 		PreparedStatement stmt = (PreparedStatement) conn.prepareStatement(stmtBuilder.toString());
@@ -160,11 +157,44 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 		
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()){
-			prefList.add(new SelectedPreference(rs.getInt("event_pref_type"), rs.getInt("event_pref_id")));
+			prefList.add(new SelectedPreference(rs.getInt("event_pref_id"), rs.getInt("event_pref_type")));
 		}
 		userPref.setSelectedPreference(prefList);
 		return userPref;
 	}
-	
 
+	@Override
+	public String getPreferenceString(int id, int tableId) throws Exception {
+		conn = DriverManager.getConnection(DBConstants.DB_URL,DBConstants.USER,DBConstants.PASS);
+		
+		String prefString = "";
+		String columnKey;
+		StringBuilder stmtBuilder = new StringBuilder();
+		
+		switch(tableId) {
+			case 0:
+				stmtBuilder.append("select * from EVENT_TYPE_MASTER where event_type_id=?;");
+				columnKey = "event_type";
+				break;
+			case 1:
+				stmtBuilder.append("select * from EVENT_TOPIC_MASTER where event_topic_id=?;");
+				columnKey = "event_topic";
+				break;
+			case 2:
+				stmtBuilder.append("select * from EVENT_SUB_TOPIC_MASTER where event_sub_topic_id=?;");
+				columnKey = "event_sub_topic";
+				break;
+			default:
+				columnKey = "";
+		}
+		
+		PreparedStatement stmt = (PreparedStatement) conn.prepareStatement(stmtBuilder.toString());
+		stmt.setInt(1, id);
+		
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()){
+			prefString = rs.getString(columnKey);
+		}
+		return prefString;
+	}
 }
