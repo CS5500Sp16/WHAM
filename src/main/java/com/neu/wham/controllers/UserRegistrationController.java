@@ -1,5 +1,11 @@
 package com.neu.wham.controllers;
-
+/*
+This controller is responsible for user registration.
+Follows 2 steps:
+1   Registers Users.
+2   Validate Them
+Import Linraries from spring Framework and Project packages.
+*/
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +22,9 @@ import com.neu.wham.messages.EventPostResponse.Status;
 import com.neu.wham.model.Event;
 import com.neu.wham.model.User;
 import com.neu.wham.services.UserRegistrationService;
-
+/**
+simply registers the user into the database 
+**/
 @Controller
 public class UserRegistrationController {
 	@Autowired
@@ -29,7 +37,10 @@ public class UserRegistrationController {
 		}
 		return registrationService.registerUser(user);
 	}
-	
+	/**
+This method checks if all the mandatory fields are filled by the user before registering.
+If yes the user records are entered to the database 
+**/
 	@RequestMapping(value="/validateUser",method=RequestMethod.POST)
 	public @ResponseBody User validateUser(@RequestParam("emailId") String emailId, @RequestParam("password") String password){
 		if(emailId== null ||  password == null ||emailId.isEmpty() || password.isEmpty()){
