@@ -22,7 +22,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.neu.wham.dao.EventDAOImpl;
+import com.neu.wham.dao.PreferenceDAOImpl;
 import com.neu.wham.model.Event;
+import com.neu.wham.model.UserSelectedPreference;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -41,6 +43,7 @@ public class GetDBEventDAOTest {
 	
 
 	private EventDAOImpl eventDAOImpl = new EventDAOImpl();
+	
 	
 	
 	@Autowired
@@ -111,6 +114,7 @@ public class GetDBEventDAOTest {
 			e3.setOrganiserName("Mike");
 			e3.setOrganiserDesc("a description");
 			e3.setFilePath("");
+			e4.setEventType(3);
 			
 			//15 miles from e1                       
 			e4.setEventName("e4");
@@ -128,6 +132,8 @@ public class GetDBEventDAOTest {
 			e4.setOrganiserName("Mike");
 			e4.setOrganiserDesc("a description");
 			e4.setFilePath("");
+			e4.setEventTopic(5);
+			e4.setEventType(1);
 			
 			eventDAOImpl.addNewEvent(e1);
 			eventDAOImpl.addNewEvent(e2);
@@ -138,13 +144,35 @@ public class GetDBEventDAOTest {
 	
 	// testcase 21
 	@Test 
-	public void getDBEventTest() throws SQLException, JSONException, UnirestException{
+	public void getDBEventTest_withoutUserId() throws SQLException, JSONException, UnirestException{
 		
 		List<Event> eventList = eventDAOImpl.getEventsData("45", "45", "15", null);
 				
 		Assert.isTrue(eventList.size() == 1);
 		Assert.isTrue(eventList.get(0).getEventName().equals("e2"));
 	}
+	
+	
+	/*
+	 * getDBEvent based on userId
+	 */
+	
+	// valid userId
+	// invalid userId is tested in getEventServiceImpl
+	@Test 
+	public void getDBEventTest_withValidUserId() throws NumberFormatException, Exception{
+				
+		// get 9 preference items
+		UserSelectedPreference userPref = GetEventServiceUtil.getUserPreference_withUserId13();
+			
+		List<Event> eventList = eventDAOImpl.getEventsData("42.4667", "-71.3456", "15", userPref);
+			
+		// after filter, there is only 1 
+		Assert.isTrue(eventList.size() == 1);
+		Assert.isTrue(eventList.get(0).getEventName().equals("e4"));
+	}
+	
+	
 	
 	// clean up
 	@After
@@ -166,6 +194,5 @@ public class GetDBEventDAOTest {
 				throw e;
 			}
     } 
-	
 	
 }

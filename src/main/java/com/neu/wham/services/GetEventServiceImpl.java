@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,6 +52,8 @@ public class GetEventServiceImpl implements GetEventService {
 	@Autowired
 	private PreferenceService prefService;
 	
+	
+	
 	@Override
 	public List<Event> getEvents(HashMap<String, String> params)
 	{
@@ -67,19 +70,22 @@ public class GetEventServiceImpl implements GetEventService {
 		String rad = params.get("rad");
 		String userId = params.get("userId");
 		
+		System.out.println("userId in getEvent service: " + userId);
+		
 		// build the Eventbrite preferences
 		PreferencesStore prefStore = new PreferencesStore();
 		if(null != userId) 
 		{
-			prefStore = prefService.buildPreferencesStore(userId);
+			prefStore = prefService.buildPreferencesStore(userId);	
 			userPref = prefService.getUserPreferences(userId);
 		}
 		
  		try
 		{
+ 			System.out.println("prefStore is null?: " + prefStore);
  			APIEvents = getEventsFromAPI(lat, lon, rad, prefStore.getFormatsAsEventbrite(), 
- 				prefStore.getCategoriesAsEventbrite(), prefStore.getSubcategoriesAsEventbrite());	
-			DBEvents =  eventDAO.getEventsData(lat, lon, rad, userPref);
+ 				prefStore.getCategoriesAsEventbrite(), prefStore.getSubcategoriesAsEventbrite());
+ 			DBEvents =  getEventsFromDB(lat, lon, rad, userPref);
 			NEUEvents = getNEUEvents(prefStore.getFormats(), prefStore.getCategories(), prefStore.getSubcategories());
 		}
 		catch(Exception e)
@@ -158,6 +164,9 @@ public class GetEventServiceImpl implements GetEventService {
 		return eventList;
 	}
 
+	public List<Event> getEventsFromDB(String lat, String lon, String radius, UserSelectedPreference userPrefs) throws SQLException, JSONException, UnirestException{
+		return eventDAO.getEventsData(lat, lon, radius, userPrefs);
+	}
 	
 	public List<Event> getNEUEvents(String[] types, String[] categories, String[] sub_categories) throws URISyntaxException, UnirestException, IOException, JSONException, ParserConfigurationException, SAXException, TransformerException
 	{
@@ -273,8 +282,6 @@ public class GetEventServiceImpl implements GetEventService {
 				builder.addParameter("categories", String.join(",", categories));
 			if(null != subcategories && subcategories.length > 0)
 				builder.addParameter("subcategories", String.join(",", subcategories));
-			
-			System.out.println(builder.toString());
 			
 			HttpResponse<JsonNode> jsonResponse = Unirest.get(builder.toString()).asJson();
 			JsonNode obj = jsonResponse.getBody();

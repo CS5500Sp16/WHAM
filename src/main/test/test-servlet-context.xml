@@ -13,6 +13,7 @@
 	<beans:bean id="eventDAO" class="com.neu.wham.dao.EventDAOImpl"/>
 	<beans:bean id="evntResponse" class="com.neu.wham.messages.EventPostResponse"/>
 	<beans:bean id="eventserviceImpl" class="com.neu.wham.services.EventServiceImpl"/>
+	
 
 
 	
