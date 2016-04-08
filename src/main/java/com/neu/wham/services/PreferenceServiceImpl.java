@@ -42,7 +42,7 @@ public class PreferenceServiceImpl implements PreferenceService {
 		try{
 			return preferenceDAO.getUserPreferences(Integer.valueOf(userId));
 		}catch(Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return null;
 	}
