@@ -164,12 +164,12 @@ public class UserRegistrationDAOTest {
 	 * Password is not encrypted
 	 * this is a negative test scenario
 	 * */
-	@Test(expected=SQLException.class)
+	@Test
 	public void testLastNameNeg() throws SQLException {
 		User user = new User();
 		user.setFirstName("test");
 		user.setMiddleName("mi");
-		user.setLastName(null);
+		user.setLastName("");
 		user.setEmailId("first@husky.neu.edu");
 		user.setPhoneNo("1112221234");
 		user.setPassword("1318hjd@");
