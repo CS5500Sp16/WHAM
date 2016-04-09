@@ -102,7 +102,7 @@ public class EventDAOImpl implements EventDAO {
 	@Override
 	public List<Event> getEventsData(String lat, String lon, String radius, UserSelectedPreference userPrefs) throws SQLException, JSONException, UnirestException
 	{ 
-		if(null != userPrefs){
+		if(null != userPrefs && userPrefs.getSelectedPreference().size() > 0){
 			try {
 				return getEventsFromDBWithPref(lat, lon, radius, userPrefs);
 			} catch (URISyntaxException e) {
