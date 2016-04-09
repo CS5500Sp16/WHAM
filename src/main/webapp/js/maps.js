@@ -109,7 +109,7 @@ function init(checked) {
                     // find distance between user's current location and event
                     distanceF = (google.maps.geometry.spherical.computeDistanceBetween(initialLocation, new google.maps.LatLng(loc[i].latitude, loc[i].longitude))) / 1609.34;
                     var distance = distanceF.toFixed(1);
-                    
+
                     // format the date
                     var start = new Date(loc[i].startDateAndTime);
                     var end = new Date(loc[i].endDateAndTime);
@@ -125,8 +125,8 @@ function init(checked) {
                     var h1 = convert(start.getHours(), "AM");
                     var h2 = convert(end.getHours(), "AM");
                     var startTime = start.getTime();
-                    var start_date_time = (start.getMonth() + 1)+ "/" + start.getDate() + "/" + start.getFullYear() + " " + h1;
-                    var end_date_time = (end.getMonth() +1) + "/" + end.getDate() + "/" + end.getFullYear() + " " + h2;
+                    var start_date_time = (start.getMonth() + 1) + "/" + start.getDate() + "/" + start.getFullYear() + " " + h1;
+                    var end_date_time = (end.getMonth() + 1) + "/" + end.getDate() + "/" + end.getFullYear() + " " + h2;
 
                     // if multiple events are happening in same location content would be different
                     if (count > 1) {
@@ -138,8 +138,8 @@ function init(checked) {
                             var end1 = new Date(hold[k].endDateAndTime);
                             var h11 = convert(start1.getHours(), "AM");
                             var h21 = convert(end1.getHours(), "AM");
-                            var start_date_time1 = (start1.getMonth() +1) + "/" + start1.getDate() + "/" + start1.getFullYear() + " " + h11;
-                            var end_date_time1 = (end1.getMonth()+1) + "/" + end1.getDate() + "/" + end1.getFullYear() + " " + h21;
+                            var start_date_time1 = (start1.getMonth() + 1) + "/" + start1.getDate() + "/" + start1.getFullYear() + " " + h11;
+                            var end_date_time1 = (end1.getMonth() + 1) + "/" + end1.getDate() + "/" + end1.getFullYear() + " " + h21;
 
                             /* for applying different classes to alternate events 
                              happening on same location so that we can give different color background */
@@ -167,12 +167,13 @@ function init(checked) {
 
                                 // modal thingie
                             else {
-                                var modal_link1 = "More Details: " + "<a href = '#'" + " data-toggle='modal' data-target ='#infoModal'>" + "Click Here" + "</a>";
+                                var modal_link1 = "More Details: " + "<a href = '#'" + "class='" + k + "' data-toggle='modal' data-target ='#infoModal' onClick = 'show(" + k + ")'>" + "Click Here" + "</a>";
                                 content = content + modal_link1 + "<br/>";
 
                                 // set the content for modal
-                                content_modal= "<b>Event Name: " + "</b>"+ hold[k].eventName + "<br/>" + "<b>Event Description: " +"</b>"+ hold[k].eventDesc + "<br/>" + "<b>Event Location: " + "</b>"+ hold[k].eventLocation + "<br/>" + "<b>Distance: " + "</b>" + distance + "miles" + "<br/>" + "<b>Organiser(s): " + + "</b>" + hold[k].organiserName + "<br/>" + "              " + hold[k].organiserDesc + "<br>" + "<b>Conatct Number: " + "</b>"+hold[k].phoneNumber + " ," + hold[k].emailId + "<br/>" + "<b>Event Start Time: " + "</b>"+ start_date_time1 + "<br/>" + "<b>Event End Time: " + "</b>"+ end_date_time1 + "<br/>";
-
+                                content_modal = content_modal + "<div class='multi_modal " + k + "part' style='display:none'>";
+                                content_modal += "Event Name: " + hold[k].eventName + "<br/>" + "Event Description: " + hold[k].eventDesc + "<br/>" + "Event Location: " + hold[k].eventLocation + "<br/>" + "Distance: " + "</b>" + distance + "miles" + "<br/>" + "Organiser(s): " + + "</b>" + hold[k].organiserName + "<br/>" + "              " + hold[k].organiserDesc + "<br>" + "Conatct Number: " + hold[k].phoneNumber + " ," + hold[k].emailId + "<br/>" + "Event Start Time: " + start_date_time1 + "<br/>" + "Event End Time: " + end_date_time1 + "<br/>";
+                                content_modal += "</div>";
                             }
 
                             if (hold[k].officialEvent) {
@@ -198,12 +199,12 @@ function init(checked) {
                             var a = "<a href='" + loc[i].extLink + "' target = '_blank'>Click for more details </a>"
                             content = content + a + "<br/>";
                         }
-                            
+
                             // Modal thingie
                         else {
                             var modal_link = "More Details: " + "<a href = '#'" + " data-toggle='modal' data-target ='#infoModal'>" + "Click Here" + "</a>";
                             content = content + modal_link + "<br/>";
-                            var content_modal= "<b>Event Name: " + "</b>" + loc[i].eventName + "<br/>" + "<b>Event Description: " + "</b>" + loc[i].eventDesc + "<br/>" + "<b>Event Location: " + "</b>" + loc[i].eventLocation + "<br/>" + "<b>Distance: " + "</b>" + distance + "miles" + "<br/>" + "<b>Organiser(s): " + "</b>" + loc[i].organiserName + "<br/>" + "              " + loc[i].organiserDesc + "<br>" + "<b>Conatct Details: " + "</b>" + loc[i].phoneNumber + " ," + loc[i].emailId + "<br/>" + "<b>Event Start Time: " + "</b>" + start_date_time + "<br/>" + "<b>Event End Time: " + "</b>" + end_date_time + "<br/>";
+                            var content_modal = "<b>Event Name: " + "</b>" + loc[i].eventName + "<br/>" + "<b>Event Description: " + "</b>" + loc[i].eventDesc + "<br/>" + "<b>Event Location: " + "</b>" + loc[i].eventLocation + "<br/>" + "<b>Distance: " + "</b>" + distance + "miles" + "<br/>" + "<b>Organiser(s): " + "</b>" + loc[i].organiserName + "<br/>" + "              " + loc[i].organiserDesc + "<br>" + "<b>Conatct Details: " + "</b>" + loc[i].phoneNumber + " ," + loc[i].emailId + "<br/>" + "<b>Event Start Time: " + "</b>" + start_date_time + "<br/>" + "<b>Event End Time: " + "</b>" + end_date_time + "<br/>";
                         }
 
                         if (event_type)
@@ -212,7 +213,7 @@ function init(checked) {
                     }
 
                     var currentInfoWindow = null;
-                    google.maps.event.addListener(marker, 'click', (function (marker, content,content_modal, infowindow) {
+                    google.maps.event.addListener(marker, 'click', (function (marker, content, content_modal, infowindow) {
                         return function () {
                             infowindow.setContent(content);
                             if (currentInfoWindow != null) {
@@ -243,3 +244,12 @@ function apply() {
     }
 }
 window.onload = apply;
+
+function show(k) {
+    var elements = document.getElementsByClassName('multi_modal');
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].style.display = 'none';
+    }
+    var nameClass = k + "part";
+    document.getElementsByClassName(nameClass)[0].style.display = 'block';
+}
