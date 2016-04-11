@@ -41,12 +41,157 @@
 
             }
 
+            populateEventCategoryDropDowns();
+
+            function populateEventCategoryDropDowns() {
+                jQuery.ajax({
+                    url: "../getPrefList",
+                    type: 'GET',
+                    success: function(data) {
+                        console.log("success.. ");
+                        var temp = JSON.stringify(data);
+                        //console.log(temp);
+                        var result = jQuery.parseJSON(temp);
+                        //console.log(result);
+                        var eventTypeArray = result.eventType;
+                        var eventTopicArray = result.eventTopic;
+
+                        for (var i = 0; i < eventTypeArray.length; i++) {
+                            var option = document.createElement("option");
+                            option.text = eventTypeArray[i].eventName;
+                            option.value = eventTypeArray[i].eventId;
+                            document.getElementById('eventType').appendChild(option);
+                        }
+                        for (var i = 0; i < eventTopicArray.length; i++) {
+                            var option = document.createElement("option");
+                            option.text = eventTopicArray[i].topicName;
+                            option.value = eventTopicArray[i].topicId;
+                            document.getElementById('eventTopic').appendChild(option);
+                        }
+                        var subTopicsListArray = eventTopicArray[0].subTopicsList;
+                        for (var i = 0; i < subTopicsListArray.length; i++) {
+                            var option = document.createElement("option");
+                            option.text = subTopicsListArray[i].eventName;
+                            option.value = subTopicsListArray[i].eventId;
+                            document.getElementById('eventSubTopic').appendChild(option);
+                        }
+
+                    },
+                    error: function(data) {
+                        console.log("error " + data);
+                        var temp = JSON.stringify(data);
+                        console.log(temp);
+                        var result = jQuery.parseJSON(temp);
+                        console.log(result.status);
+                    }
+                });
+            }
+
             // Attach a submit handler to the form
             $("#creat_event_form").submit(function(event) {
                 console.log("In submit handler");
                 // Stop form from submitting normally
                 event.preventDefault();
+                // console.log(document.getElementById('eventType').value);
+                // console.log(document.getElementById('eventTopic').value);
+                // console.log(document.getElementById('eventSubTopic').value);
 
+                var validAddress = document.getElementById('eventLocation').value;
+                console.log(validAddress);
+
+                var lookup_service_url = "../lookup/" + validAddress;
+                console.log(lookup_service_url);
+
+                var google_url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + validAddress;
+                console.log(google_url);
+
+                validateAddress(lookup_service_url, google_url);
+
+            });
+
+            function validateAddress(lookup_service_url, google_url) {
+                isValidNeuAddress(lookup_service_url, google_url);
+            }
+
+            function isValidNeuAddress(lookup_service_url, google_url) {
+                console.log("Validating NEU address");
+                jQuery.ajax({
+                    url: lookup_service_url,
+                    type: 'GET',
+                    success: function(data) {
+                        var temp = JSON.stringify(data);
+                        var result = jQuery.parseJSON(temp);
+                        // console.log(temp);
+                        if (result.address == "error") {
+                            console.log("got Invalid NEU address..");
+                            isValidGoogleAddress(google_url);
+
+                        } else {
+                            console.log("Got valid NEU address..");
+                            document.getElementById('eventLocation').value = result.address;
+                            sendData();
+                        }
+                    },
+                    error: function(data) {
+                        console.log("error " + data);
+                        var temp = JSON.stringify(data);
+                        console.log(temp);
+                        var result = jQuery.parseJSON(temp);
+                        console.log(result.address);
+                        isValidGoogleAddress(google_url);
+                    }
+                });
+            }
+
+            function isValidGoogleAddress(google_url) {
+                jQuery.ajax({
+                    url: google_url,
+                    type: 'GET',
+                    success: function(data) {
+                        var temp = JSON.stringify(data);
+                        var result = jQuery.parseJSON(temp);
+                        //console.log(temp);
+                        if (result.status == "OK") {
+                            console.log("Google address status OK..");
+                            console.log(result.results[0].types[0]);
+                            if (result.results[0].types[0] == "subpremise" || result.results[0].types[0] == "street_address" ||
+                                result.results[0].types[0] == "premise") {
+                                console.log("Got a Valid Google Address");
+                                document.getElementById('eventLocation').value = result.results[0].formatted_address;
+                                sendData();
+                            } else {
+                                console.log("Got a invalid Google Address");
+                                alert("Please enter a valid address");
+                                clearAddressFields();
+                            }
+                        } else {
+                            console.log("Got a invalid Google Address.. status not okay");
+                            alert("Please enter a valid address");
+                            clearAddressFields();
+                        }
+                    },
+                    error: function(data) {
+                        console.log("error " + data);
+                        var temp = JSON.stringify(data);
+                        console.log(temp);
+                        var result = jQuery.parseJSON(temp);
+                        console.log(result.status);
+                        alert("Please enter a valid address");
+                        clearAddressFields();
+                    }
+                });
+            }
+
+            function clearAddressFields() {
+                document.getElementById('AddressLine1').value = "";
+                document.getElementById('AddressLine2').value = "";
+                document.getElementById('City').value = "";
+                document.getElementById('State').value = "";
+                document.getElementById('zipcode').value = "";
+                document.getElementById('eventLocation').value = "";
+            }
+
+            function sendData() {
                 var formData = new FormData($("#creat_event_form")[0]);
                 console.log(formData);
                 var isOfficialEvent = document.getElementById("isOfficialEvent").value;
@@ -67,11 +212,11 @@
                         var result = jQuery.parseJSON(temp);
                         if (result.status == "OK") {
                             alert("Your event has been created!");
-                        }else{
-                        	 alert("There was an error in creating the event." + "\nPlease contact the administrator");
-                             $('#creat_event_form').trigger("reset");
+                        } else {
+                            alert("There was an error in creating the event." + "\nPlease contact the administrator");
+                            $('#creat_event_form').trigger("reset");
 
-                             document.getElementById("demo").innerHTML = "";
+                            document.getElementById("demo").innerHTML = "";
                         }
 
                         $('#creat_event_form').trigger("reset");
@@ -85,8 +230,50 @@
                         document.getElementById("demo").innerHTML = "";
                     }
                 });
-            });
+            }
         });
+
+
+        function onSelectEventTopic() {
+            jQuery.ajax({
+                url: "../getPrefList",
+                type: 'GET',
+                success: function(data) {
+                    console.log("success.. ");
+                    var temp = JSON.stringify(data);
+                    //console.log(temp);
+                    var result = jQuery.parseJSON(temp);
+                    //console.log(result);
+                    var eventTypeArray = result.eventType;
+                    var eventTopicArray = result.eventTopic;
+                    var optionId = document.getElementById('eventTopic').value;
+                    var selectedValue = $("#eventTopic option[value=" + optionId + "]").text();
+                    for (var i = 0; i < eventTopicArray.length; i++) {
+                        if (eventTopicArray[i].topicName.localeCompare(selectedValue) == 0) {
+                            //var select = document.getElementById("eventSubTopic");
+                            document.getElementById('eventSubTopic').innerHTML = "";
+                            var subTopicsListArray = eventTopicArray[i].subTopicsList;
+                            for (i = 0; i < subTopicsListArray.length; i++) {
+                                var option = document.createElement("option");
+                                option.text = subTopicsListArray[i].eventName;
+                                option.value = subTopicsListArray[i].eventId;
+                                document.getElementById('eventSubTopic').appendChild(option);
+                            }
+                            break;
+                        }
+                    }
+                    console.log(selectedValue);
+                },
+                error: function(data) {
+                    console.log("error " + data);
+                    var temp = JSON.stringify(data);
+                    console.log(temp);
+                    var result = jQuery.parseJSON(temp);
+                    console.log(result.status);
+                }
+
+            });
+        }
     </script>
 </head>
 
@@ -157,6 +344,22 @@
                                             }
                                         </script>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="endDateAndTime"><b>Start Date and Time*</b>
+                                        </label>
+                                        <div class='input-group date' id='startDateAndTime' style="margin-right: 10%;">
+                                            <input type='text' name="startDateAndTime" class="form-control" style="width:90%; border-radius: 4px" />
+                                            <span class="input-group-addon" style="border-left: 1px solid #ccc; border-radius: 4px;"> <span class="glyphicon glyphicon-calendar"></span> </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="endDateAndTime"><b>End Date and Time*</b>
+                                        </label>
+                                        <div class='input-group date' id='endDateAndTime' style="margin-right: 10%;">
+                                            <input type='text' name="endDateAndTime" class="form-control" style="width:90%; border-radius: 4px;" />
+                                            <span class="input-group-addon" style="border-left: 1px solid #ccc; border-radius: 4px;"> <span class="glyphicon glyphicon-calendar"></span> </span>
+                                        </div>
+                                    </div>
                                     <label class="checkbox inline" id="OfficialEvent">
                                         <input type="checkbox" name="isOfficialEvent" id="isOfficialEvent" onchange="myCheckbox()" value=false>
                                         <b> Official NEU Event</b> </label>
@@ -180,22 +383,29 @@
                                     </label>
                                     <input type="text" name="emailId" id="email" required onblur="validateEmail(value)">
                                     <span id="emailError" style="display: none;">Enter a valid Northeastern email.</span>
+                                    <!-- Set the category for the event -->
                                     <div class="form-group">
-                                        <label for="endDateAndTime"><b>Start Date and Time*</b>
+                                        <label for="eventType"><b>Event Name*</b>
                                         </label>
-                                        <div class='input-group date' id='startDateAndTime' style="margin-right: 10%;">
-                                            <input type='text' name="startDateAndTime" class="form-control" style="width:90%; border-radius: 4px" />
-                                            <span class="input-group-addon" style="border-left: 1px solid #ccc; border-radius: 4px;"> <span class="glyphicon glyphicon-calendar"></span> </span>
+                                        <div class='input-group eventType' id='eventType_div' style="margin-right: 10%;">
+                                            <select id="eventType" name="eventType" class="form-control" style="width:90%; border-radius: 4px;" required></select>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="endDateAndTime"><b>End Date and Time*</b>
+                                        <label for="eventTopic"><b>Event Topic*</b>
                                         </label>
-                                        <div class='input-group date' id='endDateAndTime' style="margin-right: 10%;">
-                                            <input type='text' name="endDateAndTime" class="form-control" style="width:90%; border-radius: 4px;" />
-                                            <span class="input-group-addon" style="border-left: 1px solid #ccc; border-radius: 4px;"> <span class="glyphicon glyphicon-calendar"></span> </span>
+                                        <div class='input-group eventTopic' id='eventTopic_div' style="margin-right: 10%;">
+                                            <select id="eventTopic" onchange="onSelectEventTopic()" name="eventTopic" class="form-control" required style="width:90%; border-radius: 4px;"></select>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="eventSubTopic"><b>Event Subtopic*</b>
+                                        </label>
+                                        <div class='input-group eventSubTopic' id='eventName_div' style="margin-right: 10%;">
+                                            <select id="eventSubTopic" name="eventSubtopic" required class="form-control" style="width:90%; border-radius: 4px;"></select>
+                                        </div>
+                                    </div>
+
                                     <input type="file" id="myFile" name="myFile" size="50" onchange="myFunction()" style="line-height: 0px; margin-top: 30px;">
                                     <label>Upload a poster of your event above</label>
                                     <script type="text/javascript">
@@ -275,5 +485,4 @@
         var menu = new cbpTooltipMenu(document.getElementById('cbp-tm-menu'));
     </script>
 </body>
-
 </html>
