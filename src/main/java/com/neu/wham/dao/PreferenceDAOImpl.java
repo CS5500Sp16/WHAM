@@ -41,14 +41,13 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 		UserPreference userPref = new UserPreference();
 		userPref.setEventType(getAllEventTypes());
 		userPref.setEventTopic(getAllEventTopics());
-		
+		conn.close();
 		return userPref;
 	}
 	
 	private List<EventTopic> getAllEventTopics() throws SQLException{
 		// TODO Auto-generated method stub
 		List<EventTopic> eventTopicList = new ArrayList<EventTopic>();
-		
 		
 			//List<EventTopic> eventTopicList = new ArrayList<EventTopic>();
 			StringBuilder sqlStmt1 = new StringBuilder();
@@ -80,6 +79,7 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 				
 				eventTopicList.add(etopic);
 			}
+			ppdStmt.close();
 			return eventTopicList;
 			
 			
@@ -99,6 +99,7 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 			et.setEventName(rs.getString("event_type"));
 			eventTypeList.add(et);
 		}
+		ppdStmt.close();
 		return eventTypeList;
 	}
 
@@ -107,6 +108,7 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 		conn = DriverManager.getConnection(DBConstants.DB_URL,DBConstants.USER,DBConstants.PASS);
 		deleteUserPreference(userId);
 		updateUserPreference(userId,userPref);
+		conn.close();
 		System.out.println("Preference saved!");
 		return userPref;
 	}
@@ -201,6 +203,8 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 		if(rs.next()){
 			prefString = rs.getString(columnKey);
 		}
+		stmt.close();
+		conn.close();
 		return prefString;
 	}
 }

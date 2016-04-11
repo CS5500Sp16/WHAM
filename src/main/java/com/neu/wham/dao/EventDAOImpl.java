@@ -94,6 +94,8 @@ public class EventDAOImpl implements EventDAO {
 		}catch(Exception e){
 			e.printStackTrace();
 			throw e;
+		}finally {
+			conn.close();
 		}
 		
 		throw new SQLException();
