@@ -269,16 +269,16 @@
             var p1And2 = document.getElementById('preference-category-1-2');
             for (var key in selectedCategory0Pref) {
                 if(!(selectedCategory0Pref[key] === undefined))
-                    p0.insertAdjacentHTML('beforeend', "<label class= 'btn btn-primary btn-large ' onchange='togglePreferenceSelectionCategory0("+key+")'><input type= 'checkbox' autocomplete= 'off' >"+ selectedCategory0Pref[key] + "</label>");
+                    p0.insertAdjacentHTML('beforeend', "<label  class= 'btn btn-primary'  style='background-color: black'  'onchange='togglePreferenceSelectionCategory0("+key+")'><input type= 'checkbox' autocomplete= 'off'>"+ selectedCategory0Pref[key] + "</label>");
             }
 
             for (var key in selectedCategory1Pref) {
                 if(!(selectedCategory1Pref[key] === undefined))
-                    p1And2.insertAdjacentHTML('beforeend', "<label class= 'btn btn-primary' onchange='togglePreferenceSelectionCategory1("+key+")' ><input type='checkbox' autocomplete= 'off' >"+ selectedCategory1Pref[key] + "</label>");
+                    p1And2.insertAdjacentHTML('beforeend', "<label class= 'btn btn-primary' style='background-color: black' onchange='togglePreferenceSelectionCategory1("+key+")' ><input type='checkbox' autocomplete= 'off' >"+ selectedCategory1Pref[key] + "</label>");
             }
             for (var key in selectedCategory2Pref) {
                 if(!(selectedCategory2Pref[key] === undefined))
-                    p1And2.insertAdjacentHTML('beforeend', "<label class= 'btn btn-primary' onchange='togglePreferenceSelectionCategory2("+key+")' ><input type= 'checkbox' autocomplete= 'off'>"+ selectedCategory2Pref[key] + "</label>");
+                    p1And2.insertAdjacentHTML('beforeend', "<label class= 'btn btn-primary' style='background-color: black' onchange='togglePreferenceSelectionCategory2("+key+")' ><input type= 'checkbox' autocomplete= 'off'>"+ selectedCategory2Pref[key] + "</label>");
             }
         }
 
@@ -406,20 +406,26 @@
             </table>
 
 
+           <label><h3>Selected Prefernces</h3></label>
+                <div class="col-md-12 column">
+            <table id="tab_pref" >
+            <tr>
 
-                <!--<div class="col-md-12 column">-->
-            <!--<table id="tab_pref" >-->
-            <!--<td >-->
-
-
-                       <div class="btn-group" data-toggle="buttons" id = "preference-category-0">
+                     <td>
+                       <div class="btn-group" style="background-image: linear-gradient(beige,black)" data-toggle="buttons" id = "preference-category-0">
                             </div>
                         <br><br>
-                        <div class="btn-group" data-toggle="buttons" id = "preference-category-1-2" >
+                     </td>
+                </tr>
+                <tr>
+                    <td>
+                <div class="btn-group" data-toggle="buttons" id = "preference-category-1-2" >
                         </div>
-                        <!--</td>-->
-                    <!--</table>-->
-                <!--</div>-->
+                    </td>
+                </tr>
+            </tr>
+            </table>
+                </div>
 
 
         </div>
