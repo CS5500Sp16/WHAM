@@ -53,6 +53,8 @@
 
 
 
+
+
     </style>
     <script>
         //get url
@@ -60,9 +62,15 @@
         var arr = url.split("/");
         //create api url with current domain and port number arr[2]
         var api_url1 = "http://" + "ec2-52-87-159-69.compute-1.amazonaws.com:8080" + "/WHAM/getPrefList";
-        var api_url2 = "http://" + "ec2-52-87-159-69.compute-1.amazonaws.com:8080" + "/WHAM/getPref?userPreference=13";
+        var api_url2 = "http://" + "ec2-52-87-159-69.compute-1.amazonaws.com:8080" + "/WHAM/getPref?userPreference=3";
         var preferences;
         var userPref;
+        var selectedCategory0Pref = new Object();
+        var selectedCategory1Pref = new Object();
+        var selectedCategory2Pref = new Object();
+        var deletedPreferenceCategory0 = new Object();
+        var deletedPreferenceCategory1 = new Object();
+        var deletedPreferenceCategory2 = new Object();
         /* Get th json by hitting ../getPrefList api*/
         $.get({ url: api_url1 }, function (data) {
             preferences = data;
@@ -97,27 +105,29 @@
                         // if category is event type
                         case 0: {
                             userEventTypes.push(eventTypeList[userPref[i].eventId - 1].eventName);
+                            selectedCategory0Pref[userPref[i].eventId] = eventTypeList[userPref[i].eventId - 1].eventName;
                             break;
                         }
-                            // if category is event topic
+                        // if category is event topic
                         case 1: {
                             userEventTopics.push(eventTopicList[userPref[i].eventId - 1].topicName);
+                            selectedCategory1Pref[userPref[i].eventId] = eventTopicList[userPref[i].eventId - 1].topicName;
                             break;
                         }
-                            // if category is event sub-topic
+                        // if category is event sub-topic
                         case 2: {
                             userSubTopics.push(map[userPref[i].eventId]);
+                            selectedCategory2Pref[userPref[i].eventId] = map[userPref[i].eventId];
                             break;
                         }
 
                     }
                 }
 
-                // print all the three lists of user preferences (Currently I am just printing this. You can now display these lists)
-                console.log("Event Topic Pref: " + userEventTopics);
-                console.log("Event Type Pref: " + userEventTypes);
-                console.log("Event Sub-Topic Pref: " + userSubTopics);
+                renderPreferences();
             });
+
+
         });
     </script>
 
@@ -144,7 +154,7 @@
         function myFunction(response) {
 
             var serverResponse = JSON.parse(response);
-            //console.log(serverResponse);
+
             var userId = serverResponse.userId;
             eventTypeArray = serverResponse.eventType;
             eventTopicArray = serverResponse.eventTopic;
@@ -153,7 +163,6 @@
             var i,j;
 
             for (i = 0; i < eventTypeArray.length; i++) {
-
                 var option = document.createElement("option");
                 option.text = eventTypeArray[i].eventName;
                 document.getElementById('eventName').appendChild(option);
@@ -195,81 +204,129 @@
                     break;
                 }
             }
-            //console.log(selectedValue);
         }
 
         $(document).ready(function(){
             var row=0;
             $("#add_row").click(function() {
-                $('#addr' + row).html("<td>" + (row + 1) + "</td><td>" +
-                        "<label name='eventName" + row + "'  id='eventNameId" + row + "' type='text' >" + document.getElementById('eventName').value + "</label></td>" +
-                        "<td><label  name='eventTopic" + row + "' id='eventTopicId" + row + "' type='text' >" + document.getElementById('eventTopic').value + " </label></td>" +
-                        "<td><label  name='eventSubTopic" + row + "' id='eventSubTopicId" + row + "' type='text'>" + document.getElementById('eventSubTopic').value + " </label></td>");
-
-                $('#tab_pref').append('<tr id="addr' + (row + 1) + '"></tr>');
-                row++;
 
                 var selectedEventType =  document.getElementById('eventName').value;
                 var selectedEventTopic =  document.getElementById('eventTopic').value;
                 var selectedEventSubTopic =  document.getElementById('eventSubTopic').value;
-                //console.log(selectedEventType);
 
                 for (i = 0; i < eventTypeArray.length; i++) {
                     if (eventTypeArray[i].eventName.localeCompare(selectedEventType) == 0) {
-
-                        var b = new subPreference(eventTypeArray[i].eventId, "0");
-                        userPreferences.push(b);
+                        selectedCategory0Pref[eventTypeArray[i].eventId] = eventTypeArray[i].eventName;
                         break;
                     }
                 }
                 for(var i =0;i< eventTopicArray.length;i++){
                     if(eventTopicArray[i].topicName.localeCompare(selectedEventTopic) == 0){
-                        var b = new subPreference(eventTopicArray[i].topicId, "1");
-                        userPreferences.push(b);
-                        var subTopicsListArray  = eventTopicArray[i].subTopicsList;
-                        for (i = 0; i < subTopicsListArray.length; i++) {
-                            if(subTopicsListArray[i].eventName.localeCompare(selectedEventSubTopic) == 0) {
-                                var b = new subPreference(subTopicsListArray[i].eventId, "2");
-                                userPreferences.pop();
-                                userPreferences.push(b);
-                                break;
+                        if(selectedEventSubTopic.localeCompare("All sub topics") == 0){
+                            selectedCategory1Pref[eventTopicArray[i].topicId] = eventTopicArray[i].topicName;
+                        } else{
+                            var subTopicsListArray  = eventTopicArray[i].subTopicsList;
+                            for (i = 0; i < subTopicsListArray.length; i++) {
+                                if(subTopicsListArray[i].eventName.localeCompare(selectedEventSubTopic) == 0) {
+                                    selectedCategory2Pref[subTopicsListArray[i].eventId]= subTopicsListArray[i].eventName;
+                                    break;
+                                }
                             }
                         }
                         break;
                     }
                 }
 
-                //console.log(userPreferences);
 
+
+                renderPreferences();
             });
 
             $("#delete_row").click(function(){
-                if(row >= 0){
-                    $("#addr"+(row-1)).html('');
-                    row--;
+                for (var key in deletedPreferenceCategory0) {
+                    if(!(deletedPreferenceCategory0 === undefined))
+                        selectedCategory0Pref[key] = undefined;
                 }
-                if(userPreferences.length > 0){
-                    userPreferences.pop();
-                    userPreferences.pop();
+                for (var key in deletedPreferenceCategory1) {
+                    if(!(deletedPreferenceCategory1 === undefined))
+                        selectedCategory1Pref[key] = undefined;
                 }
-
+                for (var key in deletedPreferenceCategory2) {
+                    if(!(deletedPreferenceCategory2 === undefined))
+                        selectedCategory2Pref[key] = undefined;
+                }
+                renderPreferences();
             });
+
         });
-    </script>
 
 
-    <script>
+
+        function renderPreferences(){
+            document.getElementById('preference-category-0').innerHTML = "";
+            document.getElementById('preference-category-1-2').innerHTML = "";
+            var p0 = document.getElementById('preference-category-0');
+            var p1And2 = document.getElementById('preference-category-1-2');
+            for (var key in selectedCategory0Pref) {
+                if(!(selectedCategory0Pref[key] === undefined))
+                    p0.insertAdjacentHTML('beforeend', "<label class= 'btn btn-primary btn-large ' onchange='togglePreferenceSelectionCategory0("+key+")'><input type= 'checkbox' autocomplete= 'off' >"+ selectedCategory0Pref[key] + "</label>");
+            }
+
+            for (var key in selectedCategory1Pref) {
+                if(!(selectedCategory1Pref[key] === undefined))
+                    p1And2.insertAdjacentHTML('beforeend', "<label class= 'btn btn-primary' onchange='togglePreferenceSelectionCategory1("+key+")' ><input type='checkbox' autocomplete= 'off' >"+ selectedCategory1Pref[key] + "</label>");
+            }
+            for (var key in selectedCategory2Pref) {
+                if(!(selectedCategory2Pref[key] === undefined))
+                    p1And2.insertAdjacentHTML('beforeend', "<label class= 'btn btn-primary' onchange='togglePreferenceSelectionCategory2("+key+")' ><input type= 'checkbox' autocomplete= 'off'>"+ selectedCategory2Pref[key] + "</label>");
+            }
+        }
 
 
+        function togglePreferenceSelectionCategory0(id){
+            if(deletedPreferenceCategory0[id] === undefined){
+                deletedPreferenceCategory0[id] = 1;
+            } else{
+                delete deletedPreferenceCategory0[id];
+
+            }
+        }
+
+        function togglePreferenceSelectionCategory1(id){
+            if(deletedPreferenceCategory1[id] === undefined){
+                deletedPreferenceCategory1[id] = 1;
+            } else{
+                delete deletedPreferenceCategory1[id];
+            }
+        }
+        function togglePreferenceSelectionCategory2(id){
+            if(deletedPreferenceCategory2[id] === undefined){
+                deletedPreferenceCategory2[id] = 1;
+            } else{
+                delete deletedPreferenceCategory2[id];
+            }
+
+        }
 
         function savePreferences(){
+
+            for (var key in selectedCategory0Pref) {
+                if(!(selectedCategory0Pref[key] === undefined))
+                    userPreferences.push(new subPreference(key, "0"));
+            }
+            for (var key in selectedCategory1Pref) {
+                if(!(selectedCategory1Pref[key] === undefined))
+                    userPreferences.push(new subPreference(key, "1"));
+            }
+            for (var key in selectedCategory2Pref) {
+                if(!(selectedCategory2Pref[key] === undefined))
+                    userPreferences.push(new subPreference(key, "2"));
+            }
 
             var response = {
                 'userId' : 3,
                 'userPreference':userPreferences
             }
-
-            
 
             jQuery.ajax({
                 url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/updatePref',
@@ -281,11 +338,11 @@
                 success: function(data) {
                     sweetAlert("Congrats!", "Your have saved your preferences!", "success");
 
-                    //$('#creat_event_form').trigger("reset");
-
                 }
             });
         }
+
+
     </script>
 
 
@@ -310,20 +367,21 @@
             <br>
             <label for="eventName" ><h4>EVENT TYPE</h4></label>
             <select id="eventName" style=" width:500px" >
+                <option disabled selected value>Select event type</option>
             </select>
 
-          <br>
+            <br>
             <table style="border: hidden">
                 <tr>
                     <td align="center" style="border: hidden">
                         <label for="eventTopic"><h4>EVENT TOPIC</h4></label>
                         <select id="eventTopic" onchange="onSelectEventTopic()" style ="width: 240px" >
+                            <option disabled selected value>Select event topic</option>
                         </select>
                     </td>
                     <td align="center" style="border: hidden">
                         <label for="eventSubTopic"><h4>EVENT SUB-TOPIC</h4></label>
                         <select id="eventSubTopic" style="width: 240px ; margin-left: 20px">
-                            <!--option disabled selected value>Select Event Sub Topic</option-->
                         </select>
                     </td>
                 </tr>
@@ -348,34 +406,20 @@
             </table>
 
 
-            <div>
-                <div class="col-md-12 column">
-                    <table id="tab_pref">
-                        <thead>
-                        <tr >
-                            <th class="text-center">
-                                #
-                            </th>
-                            <th class="text-center">
-                                Event Type
-                            </th>
-                            <th class="text-center">
-                                Event Topic
-                            </th>
-                            <th class="text-center">
-                                Event Sub Topic
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr id='addr0'></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+
+                <!--<div class="col-md-12 column">-->
+            <!--<table id="tab_pref" >-->
+            <!--<td >-->
 
 
-
+                       <div class="btn-group" data-toggle="buttons" id = "preference-category-0">
+                            </div>
+                        <br><br>
+                        <div class="btn-group" data-toggle="buttons" id = "preference-category-1-2" >
+                        </div>
+                        <!--</td>-->
+                    <!--</table>-->
+                <!--</div>-->
 
 
         </div>
