@@ -59,6 +59,8 @@ public class UserRegistrationDAOImpl implements UserRegistrationDAO {
 			}catch(Exception e){
 				e.printStackTrace();
 				throw e;
+			}finally {
+				conn.close();
 			}
 		throw new SQLException();
 	}
@@ -84,10 +86,13 @@ public class UserRegistrationDAOImpl implements UserRegistrationDAO {
 			user.setPhoneNo(rs.getString("phone_no"));
 			user.setEmailId(rs.getString("emailId"));
 			user.setPassword(rs.getString("password"));
-			if(user.getPassword().equals(encryptPassword(password)))
+			if(user.getPassword().equals(encryptPassword(password))){
+				conn.close();
 				return user;
+			}
+				
 		}
-		
+		conn.close();
 		return null;
 	}
 	/**
