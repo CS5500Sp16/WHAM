@@ -17,9 +17,9 @@
     <link href="../css/homePageBlocks.css" rel="stylesheet" />
     <script>
         // navigate to AfterLoginPage if user is signed in
-        if (localStorage.getItem("name") === null) { }
+        if (sessionStorage.getItem("name") === null) { }
         else
-        if (localStorage.getItem("name") != "") {
+        if (sessionStorage.getItem("name") != "") {
             window.location.href = "AfterLoginPage.html";
         }
     </script>

@@ -291,10 +291,10 @@
                         <a href="create_event.html" class="cbp-tm-icon-pencil disable">Create Event</a>
                     </li>
                     <li>
-                        <a href="#" class="cbp-tm-icon-cog">Manage Preferences</a>
+                        <a href="ManagePreferencesPage.html" class="cbp-tm-icon-cog">Manage Preferences</a>
                     </li>
                     <li>
-                        <a href="HomePage.html" class="cbp-tm-icon-archive" onclick="localStorage.clear('name')">Log Out</a>
+                        <a href="HomePage.html" class="cbp-tm-icon-archive" onclick="sessionStorage.clear('name')">Log Out</a>
                     </li>
                 </ul>
             </li>
@@ -466,7 +466,10 @@
     </div>
     <script src="../js/TopMenu/cbpTooltipMenu.min.js"></script>
     <script>
-        var temp = localStorage.getItem("name") || "";
+        var menu = new cbpTooltipMenu(document.getElementById('cbp-tm-menu'));
+    </script>
+    <script>
+        var temp = sessionStorage.getItem("name") || "";
         var name = temp.charAt(0).toUpperCase() + temp.slice(1);
         document.getElementById("welcome").innerHTML = "Hi " + name;
     </script>

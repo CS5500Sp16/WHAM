@@ -20,22 +20,22 @@
 <body>
     <header>
         <div class="cd-logo"><a href="AfterLoginPage.html"><img src="../images/WHAM Logo.png" alt="Logo"></a></div>
-                    <ul id="cbp-tm-menu" class="cbp-tm-menu" style="height: 50px;">
+        <ul id="cbp-tm-menu" class="cbp-tm-menu" style="height: 50px;">
 
-                <li>
-                    <a href="#" id="welcome"></a>
-                    <ul class="cbp-tm-submenu">
-                        <li><a href="create_event.html" class="cbp-tm-icon-pencil">Create Event</a></li>
-                        <li><a href="ManagePreferencesPage.html" class="cbp-tm-icon-cog">Manage Preferences</a></li>
-                        <li><a href="HomePage.html" class="cbp-tm-icon-archive" onclick="localStorage.clear('name')">Log Out</a></li>
-                    </ul>
-                </li>
-            </ul>
-       
+            <li>
+                <a href="#" id="welcome"></a>
+                <ul class="cbp-tm-submenu">
+                    <li><a href="create_event.html" class="cbp-tm-icon-pencil">Create Event</a></li>
+                    <li><a href="ManagePreferencesPage.html" class="cbp-tm-icon-cog">Manage Preferences</a></li>
+                    <li><a href="HomePage.html" class="cbp-tm-icon-archive" onclick="sessionStorage.clear('name')">Log Out</a></li>
+                </ul>
+            </li>
+        </ul>
+
     </header>
     <main class="cd-main-content" style="background-color:transparent">
         <div class="intrinsic-container-16x9" style="text-align:center;">
-                        
+
             <iframe src="maps.html" style="width: 90%"></iframe>
         </div>
     </main>
@@ -44,15 +44,15 @@
         var menu = new cbpTooltipMenu(document.getElementById('cbp-tm-menu'));
     </script>
     <script>
-        var temp = localStorage.getItem("name")||"";
+        var temp = sessionStorage.getItem("name") || "";
         var name = temp.charAt(0).toUpperCase() + temp.slice(1);
         document.getElementById("welcome").innerHTML = "Hi " + name;
     </script>
 </body>
 </html>
 
-    <!--<div class="container" style="text-align:center">
-        <button type="button" class="btn btn-link" style="font-size:20px;padding-right:250px">Manage your preferences</button>
-        <button type="button" class="btn btn-link" style="font-size: 20px; padding-left: 50px">Create an event</button>
-        <div id="myMap"></div> 
-    </div>-->
+<!--<div class="container" style="text-align:center">
+    <button type="button" class="btn btn-link" style="font-size:20px;padding-right:250px">Manage your preferences</button>
+    <button type="button" class="btn btn-link" style="font-size: 20px; padding-left: 50px">Create an event</button>
+    <div id="myMap"></div>
+</div>-->

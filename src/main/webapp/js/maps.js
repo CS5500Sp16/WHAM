@@ -31,8 +31,7 @@ function init(checked) {
             var url = window.location.href;
             var arr = url.split("/");
             // get user ID
-            var ID = 13;
-            //var ID = localStorage.getItem("name") || 13;
+            var ID = sessionStorage.getItem("id") || "";
             if (checked && ID !== "") {
                 var api_url = "http://" + arr[2] + "/WHAM/datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10/?userId=" + ID;
             } else {
