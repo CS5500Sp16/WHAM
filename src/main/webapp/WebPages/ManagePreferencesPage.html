@@ -269,7 +269,7 @@
             var p1And2 = document.getElementById('preference-category-1-2');
             for (var key in selectedCategory0Pref) {
                 if(!(selectedCategory0Pref[key] === undefined))
-                    p0.insertAdjacentHTML('beforeend', "<label  class= 'btn btn-primary'  style='background-color: black'  'onchange='togglePreferenceSelectionCategory0("+key+")'><input type= 'checkbox' autocomplete= 'off'>"+ selectedCategory0Pref[key] + "</label>");
+                    p0.insertAdjacentHTML('beforeend', "<label  class= 'btn btn-primary'  style='background-color: black'  onchange='togglePreferenceSelectionCategory0("+key+")'><input type= 'checkbox' autocomplete= 'off'>"+ selectedCategory0Pref[key] + "</label>");
             }
 
             for (var key in selectedCategory1Pref) {
@@ -408,7 +408,13 @@
 
            <label><h3>Selected Prefernces</h3></label>
                 <div class="col-md-12 column">
-            <table id="tab_pref" >
+
+                    <div class="btn-group" style="background-image: linear-gradient(beige,black)" data-toggle="buttons" id = "preference-category-0">
+                    </div>
+                    <br><br>
+                    <div class="btn-group" data-toggle="buttons" id = "preference-category-1-2" >
+                    </div>
+            <!--table id="tab_pref" >
             <tr>
 
                      <td>
@@ -424,7 +430,7 @@
                     </td>
                 </tr>
             </tr>
-            </table>
+            </table-->
                 </div>
 
 
