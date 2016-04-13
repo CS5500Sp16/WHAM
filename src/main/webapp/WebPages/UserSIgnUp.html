@@ -35,31 +35,32 @@
                 var emailId = $("#emailsignup").val();
                 var phoneNo = $("#phonenumber").val();
                 var password = $("#passwordsignup").val();
-            
-            userRegistration.push(firstName);
-            userRegistration.push(middleName);
-            userRegistration.push(lastName);
-            userRegistration.push(emailId);
-            userRegistration.push(phoneNo);
-            userRegistration.push(password);
-            debugger;
 
-            var response = {
-                'firstName': firstName, 'middleName': middleName, 'lastName': lastName, 'emailId': emailId, 'phoneNo': phoneNo, 'password': password
-            }
+                userRegistration.push(firstName);
+                userRegistration.push(middleName);
+                userRegistration.push(lastName);
+                userRegistration.push(emailId);
+                userRegistration.push(phoneNo);
+                userRegistration.push(password);
 
-            $.ajax({
-                url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/registerUser',
-                data: JSON.stringify(response),
-                cache: false,
-                contentType: false,
-                processData: false,
-                type: 'POST',
-                success: function (data) {
-                    debugger;
-                    sweetAlert("Congrats!", "You have registered successfully !Login with your email and password !!", "success");
+                var response = {
+                    'firstName': firstName, 'middleName': middleName, 'lastName': lastName, 'emailId': emailId, 'phoneNo': phoneNo, 'password': password
                 }
-            });
+
+                $.ajax({
+                    url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/registerUser',
+                    data: JSON.stringify(response),
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    success: function (data) {
+                        if (data != "null")
+                        { location.href = "http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/WebPages/Login.html" }
+                    }
+
+
+                });
             });
         }
     </script>
