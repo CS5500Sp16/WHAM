@@ -24,28 +24,19 @@ import com.neu.wham.model.UserPreference;
 @Repository
 public class PreferenceDAOImpl implements PreferenceDAO {
 
-	private Connection conn = null;
-	static{
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	@Override
 	public UserPreference getAllPreferences() throws Exception {
 		
-		conn = DriverManager.getConnection(DBConstants.DB_URL,DBConstants.USER,DBConstants.PASS);
+		Connection conn = DBUtil.getConnection();
 		
 		UserPreference userPref = new UserPreference();
-		userPref.setEventType(getAllEventTypes());
-		userPref.setEventTopic(getAllEventTopics());
-		conn.close();
+		userPref.setEventType(getAllEventTypes(conn));
+		userPref.setEventTopic(getAllEventTopics(conn));
 		return userPref;
 	}
 	
-	private List<EventTopic> getAllEventTopics() throws SQLException{
+	private List<EventTopic> getAllEventTopics(Connection conn) throws SQLException{
 		// TODO Auto-generated method stub
 		List<EventTopic> eventTopicList = new ArrayList<EventTopic>();
 		
@@ -87,7 +78,7 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 	}
 
 	// GetallEventTYpes;
-	private List<EventType> getAllEventTypes() throws SQLException{
+	private List<EventType> getAllEventTypes(Connection conn) throws SQLException{
 		List<EventType> eventTypeList = new ArrayList<EventType>();
 		String sqlStmt = "Select * from EVENT_TYPE_MASTER;";
 		PreparedStatement ppdStmt = (PreparedStatement) conn.prepareStatement(sqlStmt);
@@ -105,10 +96,9 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 
 	@Override
 	public UserSelectedPreference updatePreference(int userId, UserSelectedPreference userPref) throws Exception {
-		conn = DriverManager.getConnection(DBConstants.DB_URL,DBConstants.USER,DBConstants.PASS);
+		
 		deleteUserPreference(userId);
 		updateUserPreference(userId,userPref);
-		conn.close();
 		System.out.println("Preference saved!");
 		return userPref;
 	}
@@ -116,6 +106,7 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 
 
 	private void updateUserPreference(int userId, UserSelectedPreference userPref) throws SQLException {
+		Connection conn = DBUtil.getConnection();
 		StringBuilder updateUserPreference = new StringBuilder();
 		updateUserPreference.append("insert into USER_PREFERENCES values(?,?,?);");
 		
@@ -135,6 +126,7 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 	}
 
 	private boolean deleteUserPreference(int uesrId) throws SQLException{
+		Connection conn = DBUtil.getConnection();
 		StringBuilder deleteUserBuilder = new StringBuilder();
 		deleteUserBuilder.append("delete from USER_PREFERENCES where user_id=?;");
 		
@@ -155,7 +147,7 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 		UserSelectedPreference userPref = new UserSelectedPreference();
 		List<SelectedPreference> prefList = new ArrayList<SelectedPreference>();
 		
-		conn = DriverManager.getConnection(DBConstants.DB_URL,DBConstants.USER,DBConstants.PASS);
+		Connection conn = DBUtil.getConnection();
 		
 		StringBuilder stmtBuilder = new StringBuilder();
 		stmtBuilder.append("select * from USER_PREFERENCES where user_id=?;");
@@ -173,7 +165,7 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 
 	@Override
 	public String getPreferenceString(int id, int tableId) throws Exception {
-		conn = DriverManager.getConnection(DBConstants.DB_URL,DBConstants.USER,DBConstants.PASS);
+		Connection conn = DBUtil.getConnection();
 		
 		String prefString = "";
 		String columnKey;
@@ -204,7 +196,6 @@ public class PreferenceDAOImpl implements PreferenceDAO {
 			prefString = rs.getString(columnKey);
 		}
 		stmt.close();
-		conn.close();
 		return prefString;
 	}
 }

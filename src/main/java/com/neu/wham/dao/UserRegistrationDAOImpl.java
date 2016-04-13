@@ -17,22 +17,13 @@ import com.neu.wham.model.User;
 @Repository
 public class UserRegistrationDAOImpl implements UserRegistrationDAO {
 	
-	static{
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
 	/** 
 	 * This method provides the database connectivity to the user registration controller.
 	 **/
 	@Override
 	public User createNewUser(User user) throws SQLException, NoSuchAlgorithmException {
-		Connection conn = null;
-		conn = DriverManager.getConnection(DBConstants.DB_URL,DBConstants.USER,DBConstants.PASS);
+		Connection conn = DBUtil.getConnection();
 		
-	
 		if (user.getPassword() != null)
 			user.setPassword(encryptPassword(user.getPassword()));
 		
@@ -59,8 +50,6 @@ public class UserRegistrationDAOImpl implements UserRegistrationDAO {
 			}catch(Exception e){
 				e.printStackTrace();
 				throw e;
-			}finally {
-				conn.close();
 			}
 		throw new SQLException();
 	}
@@ -68,8 +57,7 @@ public class UserRegistrationDAOImpl implements UserRegistrationDAO {
 	@Override
 	public User validateUser(String emailId, String password) throws SQLException, NoSuchAlgorithmException {
 		User user = null;
-		Connection conn = null;
-		conn = DriverManager.getConnection(DBConstants.DB_URL,DBConstants.USER,DBConstants.PASS);
+		Connection conn = DBUtil.getConnection();
 		String sql_statement = "select * from USER where emailId = ?;";
 
 		PreparedStatement ppdStmt = conn.prepareStatement(sql_statement);
@@ -87,12 +75,10 @@ public class UserRegistrationDAOImpl implements UserRegistrationDAO {
 			user.setEmailId(rs.getString("emailId"));
 			user.setPassword(rs.getString("password"));
 			if(user.getPassword().equals(encryptPassword(password))){
-				conn.close();
 				return user;
 			}
 				
 		}
-		conn.close();
 		return null;
 	}
 	/**
