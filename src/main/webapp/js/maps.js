@@ -40,8 +40,16 @@ function init(checked) {
             }
 
             // api call
-            $.get({ url: api_url }, function (data) {
-                var loc = data || [];
+            //$.get({ url: api_url }, function (data) {
+                var loc = [];
+
+                loc.push({ "eventName": "Dummy event @ MIT3", extLink: "www.abc1.com", "eventDesc": "001", "eventLocation": null, "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": null, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
+                loc.push({ "eventName": "Dummy event @ some", extLink: null, "eventDesc": "007", "eventLocation": "239 Holland Street null Somerville MA 02144 US", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3351, "longitude": -71.1704, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
+                loc.push({ "eventName": "Dummy event @ MIT", extLink: null, "eventDesc": "002", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": false });
+                loc.push({ "eventName": "Dummy event @ some2", extLink: null, "eventDesc": "003", "eventLocation": "239 Holland Street null Somerville MA 02144 US", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3351, "longitude": -71.1704, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": false });
+                loc.push({ "eventName": "Dummy event @ MIT2", extLink: null, "eventDesc": "004", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
+                loc.push({ "eventName": "Dummy event @ framingham", extLink: null, "eventDesc": "005", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3770, "longitude": -71.1167, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
+                loc.push({ "eventName": "Dummy event @ fram", extLink: "www.abc.com", "eventDesc": "006", "eventLocation": null, "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": null, "startTime": null, "endTime": 1459389600000, "latitude": 42.3505, "longitude": -71.1054, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": false });
 
                 // display number of envents
                 var div = document.getElementById('total');
@@ -228,7 +236,7 @@ function init(checked) {
                         };
                     })(marker, content, content_modal, infowindow));
                 } // end of for loop
-            });// end of api call
+            //});// end of api call
         });// end of navigator
     }
 }
