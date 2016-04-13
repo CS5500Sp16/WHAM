@@ -13,6 +13,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+    <script src="https://cdn.rawgit.com/t4t5/sweetalert/master/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/t4t5/sweetalert/master/dist/sweetalert.css">
 
     <link rel="stylesheet" href="../css/LogIn.css">
     <link rel="stylesheet" href="../css/reset.css">
@@ -20,6 +22,45 @@
     <link href="../css/pageStyle.css" rel="stylesheet" />
     <link href="../css/SignUp/SignUp.css" rel="stylesheet" />
     <script src="../js/LogIn.js"></script>
+    <script>
+        var userRegistration = new Array();
+
+        var xmlhttp = new XMLHttpRequest();
+
+        function dataSubmit() {
+            $(document).ready(function () {
+                var firstName = $("#firstname").val();
+                var middleName = $("#middlename").val();
+                var lastName = $("#lastname").val();
+                var emailId = $("#emailsignup").val();
+                var phoneNo = $("#phonenumber").val();
+                var password = $("#passwordsignup").val();
+            
+            userRegistration.push(firstName);
+            userRegistration.push(middleName);
+            userRegistration.push(lastName);
+            userRegistration.push(emailId);
+            userRegistration.push(phoneNo);
+            userRegistration.push(password);
+            var response = {
+                'userRegistration': userRegistration
+            }
+
+            $.ajax({
+                url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/registerUser',
+                data: JSON.stringify(response),
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                success: function (data) {
+                    
+                    sweetAlert("Congrats!", "You have registered successfully !Login with your email and password !!", "success");
+                }
+            });
+            });
+        }
+    </script>
 
 </head>
 <body>
