@@ -42,8 +42,10 @@
             userRegistration.push(emailId);
             userRegistration.push(phoneNo);
             userRegistration.push(password);
+            debugger;
+
             var response = {
-                'userRegistration': userRegistration
+                'firstName': firstName, 'middleName': middleName, 'lastName': lastName, 'emailId': emailId, 'phoneNo': phoneNo, 'password': password
             }
 
             $.ajax({
@@ -54,7 +56,7 @@
                 processData: false,
                 type: 'POST',
                 success: function (data) {
-                    
+                    debugger;
                     sweetAlert("Congrats!", "You have registered successfully !Login with your email and password !!", "success");
                 }
             });
