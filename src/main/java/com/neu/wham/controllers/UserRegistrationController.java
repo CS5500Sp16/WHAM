@@ -12,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.neu.wham.messages.EventPostResponse;
 import com.neu.wham.messages.EventPostResponse.Status;
 import com.neu.wham.model.Event;
@@ -31,14 +33,20 @@ public class UserRegistrationController {
 	private UserRegistrationService registrationService;
 	
 	@RequestMapping(value="/registerUser",method=RequestMethod.POST)
-	public @ResponseBody User registerUser(@Valid @ModelAttribute User user, BindingResult result){
-		if(result.hasErrors()){
+	public @ResponseBody User registerUser(@RequestBody String body){
+		System.out.println("YEP" + body.toString());
+		Gson gson  = new Gson();
+		User user = null;
+		try{
+			user = gson.fromJson(body, User.class);
+		}catch(Exception e){
 			return null;
 		}
 		return registrationService.registerUser(user);
 	}
+	
 	/**
-This method checks if the email id and password fileds are not left empty or are not provided a null value user before registering.
+This method checks if the email id and password fields are not left empty or are not provided a null value user before registering.
 If the conditionals are satisfied the user records are entered to the database 
 **/
 	@RequestMapping(value="/validateUser",method=RequestMethod.POST)
