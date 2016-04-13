@@ -21,6 +21,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.neu.wham.dao.DBUtil;
 import com.neu.wham.dao.EventDAOImpl;
 import com.neu.wham.dao.PreferenceDAOImpl;
 import com.neu.wham.model.Event;
@@ -31,16 +32,7 @@ import com.neu.wham.model.UserSelectedPreference;
 @WebAppConfiguration
 @ContextConfiguration("test-context.xml")
 public class GetDBEventDAOTest {
-	
-	
-	// JDBC driver name and database URL
-	private final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-	private final String DB_URL = "jdbc:mysql://ec2-52-87-159-69.compute-1.amazonaws.com:3306/whamDB";
-
-	//  Database credentials
-	private final String USER = "wham";
-	private final String PASS = "wham@123";
-	
+		
 	private EventDAOImpl eventDAOImpl = new EventDAOImpl();
 	
 	@Autowired
@@ -176,9 +168,8 @@ public class GetDBEventDAOTest {
 	// clean up
 	@After
     public void doYourOneTimeTeardown() throws SQLException {
-		Connection conn = null;
-		conn = DriverManager.getConnection(DB_URL,USER,PASS);
 		
+		Connection conn = DBUtil.getConnection();	
 		String query = "DELETE FROM EVENT WHERE name='e1' OR name='e2' OR name='e3' OR name='e4'";
 		
 		PreparedStatement pstmt = conn.prepareStatement(query);
