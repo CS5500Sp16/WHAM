@@ -1,12 +1,12 @@
 ﻿var distanceF;
 var initialLocation;
-
+var zoom = [];
 function init(checked) {
     //set options for map
     var mapDiv = document.getElementById("myMap");
     var options = {
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        zoom: 13
+        zoom: 14
     };
 
     var map = new google.maps.Map(mapDiv, options);
@@ -19,12 +19,36 @@ function init(checked) {
             };
             initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
             map.setCenter(initialLocation);
+
             // set marker for user's current location
             var marker = new google.maps.Marker({
                 position: map.getCenter(),
                 icon: pinImage,
                 title: "You are here",
                 map: map
+            });
+
+            // add search box 
+            var input = document.getElementById('pac-input');
+            var searchBox = new google.maps.places.SearchBox(input);
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+            // Bias the SearchBox results towards current map's viewport.
+            map.addListener('bounds_changed', function () {
+                searchBox.setBounds(map.getBounds());
+            });
+
+            // Add searchbox event. Change bounds when user adds a location
+            searchBox.addListener('places_changed', function () {
+                var places = searchBox.getPlaces();
+                if (places.length == 0) {
+                    return;
+                }
+                var bounds = new google.maps.LatLngBounds();
+                places.forEach(function (place) {
+                    bounds.extend(place.geometry.location);
+                });
+                map.fitBounds(bounds);
             });
 
             // get host name and port number of current host to create the api url
@@ -35,20 +59,20 @@ function init(checked) {
             if (checked && ID !== "") {
                 var api_url = "http://" + arr[2] + "/WHAM/datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10/?userId=" + ID;
             } else {
-                var api_url = "http://" + arr[2] + "/WHAM/datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10";
+                var api_url = "http://" + "ec2-52-87-159-69.compute-1.amazonaws.com:8080" + "/WHAM/datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10";
             }
 
             // api call
-            //$.get({ url: api_url }, function (data) {
-                var loc = [];
+            $.get({ url: api_url }, function (data) {
+                var loc = data || [];
 
-                loc.push({ "eventName": "Dummy event @ MIT3", extLink: "www.abc1.com", "eventDesc": "001", "eventLocation": null, "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": null, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
-                loc.push({ "eventName": "Dummy event @ some", extLink: null, "eventDesc": "007", "eventLocation": "239 Holland Street null Somerville MA 02144 US", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3351, "longitude": -71.1704, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
-                loc.push({ "eventName": "Dummy event @ MIT", extLink: null, "eventDesc": "002", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": false });
-                loc.push({ "eventName": "Dummy event @ some2", extLink: null, "eventDesc": "003", "eventLocation": "239 Holland Street null Somerville MA 02144 US", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3351, "longitude": -71.1704, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": false });
-                loc.push({ "eventName": "Dummy event @ MIT2", extLink: null, "eventDesc": "004", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
-                loc.push({ "eventName": "Dummy event @ framingham", extLink: null, "eventDesc": "005", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3770, "longitude": -71.1167, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
-                loc.push({ "eventName": "Dummy event @ fram", extLink: "www.abc.com", "eventDesc": "006", "eventLocation": null, "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": null, "startTime": null, "endTime": 1459389600000, "latitude": 42.3505, "longitude": -71.1054, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": false });
+                //loc.push({ "eventName": "Dummy event @ MIT3", extLink: "www.abc1.com", "eventDesc": "001", "eventLocation": null, "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": null, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
+                //loc.push({ "eventName": "Dummy event @ some", extLink: null, "eventDesc": "007", "eventLocation": "239 Holland Street null Somerville MA 02144 US", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3351, "longitude": -71.1704, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
+                //loc.push({ "eventName": "Dummy event @ MIT", extLink: null, "eventDesc": "002", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": false });
+                //loc.push({ "eventName": "Dummy event @ some2", extLink: null, "eventDesc": "003", "eventLocation": "239 Holland Street null Somerville MA 02144 US", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3351, "longitude": -71.1704, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": false });
+                //loc.push({ "eventName": "Dummy event @ MIT2", extLink: null, "eventDesc": "004", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3601, "longitude": -71.0942, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
+                //loc.push({ "eventName": "Dummy event @ framingham", extLink: null, "eventDesc": "005", "eventLocation": "MIT", "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": 1459389600000, "startTime": null, "endTime": 1459389600000, "latitude": 42.3770, "longitude": -71.1167, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": true });
+                //loc.push({ "eventName": "Dummy event @ fram", extLink: "www.abc.com", "eventDesc": "006", "eventLocation": null, "phoneNumber": null, "emailId": null, "startDate": 1459296000000, "endDate": 1459389600000, "startDateAndTime": 1459296000000, "endDateAndTime": null, "startTime": null, "endTime": 1459389600000, "latitude": 42.3505, "longitude": -71.1054, "filePath": null, "organiserName": null, "organiserDesc": null, "creationTime": 1458585314000, "lastUpdateTime": 1458585503000, "officialEvent": false });
 
                 // display number of envents
                 var div = document.getElementById('total');
@@ -235,7 +259,7 @@ function init(checked) {
                         };
                     })(marker, content, content_modal, infowindow));
                 } // end of for loop
-            //});// end of api call
+            });// end of api call
         });// end of navigator
     }
 }
@@ -252,6 +276,8 @@ function apply() {
 }
 window.onload = apply;
 
+/* This function is for showing single event detail in modal when multiple 
+events details are in same info window*/
 function show(k) {
     var elements = document.getElementsByClassName('multi_modal');
     for (var i = 0; i < elements.length; i++) {
@@ -259,4 +285,19 @@ function show(k) {
     }
     var nameClass = k + "part";
     document.getElementsByClassName(nameClass)[0].style.display = 'block';
+}
+
+function set_zoom() {
+    zoom = [42.3398, -71.0892];
+    apply();
+    if (zoom.length == 2) {
+
+        bounds = new google.maps.LatLngBounds();
+
+        var z = new google.maps.LatLng(zoom[0], zoom[1]);
+        bounds.extend(z);
+
+        map.fitBounds(bounds);
+        map.panToBounds(bounds);
+    }
 }

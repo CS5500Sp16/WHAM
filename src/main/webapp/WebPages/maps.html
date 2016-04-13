@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script src="http://maps.google.com/maps/api/js?sensor=false&libraries=geometry"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false&libraries=geometry,places"></script>
+<!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6VmhrwOjylk9nok7SNOhH3_JsBAZI6mM&libraries=places"></script>-->
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="../js/maps.js"></script>
 <link href="../css/maps.css" rel="stylesheet" />
@@ -9,6 +10,9 @@
     <title></title>
 </head>
 <body>
+    <!-- Add search box in map-->
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+
     <!-- Showing total number of events happening around user -->
     <div id="total"></div>
 
@@ -49,7 +53,7 @@
 
     <!-- Showing apply preferences checkbox -->
     <div class="apply">
-        <label><input id="check" type="checkbox" onclick="apply()"/> Apply my preferences</label>
+        <label><input id="check" type="checkbox" onclick="apply()" /> Apply my preferences</label>
     </div>
 
     <!-- Showing info window -->
