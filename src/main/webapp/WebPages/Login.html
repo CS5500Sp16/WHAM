@@ -19,60 +19,29 @@
         <link href="../css/pageStyle.css" rel="stylesheet" />
         <script>
 
-            var xmlhttp = new XMLHttpRequest();
-
-            function userLogin() {
-                $(document).ready(function () {
+            $(document).ready(function () {
+                function userLogin() {
                     var emailId = $("#emailid").val();
-                    var password = $("#passwordsignup").val();
+                    var password = $("#password").val();
+                   
+                    auth(emailId, password);
 
-                    var response = {
-                        'emailId': emailId,'password': password
+                    function auth(emailId, password) {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/validateUser',
+                            dataType: 'json',
+                            async: false,
+                            data: {'emailId': emailId,'password': password},
+                            success: function (data, textStatus, jqXHR) {
+                                debugger;
+                                alert('User: ' + data.user + ' authenticated:' + data.authentication);
+                            }
+                        })
                     }
-                    debugger;
-                    $.ajax({
-                        url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/validateUser',
-                        data: JSON.stringify(response),
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        type: 'POST',
-                        success: function (data) {
-                            if (data != "null") {
-                                alert("Login Success")
-                                { location.href = "AfterLoginPage.html" }
-                            }
-                            else {
-                                alert("Invalid Login")
-                            }
-                        }
-                      
-
-
-                    });
-                });
-            }
-            //var emailId = $('#emailid').val();
-            //var password = $('#password').val();
-
-            //var logIn = {
-            //    emailId: emailId, password: password
-            //};
-
-            //$('#loginForm').submit(function () {
-            //    $.post('',
-            //     logIn, function (data, status) {
-            //         if (data != null) {
-            //             alert("success");
-            //             debugger;
-            //         }
-            //         else {
-            //             alert("faluire");
-            //         }
-            //     });
-            //    debugger;
-            //});
-        </script>
+                };
+            });
+         </script>
 	</head>
 	<body style="overflow:hidden">
 		<header>
@@ -92,7 +61,7 @@
                 <div class="login_container">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h2 class="panel-title" style="padding:10px"> Log In</h2>
+                            <h2 class="panel-title" style="padding:10px">Log In</h2>
                         </div>
                         <div class="panel-body">
                             <form accept-charset="UTF-8" id="loginForm">
