@@ -34,7 +34,6 @@ public class UserRegistrationController {
 	
 	@RequestMapping(value="/registerUser",method=RequestMethod.POST)
 	public @ResponseBody User registerUser(@RequestBody String body){
-		System.out.println("YEP" + body.toString());
 		Gson gson  = new Gson();
 		User user = null;
 		try{

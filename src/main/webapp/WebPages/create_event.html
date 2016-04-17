@@ -28,6 +28,7 @@
     <script src="../js/TopMenu/modernizr.custom.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script type="text/javascript">
+    
         $(document).ready(function() {
             console.log("ready!");
 
@@ -280,51 +281,51 @@
 <body>
     <header>
         <div class="cd-logo">
-            <a href="AfterLoginPage.html"><img src="../images/WHAM Logo.png" alt="Logo">
-            </a>
+            <a href="AfterLoginPage.html"><img src="../images/WHAM Logo.png" alt="Logo"> </a>
         </div>
         <ul id="cbp-tm-menu" class="cbp-tm-menu" style="height: 50px;">
             <li>
                 <a href="#" id="welcome"></a>
                 <ul class="cbp-tm-submenu">
-                    <li>
-                        <a href="create_event.html" class="cbp-tm-icon-pencil disable">Create Event</a>
+                    <li><a href="create_event.html" class="cbp-tm-icon-pencil disable">Create Event</a>
                     </li>
-                    <li>
-                        <a href="ManagePreferencesPage.html" class="cbp-tm-icon-cog">Manage Preferences</a>
+                    <li><a href="ManagePreferencesPage.html" class="cbp-tm-icon-cog">Manage Preferences</a>
                     </li>
-                    <li>
-                        <a href="HomePage.html" class="cbp-tm-icon-archive" onclick="sessionStorage.clear('name')">Log Out</a>
+                    <li><a href="HomePage.html" class="cbp-tm-icon-archive" onclick="sessionStorage.clear('name')">Log Out</a>
                     </li>
                 </ul>
             </li>
         </ul>
     </header>
-    <div class="cd-main-content" style="background-color:transparent">
+    <div class="cd-main-content" style="background-color: transparent">
         <div class="intrinsic-container-16x9">
             <div align="center">
                 <div class="form_container container">
-                    <h2 style="text-align:center;">Create your event</h2>
-                    <br/>
+                    <h2 style="text-align: center;">Create your event</h2>
+                    <br />
                     <!--enctype="multipart/form-data"-->
                     <form name="creat_event_form" id="creat_event_form" action="../newevent" enctype="multipart/form-data">
                         <fieldset>
+                        	<div class="row">
+                                    <div class="col-xs-12" style="margin-left: 5%; margin-bottom: 2%">
+                                        <div></div>
+                                        <br />
+                                        <input type="submit" value="Submit" name="submit" class="myButton" />
+                                    </div>
+                        	</div>
                             <div class="row">
-                                <div class="col-xs-5" style="margin-left:5%">
-                                    <label for="eventName"><b>Event Name*</b>
-                                    </label>
-                                    <input type="text" name="eventName" id="eventName" maxlength="60" required onblur="validateName('name')" />
-                                    <span id="nameError" style="display: none;">You can only use alphabetic characters, hyphens and apostrophes</span>
-                                    <label for="Event_Description"><b>Event Description</b>
-                                    </label>
+                                <div class="col-xs-5" style="margin-left: 5%">
+                                    <label for="eventName"><b>Event Name*</b> </label>
+                                    <input type="text" name="eventName" id="eventName" maxlength="60" required onblur="validateName('name')" /> <span id="nameError" style="display: none;">You can only use
+										alphabetic characters, hyphens and apostrophes</span>
+                                    <label for="Event_Description"><b>Event Description</b> </label>
                                     <input id="Event_Description" name="eventDesc" maxlength="500" type="text" onblur="validateNotEmpty('Event_Description')">
-                                    <span id="Event_Description_Error" style="display: none;">Please enter an event description</span>
+                                    <span id="Event_Description_Error" style="display: none;">Please
+										enter an event description</span>
                                     <!--label for="Location"><b>Location*</b></label-->
-                                    <label for="AddressLine1"><b>Address Line 1*</b>
-                                    </label>
+                                    <label for="AddressLine1"><b>Address Line 1*</b> </label>
                                     <input id="AddressLine1" name="AddressLine1" type="text" value="" required oninput="populate()">
-                                    <label for="AddressLine2"><b>Address Line 2 (optional)</b>
-                                    </label>
+                                    <label for="AddressLine2"><b>Address Line 2 (optional)</b> </label>
                                     <input id="AddressLine2" name="AddressLine2" type="text" value="" oninput="populate()">
                                     <label for="City"><b>City*</b>
                                     </label>
@@ -332,8 +333,8 @@
                                     <label for="State"><b>State*</b>
                                     </label>
                                     <input id="State" name="state" type="text" value="" required oninput="populate()">
-                                    <label for="zipcode"><b>Zip code*</b>
-                                    </label>
+                                    <label for="zipcode"><b>Zip
+											code*</b> </label>
                                     <input id="zipcode" name="zipcode" type="text" value="" required oninput="populate()">
                                     <div id="locationField">
                                         <!--label for="eventLocation"><b>Address*</b></label-->
@@ -345,64 +346,58 @@
                                         </script>
                                     </div>
                                     <div class="form-group">
-                                        <label for="endDateAndTime"><b>Start Date and Time*</b>
-                                        </label>
-                                        <div class='input-group date' id='startDateAndTime' style="margin-right: 10%;">
-                                            <input type='text' name="startDateAndTime" class="form-control" style="width:90%; border-radius: 4px" />
-                                            <span class="input-group-addon" style="border-left: 1px solid #ccc; border-radius: 4px;"> <span class="glyphicon glyphicon-calendar"></span> </span>
+                                        <label for="startDateAndTime"><b>Start Date and
+												Time*</b> </label>
+                                        <div class='input-group date'  style="margin-right: 10%; width: 100%;">
+                                            <input type='text' name="startDateAndTime"  id='startDateAndTime' class="form-control" style="width: 90%; border-radius: 4px" />                                        
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="endDateAndTime"><b>End Date and Time*</b>
                                         </label>
-                                        <div class='input-group date' id='endDateAndTime' style="margin-right: 10%;">
-                                            <input type='text' name="endDateAndTime" class="form-control" style="width:90%; border-radius: 4px;" />
-                                            <span class="input-group-addon" style="border-left: 1px solid #ccc; border-radius: 4px;"> <span class="glyphicon glyphicon-calendar"></span> </span>
+                                        <div class='input-group date'  style="margin-right: 10%; width: 100%;">
+                                            <input type='text' name="endDateAndTime" id='endDateAndTime' class="form-control" style="width: 90%; border-radius: 4px;" />
+                                            
                                         </div>
                                     </div>
                                     <label class="checkbox inline" id="OfficialEvent">
-                                        <input type="checkbox" name="isOfficialEvent" id="isOfficialEvent" onchange="myCheckbox()" value=false>
-                                        <b> Official NEU Event</b> </label>
+                                        <input type="checkbox" name="isOfficialEvent" id="isOfficialEvent" onchange="myCheckbox()" value=false> <b> Official
+											NEU Event</b>
+                                    </label>                       
                                 </div>
-                                <div class="col-xs-2">
-                                </div>
-                                <div class="col-xs-5" style="margin-left:10%">
-                                    <label for="organiserName"><b>Organiser Name*</b>
-                                    </label>
-                                    <input id="organiserName" name="organiserName" type="text" value="" required onblur="validateName('organiserName')">
-                                    <span id="organiserNameError" style="display: none;">Please enter an organiser name</span>
-                                    <label for="organiserDesc"><b>Organiser Description*</b>
-                                    </label>
-                                    <input id="organiserDesc" name="organiserDesc" type="text" value="" required onblur="validateNotEmpty('organiserDesc')">
-                                    <span id="organiserDesc_Error" style="display: none;">Please enter an organiser description</span>
-                                    <label for="Phone"><b>Phone (optional)</b>
-                                    </label>
-                                    <input id="phone" name="phoneNumber" type="text" value="" onblur="validatePhone(phone)">
-                                    <span id="phoneError" style="display: none;">Not a valid phone number</span>
-                                    <label for="email"><b>Email*</b>
-                                    </label>
-                                    <input type="text" name="emailId" id="email" required onblur="validateEmail(value)">
-                                    <span id="emailError" style="display: none;">Enter a valid Northeastern email.</span>
+                                <div class="col-xs-2"></div>
+                                <div class="col-xs-5" style="margin-left: 10%">
+                                    <label for="organiserName"><b>Organiser Name*</b> </label>
+                                    <input id="organiserName" name="organiserName" type="text" value="" required onblur="validateName('organiserName')"> <span id="organiserNameError" style="display: none;">Please
+										enter an organiser name</span>
+                                    <label for="organiserDesc"><b>Organiser
+											Description*</b> </label>
+                                    <input id="organiserDesc" name="organiserDesc" type="text" value="" required onblur="validateNotEmpty('organiserDesc')"> <span id="organiserDesc_Error" style="display: none;">Please
+										enter an organiser description</span>
+                                    <label for="Phone"><b>Phone
+											(optional)</b> </label>
+                                    <input id="phone" name="phoneNumber" type="text" value="" onblur="validatePhone(phone)"> <span id="phoneError" style="display: none;">Not a valid
+										phone number</span>
+                                    <label for="email"><b>Email*</b> </label>
+                                    <input type="text" name="emailId" id="email" required onblur="validateEmail(value)"> <span id="emailError" style="display: none;">Enter a valid Northeastern
+										email.</span>
                                     <!-- Set the category for the event -->
                                     <div class="form-group">
-                                        <label for="eventType"><b>Event Name*</b>
-                                        </label>
-                                        <div class='input-group eventType' id='eventType_div' style="margin-right: 10%;">
-                                            <select id="eventType" name="eventType" class="form-control" style="width:90%; border-radius: 4px;" required></select>
+                                        <label for="eventType"><b>Event Name*</b> </label>
+                                        <div class='input-group eventType' id='eventType_div' style="width: 90%;">
+                                            <select id="eventType" name="eventType" class="form-control" style="width: 83%; border-radius: 4px;" required></select>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="eventTopic"><b>Event Topic*</b>
-                                        </label>
-                                        <div class='input-group eventTopic' id='eventTopic_div' style="margin-right: 10%;">
-                                            <select id="eventTopic" onchange="onSelectEventTopic()" name="eventTopic" class="form-control" required style="width:90%; border-radius: 4px;"></select>
+                                        <label for="eventTopic"><b>Event Topic*</b> </label>
+                                        <div class='input-group eventTopic' id='eventTopic_div' style="width: 90%;">
+                                            <select id="eventTopic" onchange="onSelectEventTopic()" name="eventTopic" class="form-control" required style="width: 83%; border-radius: 4px;"></select>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="eventSubTopic"><b>Event Subtopic*</b>
-                                        </label>
-                                        <div class='input-group eventSubTopic' id='eventName_div' style="margin-right: 10%;">
-                                            <select id="eventSubTopic" name="eventSubtopic" required class="form-control" style="width:90%; border-radius: 4px;"></select>
+                                        <label for="eventSubTopic"><b>Event Subtopic*</b> </label>
+                                        <div class='input-group eventSubTopic' id='eventName_div' style="width: 90%;">
+                                            <select id="eventSubTopic" name="eventSubtopic" required class="form-control" style="width: 83%; border-radius: 4px;"></select>
                                         </div>
                                     </div>
 
@@ -450,9 +445,8 @@
                                     </script>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-12" style="margin-left:5%">
-                                        <div>
-                                        </div>
+                                    <div class="col-xs-12" style="margin-left: 7%">
+                                        <div></div>
                                         <br />
                                         <input type="submit" value="Submit" name="submit" class="myButton" />
                                     </div>
@@ -488,4 +482,5 @@
         var menu = new cbpTooltipMenu(document.getElementById('cbp-tm-menu'));
     </script>
 </body>
+
 </html>
