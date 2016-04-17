@@ -16,8 +16,63 @@
 		<link rel="stylesheet" href="../css/LogIn.css">
 		<link rel="stylesheet" href="../css/reset.css">
 		<link href="../css/style.css" rel="stylesheet" />
-		<script src="../js/LogIn.js"></script>
         <link href="../css/pageStyle.css" rel="stylesheet" />
+        <script>
+
+            var xmlhttp = new XMLHttpRequest();
+
+            function userLogin() {
+                $(document).ready(function () {
+                    var emailId = $("#emailid").val();
+                    var password = $("#passwordsignup").val();
+
+                    var response = {
+                        'emailId': emailId,'password': password
+                    }
+                    debugger;
+                    $.ajax({
+                        url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/validateUser',
+                        data: JSON.stringify(response),
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        type: 'POST',
+                        success: function (data) {
+                            if (data != "null") {
+                                alert("Login Success")
+                                { location.href = "AfterLoginPage.html" }
+                            }
+                            else {
+                                alert("Invalid Login")
+                            }
+                        }
+                      
+
+
+                    });
+                });
+            }
+            //var emailId = $('#emailid').val();
+            //var password = $('#password').val();
+
+            //var logIn = {
+            //    emailId: emailId, password: password
+            //};
+
+            //$('#loginForm').submit(function () {
+            //    $.post('',
+            //     logIn, function (data, status) {
+            //         if (data != null) {
+            //             alert("success");
+            //             debugger;
+            //         }
+            //         else {
+            //             alert("faluire");
+            //         }
+            //     });
+            //    debugger;
+            //});
+        </script>
 	</head>
 	<body style="overflow:hidden">
 		<header>
@@ -40,10 +95,10 @@
                             <h2 class="panel-title" style="padding:10px"> Log In</h2>
                         </div>
                         <div class="panel-body">
-                            <form accept-charset="UTF-8" id="loginForm" action="AfterLoginPage.html">
+                            <form accept-charset="UTF-8" id="loginForm">
                                 <fieldset>
                                     <div class="form-group" style="margin: 5px; padding-bottom: 30px">
-                                        <input type="email" class="form-control" placeholder="NEU Email ID" name="neu_emailid" id="neu_emailid" autofocus required>
+                                        <input type="email" class="form-control" placeholder="Email ID" name="emailId" id="emailid" autofocus required>
                                     </div>
                                     <div class="form-group" style="margin:5px;padding-bottom:30px">
                                         <input class="form-control" placeholder="Password" name="password" id="password" type="password" value="">
@@ -60,7 +115,7 @@
                                         <span id="error" class="alert-error"> NEU Email/Password did not match</span>
                                     </div>
                                     <br/>
-                                    <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
+                                    <input class="btn btn-lg btn-success btn-block" type="submit" value="Login" onclick="userLogin()">
                                     <br/>
                                     <div>
                                         <a href="http://www.northeastern.edu/resnet/?p=608" target="_blank">Forgot Password</a>
