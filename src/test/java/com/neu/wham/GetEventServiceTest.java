@@ -72,6 +72,7 @@ public class GetEventServiceTest {
      */
     
     // testcase 1     
+    // get events according to valid latitude, longtitude and radius
     @Test 
     public void getEvents_validLatLonRadTest_withoutUserId() throws Exception{
     	
@@ -106,6 +107,7 @@ public class GetEventServiceTest {
     
     
     // testcase 2
+    // get events according to valid latitude, longtitude and zero radius
     @Test
     public void getEvents_zeroRadTest_withoutUserId() throws Exception{
     	
@@ -142,6 +144,7 @@ public class GetEventServiceTest {
     
     
     // testcase 3
+    // get events according to valid latitude, longitude and negative radius
     @Test
     public void getEvents_negRadTest_withoutUserId() throws Exception{
     	
@@ -179,6 +182,7 @@ public class GetEventServiceTest {
 
     
     // testcase 20
+    // get events according to valid latitude, longitude and invalid radius string
     @Test
     public void getEvents_InvalidStringRTest_withoutUserId() throws Exception{
     	String lat = "45";
@@ -211,6 +215,7 @@ public class GetEventServiceTest {
 
     
     // testcase 13
+    // get events according to multiple latitude, longitude and radius
     @Test
     public void getEvents_multiLatTest_withoutUserId() throws Exception{
         String lat1 = "0";
@@ -226,6 +231,7 @@ public class GetEventServiceTest {
 
     
     // testcase 14
+    // get events according to valid latitude, multiple longitude and radius
     @Test
     public void getEvents_multiLonTest_withoutUserId() throws Exception{
         String lat = "0";
@@ -240,6 +246,7 @@ public class GetEventServiceTest {
     }
     
     // testcase 15
+    // get events according to valid latitude, longitude and multiple radius
     @Test
     public void getEvents_multiRadTest_withoutUserId() throws Exception{
         String lat = "0";
@@ -256,6 +263,7 @@ public class GetEventServiceTest {
 
     //?lat=0&long=0&r=foo
 	// testcase 10
+    // get events according to valid latitude, longitude and dummy radius
     @Test
     public void getEvents_dummyRadTest_withoutUserId() throws Exception{
     	
@@ -293,6 +301,7 @@ public class GetEventServiceTest {
     
     //?lat=0&long=0&r=NULL
     // testcase 11
+    // get events according to valid latitude, longitude and null radius
     @Test
     public void getEvents_nullRadTest_withoutUserId() throws Exception{
     	
@@ -337,6 +346,7 @@ public class GetEventServiceTest {
      */
     
     // valid userId
+    // get events according to valid latitude, longitude, radius and userId
     @Test
     public void getEventsFromAPI_validUserId() throws Exception{
     	String lat = "42.338407";
@@ -367,6 +377,7 @@ public class GetEventServiceTest {
 
     
     // invalid userId, the check is in controller
+    // get events according to valid latitude, longitude, radius and meaningless userId
     @Test
     public void getEventsFromAPI_invalidUserId() throws Exception{
     	String lat = "42.338407";
@@ -398,7 +409,7 @@ public class GetEventServiceTest {
 				.andExpect(jsonPath("$[2].eventName", is("Get Traction: The Virtual Growth Event [Tashkent]")));
     }
     
-    
+    // get events according to valid latitude, longitude, radius and odd userId
     @Test
     public void getEventsFromAPI_oddUserId() throws Exception{
     	String lat = "42.338407";
@@ -429,9 +440,6 @@ public class GetEventServiceTest {
 				.andExpect(jsonPath("$[1].eventName", is("IELTS lessons taught by one of the top IELTS teachers in Uzbekistan")))
 				.andExpect(jsonPath("$[2].eventName", is("Get Traction: The Virtual Growth Event [Tashkent]")));
     }
-    
-    
-    
-    
+      
     
 }

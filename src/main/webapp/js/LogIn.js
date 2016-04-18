@@ -9,7 +9,8 @@ $(document).ready(function () {
 			if ((neu_email_id.value == "student@husky.neu.edu" || neu_email_id.value == "faculty@neu.edu") && password.value == "secret") {
 			    var string = neu_email_id.value;
 			    var string1 = string.split("@");
-			    localStorage.setItem("name", string1[0]);
+			    sessionStorage.setItem("name", string1[0]);
+			    sessionStorage.setItem("id", 13);
 			    return;
 			} else {
 				event.preventDefault();

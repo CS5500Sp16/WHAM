@@ -69,7 +69,7 @@ public class EventServiceImpl implements NewEventService {
 	 * @author Vijet Badigannavar
 	 */
 	private String saveUploadedFile(MultipartFile imageFile, String organiserName) throws IOException {
-		if(imageFile != null){
+		if(imageFile != null && !imageFile.getOriginalFilename().isEmpty()){
 			
 			StringBuilder imageName = new StringBuilder();
 			imageName.append(organiserName);

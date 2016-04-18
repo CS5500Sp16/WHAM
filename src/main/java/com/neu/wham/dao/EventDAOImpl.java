@@ -20,9 +20,13 @@ import com.neu.wham.model.Event;
 import com.neu.wham.model.SelectedPreference;
 import com.neu.wham.model.UserSelectedPreference;
 
+/**
+ * EventDAO implementaion
+ * @author Vijet Badigannavar, Surbhi, Ryan, Ashwin
+ */
 @Repository
 public class EventDAOImpl implements EventDAO {
-
+/*
 	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	static final String DB_URL = "jdbc:mysql://ec2-52-87-159-69.compute-1.amazonaws.com:3306/whamDB";
@@ -38,7 +42,7 @@ public class EventDAOImpl implements EventDAO {
 			e.printStackTrace();
 		}
 	}
-	
+	*/
 	public boolean addNewEvent(Event event) throws SQLException {
 
 		java.text.SimpleDateFormat sdf1 = 
@@ -53,8 +57,7 @@ public class EventDAOImpl implements EventDAO {
 		String startDate = sdf1.format(event.getStartDateAndTime());
 		String endDate = sdf1.format(event.getEndDateAndTime());
 
-		Connection conn = null;
-		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+		Connection conn = DBUtil.getConnection();
 		
 		String sql_statement = "insert into EVENT(name,description,is_official,phone,email,"
 				+ "address,latitude,longitude,create_datetime,last_update_datetime,org_name,org_desc,start_date_and_time,end_date_and_time,file_path,event_type,event_topic,event_subtopic)"
@@ -98,7 +101,7 @@ public class EventDAOImpl implements EventDAO {
 	@Override
 	public List<Event> getEventsData(String lat, String lon, String radius, UserSelectedPreference userPrefs) throws SQLException, JSONException, UnirestException
 	{ 
-		if(null != userPrefs){
+		if(null != userPrefs && userPrefs.getSelectedPreference().size() > 0){
 			try {
 				return getEventsFromDBWithPref(lat, lon, radius, userPrefs);
 			} catch (URISyntaxException e) {
@@ -140,7 +143,7 @@ public class EventDAOImpl implements EventDAO {
 			String query = "SELECT * FROM EVENT WHERE "
 					+ "acos(? * sin(latitude * 3.14 / 180) + ? * cos(latitude * 3.14 / 180) * cos(longitude * 3.14 / 180 - ?)) * 6371 <= ? AND " + tableName + " = ?";
 			
-			Connection conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			Connection conn = DBUtil.getConnection();
 			
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setDouble(1, lat_rad_sin);
@@ -179,9 +182,6 @@ public class EventDAOImpl implements EventDAO {
 				e.printStackTrace();
 			    throw e;
 			}
-			finally {
-				conn.close();
-			}
 			System.out.println(DBEvents.size());
 		}
 		
@@ -199,7 +199,7 @@ public class EventDAOImpl implements EventDAO {
 		String query = "SELECT * FROM EVENT WHERE "
 				+ "acos(? * sin(latitude * 3.14 / 180) + ? * cos(latitude * 3.14 / 180) * cos(longitude * 3.14 / 180 - ?)) * 6371 <= ?";
 		
-		Connection conn = DriverManager.getConnection(DB_URL,USER,PASS);
+		Connection conn = DBUtil.getConnection();
 		
 		PreparedStatement pstmt = conn.prepareStatement(query);
 		pstmt.setDouble(1, lat_rad_sin);
@@ -238,10 +238,6 @@ public class EventDAOImpl implements EventDAO {
 			e.printStackTrace();
 		    throw e;
 		}
-		finally {
-			conn.close();
-		}
-		System.out.println(DBEvents.size());
 		return DBEvents;
 	}
 }

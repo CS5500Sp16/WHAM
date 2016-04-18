@@ -17,9 +17,9 @@
     <link href="../css/homePageBlocks.css" rel="stylesheet" />
     <script>
         // navigate to AfterLoginPage if user is signed in
-        if (localStorage.getItem("name") === null) { }
+        if (sessionStorage.getItem("name") === null) { }
         else
-        if (localStorage.getItem("name") != "") {
+        if (sessionStorage.getItem("name") != "") {
             window.location.href = "AfterLoginPage.html";
         }
     </script>
@@ -35,7 +35,7 @@
     </header>
     <main class="cd-main-content">
         <div class="intrinsic-container-16x9" style="text-align:center">
-            <iframe src="maps.html" style="width: 90%; margin-top:50px"></iframe>
+            <iframe src="maps1.html" style="width: 90%; margin-top:50px"></iframe>
         </div>
         <div class="content-desktop" style="padding-top:30px">
             <div class="content" onclick="navigate()" style="cursor:pointer">
