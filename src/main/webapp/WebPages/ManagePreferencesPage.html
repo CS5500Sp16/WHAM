@@ -206,19 +206,19 @@
                 var selectedEventSubTopic = document.getElementById('eventSubTopic').value;
 
                 for (i = 0; i < eventTypeArray.length; i++) {
-                    if (eventTypeArray[i].eventName.localeCompare(selectedEventType) == 0) {
+                    if (eventTypeArray[i].eventName.trim().localeCompare(selectedEventType) == 0) {
                         selectedCategory0Pref[eventTypeArray[i].eventId] = eventTypeArray[i].eventName;
                         break;
                     }
                 }
                 for (var i = 0; i < eventTopicArray.length; i++) {
-                    if (eventTopicArray[i].topicName.localeCompare(selectedEventTopic) == 0) {
+                    if (eventTopicArray[i].topicName.trim().localeCompare(selectedEventTopic) == 0) {
                         if (selectedEventSubTopic.localeCompare("All sub topics") == 0) {
                             selectedCategory1Pref[eventTopicArray[i].topicId] = eventTopicArray[i].topicName;
                         } else {
                             var subTopicsListArray = eventTopicArray[i].subTopicsList;
                             for (i = 0; i < subTopicsListArray.length; i++) {
-                                if (subTopicsListArray[i].eventName.localeCompare(selectedEventSubTopic) == 0) {
+                                if (subTopicsListArray[i].eventName.trim().localeCompare(selectedEventSubTopic) == 0) {
                                     selectedCategory2Pref[subTopicsListArray[i].eventId] = subTopicsListArray[i].eventName;
                                     break;
                                 }
@@ -414,10 +414,10 @@
                 </table>
 
 
-                <label><h3>Selected Prefernces</h3></label>
+                <label><h3>Selected Preferences</h3></label>
                 <div class="col-md-12 column">
 
-                    <div class="btn-group" style="background-image: linear-gradient(beige,black)" data-toggle="buttons" id="preference-category-0">
+                    <div class="btn-group"  data-toggle="buttons" id="preference-category-0">
                     </div>
                     <br><br>
                     <div class="btn-group" data-toggle="buttons" id="preference-category-1-2">
