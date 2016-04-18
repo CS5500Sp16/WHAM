@@ -52,7 +52,8 @@
         var arr = url.split("/");
         //create api url with current domain and port number arr[2]
         var api_url1 = "http://" + "ec2-52-87-159-69.compute-1.amazonaws.com:8080" + "/WHAM/getPrefList";
-        var api_url2 = "http://" + "ec2-52-87-159-69.compute-1.amazonaws.com:8080" + "/WHAM/getPref?userPreference=3";
+        var ID = sessionStorage.getItem("id") || "";
+        var api_url2 = "http://" + "ec2-52-87-159-69.compute-1.amazonaws.com:8080" + "/WHAM/getPref?userPreference="+ID;
         var preferences;
         var userPref;
         var selectedCategory0Pref = new Object();

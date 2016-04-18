@@ -19,28 +19,37 @@
     <script>
 
 
-            function userLogin() {
-                $(document).ready(function () {
-                    var emailId = $("#emailid").val();
-                    var password = $("#password").val();
+        function userLogin() {
+            $(document).ready(function () {
+                var emailId = $("#emailid").val();
+                var password = $("#password").val();
 
-                    $.ajax({
-                        url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/validateUser' + '?emailId=' + emailId + '&password=' + password,
-                        async: false,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        type: 'POST',
-                        success: function (data) {
-                            if (data != "null" && data != "")
-                            { location.href = "AfterLoginPage.html" }
-                            else {
-                                alert("Invalid Login");
-                            }
+                $.ajax({
+                    url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/validateUser' + '?emailId=' + emailId + '&password=' + password,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    success: function (data) {
+                        if (data != "null" && data != "") {
+                            debugger;
+                            console.log(data);
+                            var neu_email_id = document.getElementById("emailid");
+                            var password = document.getElementById("password");
+                            var string = neu_email_id.value;
+                            var string1 = string.split("@");
+                            sessionStorage.setItem("name", string1[0]);
+                            sessionStorage.setItem("id", data.userId);
+                            location.href = "AfterLoginPage.html"
+
+                        } else {
+                            alert("Invalid Login");
                         }
-                    })
-                });
-            };
+                    }
+                })
+            });
+        };
     </script>
 </head>
 <body style="overflow:hidden">

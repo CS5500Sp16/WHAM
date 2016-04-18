@@ -4,6 +4,7 @@ var zoom = [];
 function init(checked) {
     //set options for map
     var mapDiv = document.getElementById("myMap");
+    var input = document.getElementById('pac-input');
     var options = {
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         zoom: 14
@@ -29,7 +30,6 @@ function init(checked) {
             });
 
             // add search box 
-            var input = document.getElementById('pac-input');
             var searchBox = new google.maps.places.SearchBox(input);
             map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
@@ -59,7 +59,7 @@ function init(checked) {
             if (checked && ID !== "") {
                 var api_url = "http://" + arr[2] + "/WHAM/datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10/?userId=" + ID;
             } else {
-                var api_url = "http://" + "ec2-52-87-159-69.compute-1.amazonaws.com:8080" + "/WHAM/datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10";
+                var api_url = "http://" + arr[2] + "/WHAM/datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10";
             }
 
             // api call
