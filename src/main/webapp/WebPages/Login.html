@@ -33,13 +33,11 @@
                     type: 'POST',
                     success: function (data) {
                         if (data != "null" && data != "") {
-                            debugger;
-                            console.log(data);
-                            var neu_email_id = document.getElementById("emailid");
-                            var password = document.getElementById("password");
-                            var string = neu_email_id.value;
-                            var string1 = string.split("@");
-                            sessionStorage.setItem("name", string1[0]);
+
+                            var string = data.firstName;
+                            // var string1 = string.split("@");
+                            // sessionStorage.setItem("name", string1[0]);
+                            sessionStorage.setItem("name", string);
                             sessionStorage.setItem("id", data.userId);
                             location.href = "AfterLoginPage.html"
 
