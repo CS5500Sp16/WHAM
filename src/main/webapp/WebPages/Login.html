@@ -24,31 +24,21 @@
                     var emailId = $("#emailid").val();
                     var password = $("#password").val();
 
-                    var response = {
-                        'emailId': emailId, 'password': password
-                    }
-
-                    auth(emailId, password);
-
-                    function auth(emailId, password) {
-                        $.ajax({
-                            type: 'POST',
-                            url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/validateUser' + '?emailId=' + emailId + '&password='+password,
-                            cache: false,
-                            contentType: false,
-                            processData: false,
-                            async: false,
-                            data: JSON.stringify(response),
-                            success: function (data) {
-                                if (data != "null" && data != "")
-                                { location.href = "AfterLoginPage.html" }
-                                else{
-                                    alert("Invalid Login");
-                                }
+                    $.ajax({
+                        url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/validateUser' + '?emailId=' + emailId + '&password=' + password,
+                        async: false,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        type: 'POST',
+                        success: function (data) {
+                            if (data != "null" && data != "")
+                            { location.href = "AfterLoginPage.html" }
+                            else {
+                                alert("Invalid Login");
                             }
-                        })
-                        
-                    }
+                        }
+                    })
                 });
             };
     </script>
@@ -90,11 +80,8 @@
                                     </span>
 
                                 </div>
-                                <div>
-                                    <span id="error" class="alert-error"> NEU Email/Password did not match</span>
-                                </div>
                                 <br />
-                                <input class="btn btn-lg btn-success btn-block" type="submit" value="Login" onclick="userLogin()">
+                                <button class="btn btn-lg btn-success btn-block" type="button" onclick="userLogin()">LogIn</button>
                                 <br />
                                 <div>
                                     <a href="http://www.northeastern.edu/resnet/?p=608" target="_blank">Forgot Password</a>
