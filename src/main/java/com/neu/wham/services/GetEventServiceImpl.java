@@ -45,15 +45,15 @@ import com.neu.wham.model.UserSelectedPreference;
 
 @Service
 public class GetEventServiceImpl implements GetEventService {
-	
+
 	@Autowired
 	private EventDAO eventDAO;
-	
+
 	@Autowired
 	private PreferenceService prefService;
-	
-	
-	
+
+
+
 	@Override
 	public List<Event> getEvents(HashMap<String, String> params)
 	{
@@ -63,15 +63,15 @@ public class GetEventServiceImpl implements GetEventService {
 		List<Event> NEUEvents = new ArrayList<Event>();
 		List<Event> resultList = new ArrayList<Event>();
 		UserSelectedPreference userPref = null;
-		
+
 		// read the params
 		String lat = params.get("lat");
 		String lon = params.get("lon");
 		String rad = params.get("rad");
 		String userId = params.get("userId");
-		
+
 		System.out.println("userId in getEvent service: " + userId);
-		
+
 		// build the Eventbrite preferences
 		PreferencesStore prefStore = new PreferencesStore();
 		if(null != userId) 
@@ -79,39 +79,40 @@ public class GetEventServiceImpl implements GetEventService {
 			prefStore = prefService.buildPreferencesStore(userId);	
 			userPref = prefService.getUserPreferences(userId);
 		}
-		
- 		try
+
+		try
 		{
- 			System.out.println("prefStore is null?: " + prefStore);
- 			APIEvents = getEventsFromAPI(lat, lon, rad, prefStore.getFormatsAsEventbrite(), 
- 				prefStore.getCategoriesAsEventbrite(), prefStore.getSubcategoriesAsEventbrite());
- 			DBEvents =  getEventsFromDB(lat, lon, rad, userPref);
-			NEUEvents = getNEUEvents(prefStore.getFormats(), prefStore.getCategories(), prefStore.getSubcategories());
+			System.out.println("prefStore is null?: " + prefStore);
+			APIEvents = getEventsFromAPI(lat, lon, rad, prefStore.getFormatsAsEventbrite(), 
+					prefStore.getCategoriesAsEventbrite(), prefStore.getSubcategoriesAsEventbrite());
+			DBEvents =  getEventsFromDB(lat, lon, rad, userPref);
+			NEUEvents = getNEUEvents(prefStore.getFormats(), prefStore.getCategories(), prefStore.getSubcategories(), 
+					lat, lon, rad);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
- 		resultList.addAll(APIEvents);
+		resultList.addAll(APIEvents);
 		resultList.addAll(DBEvents);
 		resultList.addAll(NEUEvents);
- 		
+
 		return resultList;
 	}
-	
+
 	public List<Event> getEventsFromAPI(String lat, String lon, String radius, 
 			String[] formats, String[] categories, String[] subcategories) 
-			throws UnirestException, JSONException, ParseException, URISyntaxException
+					throws UnirestException, JSONException, ParseException, URISyntaxException
 	{
 		JSONArray events = queryEventbrite(lat, lon, radius, formats, categories, subcategories);
 		System.out.println("Events length: " + events.length());
-		
+
 		List<Event> eventList = new ArrayList<Event>();
-		
+
 		for(int i = 0; i < events.length(); i++){
-			
+
 			Event e = new Event();
-			
+
 			JSONObject event = events.getJSONObject(i);
 			String eventName = event.getJSONObject("name").getString("text");
 			e.setEventName(eventName);
@@ -126,49 +127,50 @@ public class GetEventServiceImpl implements GetEventService {
 			e.setEventLocation(eventLocation);
 			e.setPhoneNumber(null);
 			e.setEmailId(null);
-			
+
 			String startDateTime = event.getJSONObject("start").getString("local");
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 			TimeZone tz = TimeZone.getTimeZone(event.getJSONObject("start").getString("timezone"));
 			formatter.setTimeZone(tz);
 			Date startDate = formatter.parse(startDateTime);
 			e.setStartDateAndTime(startDate);
-			
+
 			String endDateString = event.getJSONObject("end").getString("local");
 			Date endDate = formatter.parse(endDateString);
 			e.setEndDateAndTime(endDate);
-			
+
 			Double venueLat = event.getJSONObject("venue").getJSONObject("address").getDouble("latitude");
 			e.setLatitude(venueLat);
 			Double venueLong = event.getJSONObject("venue").getJSONObject("address").getDouble("longitude");
 			e.setLongitude(venueLong);
-			
-			
+
+
 			String creationTimeString = event.getString("created");
 			Date creationTime = formatter.parse(creationTimeString);
 			e.setCreationTime(creationTime);
-			
+
 			String lastUpdateTimeString = event.getString("changed");
 			Date lastUpdateTime = formatter.parse(lastUpdateTimeString);
 			e.setLastUpdateTime(lastUpdateTime);
-			
+
 			e.setOrganiserName(null);
 			e.setOrganiserDesc(null);
 			e.setOfficialEvent(false);
 			e.setFilePath(null);
-			
-			
+
+
 			eventList.add(e);
 		}
-		
+
 		return eventList;
 	}
 
 	public List<Event> getEventsFromDB(String lat, String lon, String radius, UserSelectedPreference userPrefs) throws SQLException, JSONException, UnirestException{
 		return eventDAO.getEventsData(lat, lon, radius, userPrefs);
 	}
-	
-	public List<Event> getNEUEvents(String[] types, String[] categories, String[] sub_categories) throws URISyntaxException, UnirestException, IOException, JSONException, ParserConfigurationException, SAXException, TransformerException
+
+	public List<Event> getNEUEvents(String[] types, String[] categories, String[] sub_categories, 
+			String lat, String lon, String rad) throws URISyntaxException, UnirestException, IOException, JSONException, ParserConfigurationException, SAXException, TransformerException
 	{
 		List<Event> NEUCalenderEvents = new ArrayList<Event>();
 		URL url = null;
@@ -176,13 +178,13 @@ public class GetEventServiceImpl implements GetEventService {
 		if((types.length == 0 || types == null) && (categories.length == 0 || categories == null) &&
 				(sub_categories.length == 0 || sub_categories == null))
 		{
-		   System.out.println("Events without Preferences");
-		   url = new URL("http://calendar.northeastern.edu/widget/view?schools=northeastern&days=31&num=50&format=xml");
+			System.out.println("Events without Preferences");
+			url = new URL("http://calendar.northeastern.edu/widget/view?schools=northeastern&days=31&num=50&format=xml");
 		}
 		else
 		{
 			System.out.println("Events with Preferences");
-		    url_string = "http://calendar.northeastern.edu/widget/view?schools=northeastern&types=";
+			url_string = "http://calendar.northeastern.edu/widget/view?schools=northeastern&types=";
 			if(types != null)
 			{
 				for(int i =0; i < types.length; i++)
@@ -191,7 +193,7 @@ public class GetEventServiceImpl implements GetEventService {
 					url_string += (id != null ? id + "%2C" : "");
 				}
 			}
-			
+
 			if(categories != null)
 			{
 				for(int i =0; i < categories.length; i++)
@@ -200,7 +202,7 @@ public class GetEventServiceImpl implements GetEventService {
 					url_string += (id != null ? id + "%2C" : "");
 				}
 			}
-			
+
 			if(sub_categories != null)
 			{
 				for(int i =0; i < sub_categories.length; i++)
@@ -212,61 +214,74 @@ public class GetEventServiceImpl implements GetEventService {
 			url_string = url_string.substring(0, url_string.lastIndexOf("%2C"));
 			url_string += "&days=31&num=50&format=xml";
 			System.out.println("URL String:" + url_string);
-		    url = new URL(url_string);	
+			url = new URL(url_string);	
 		}
-		
-		
+
+
 		URLConnection conn = url.openConnection();
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = builder.parse(conn.getInputStream());
-	    
+
 		NodeList itemList = doc.getElementsByTagName("item");
-		
+
 		for (int i=0; i < itemList.getLength(); i++)
 		{
 			Node nNode = itemList.item(i);
 			Element eElement = (Element) nNode;	
+
+			double lat_rad_sin = Math.sin((Double.parseDouble(lat) * 3.14) / 180);
+			double lat_rad_cos = Math.cos((Double.parseDouble(lat) * 3.14) / 180);
+			double lon_rad = (Double.parseDouble(lon) * 3.14) / 180;
+			double radius = Double.parseDouble(rad) / 0.62137;
+
 			if(eElement.getElementsByTagName("geo:lat").getLength() != 0 &&
 					eElement.getElementsByTagName("geo:lng").getLength() != 0){
 
-				try
-				{
-					Event e = new Event();
-					if(eElement.getElementsByTagName("title").getLength() != 0)
-						e.setEventName(eElement.getElementsByTagName("title").item(0).getTextContent());
-					if(eElement.getElementsByTagName("description").getLength() != 0)
-						e.setEventDesc(eElement.getElementsByTagName("description").item(0).getTextContent());
-					if(eElement.getElementsByTagName("geo:lat").getLength() != 0)
-						e.setLatitude((double)Double.parseDouble(eElement.getElementsByTagName("geo:lat").item(0).getTextContent()));
-					if(eElement.getElementsByTagName("geo:lng").getLength() != 0)
-						e.setLongitude((double)Double.parseDouble(eElement.getElementsByTagName("geo:lng").item(0).getTextContent()));
-					if(eElement.getElementsByTagName("link").getLength() != 0)
-						e.setExtLink(eElement.getElementsByTagName("link").item(0).getTextContent());
-					if(eElement.getElementsByTagName("pubDate").getLength() != 0){
-						DateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss");
-						format.setTimeZone(TimeZone.getTimeZone("GMT-4:00"));
-						Date date = format.parse(eElement.getElementsByTagName("pubDate").item(0).getTextContent());
-						e.setStartDateAndTime(date);
-					}
-					e.setOfficialEvent(true);
+				double eventLat = Double.parseDouble(eElement.getElementsByTagName("geo:lat").item(0).getTextContent());
+				double eventLon = Double.parseDouble(eElement.getElementsByTagName("geo:lng").item(0).getTextContent());
 
-					NEUCalenderEvents.add(e);
-				}
-				catch(Exception e)
-				{
-					System.out.println("Error:" + e.getStackTrace());
+				if(Math.acos(lat_rad_sin * Math.sin(eventLat * 3.14 / 180) + lat_rad_cos * Math.cos(eventLat * 3.14 / 180) * Math.cos(eventLon * 3.14 / 180 - lon_rad)) * 6371 <= radius){
+
+					try
+					{
+						Event e = new Event();
+						if(eElement.getElementsByTagName("title").getLength() != 0)
+							e.setEventName(eElement.getElementsByTagName("title").item(0).getTextContent());
+						if(eElement.getElementsByTagName("description").getLength() != 0)
+							e.setEventDesc(eElement.getElementsByTagName("description").item(0).getTextContent());
+						if(eElement.getElementsByTagName("geo:lat").getLength() != 0)
+							e.setLatitude(Double.parseDouble(eElement.getElementsByTagName("geo:lat").item(0).getTextContent()));
+						if(eElement.getElementsByTagName("geo:lng").getLength() != 0)
+							e.setLongitude(Double.parseDouble(eElement.getElementsByTagName("geo:lng").item(0).getTextContent()));
+						if(eElement.getElementsByTagName("link").getLength() != 0)
+							e.setExtLink(eElement.getElementsByTagName("link").item(0).getTextContent());
+						if(eElement.getElementsByTagName("pubDate").getLength() != 0){
+							DateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss");
+							format.setTimeZone(TimeZone.getTimeZone("GMT-4:00"));
+							Date date = format.parse(eElement.getElementsByTagName("pubDate").item(0).getTextContent());
+							e.setStartDateAndTime(date);
+						}
+						e.setOfficialEvent(true);
+
+						NEUCalenderEvents.add(e);
+					}
+					catch(Exception e)
+					{
+						System.out.println("Error:" + e.getStackTrace());
+					}
 				}
 			}
 		}
+		System.out.println("NEU EVENTS:" + NEUCalenderEvents.size());
 		return NEUCalenderEvents;	
 	}	
 
-	
+
 	public JSONArray queryEventbrite(String lat, String lon, String radius, 
 			String[] formats, String[] categories, String[] subcategories) {
-		
+
 		URIBuilder builder;
 		JSONArray events = null;
 		try {
@@ -282,7 +297,7 @@ public class GetEventServiceImpl implements GetEventService {
 				builder.addParameter("categories", String.join(",", categories));
 			if(null != subcategories && subcategories.length > 0)
 				builder.addParameter("subcategories", String.join(",", subcategories));
-			
+
 			HttpResponse<JsonNode> jsonResponse = Unirest.get(builder.toString()).asJson();
 			JsonNode obj = jsonResponse.getBody();
 			JSONObject response = obj.getObject();
@@ -292,7 +307,7 @@ public class GetEventServiceImpl implements GetEventService {
 				events = response.getJSONArray("events");
 			else
 				events = new JSONArray();
-				
+
 			System.out.println(jsonResponse.getStatus());
 			System.out.println("*****");
 			System.out.println("Events: ");
@@ -307,7 +322,7 @@ public class GetEventServiceImpl implements GetEventService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return events;
 	}
 }

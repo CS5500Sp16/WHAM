@@ -133,9 +133,9 @@ public class EventDAOImpl implements EventDAO {
 					System.out.println("Unknown preference type! " + pref.getEventCategory());
 			}
 		
-			double lat_rad_sin = Math.sin(((double)Double.parseDouble(lat) * 3.14) / 180);
-			double lat_rad_cos = Math.cos(((double)Double.parseDouble(lat) * 3.14) / 180);
-			double lon_rad = ((double)Double.parseDouble(lon) * 3.14) / 180;
+			double lat_rad_sin = Math.sin((Double.parseDouble(lat) * 3.14) / 180);
+			double lat_rad_cos = Math.cos((Double.parseDouble(lat) * 3.14) / 180);
+			double lon_rad = (Double.parseDouble(lon) * 3.14) / 180;
 			
 			String query = "SELECT * FROM EVENT WHERE "
 					+ "acos(? * sin(latitude * 3.14 / 180) + ? * cos(latitude * 3.14 / 180) * cos(longitude * 3.14 / 180 - ?)) * 6371 <= ? AND " + tableName + " = ?";
@@ -146,7 +146,7 @@ public class EventDAOImpl implements EventDAO {
 			pstmt.setDouble(1, lat_rad_sin);
 			pstmt.setDouble(2, lat_rad_cos);
 			pstmt.setDouble(3, lon_rad);
-			pstmt.setDouble(4, (double)Double.parseDouble(radius) / 0.62137);
+			pstmt.setDouble(4, Double.parseDouble(radius) / 0.62137);
 			pstmt.setInt(5, pref.getEventId());
 			
 			ResultSet rs = null;
@@ -192,9 +192,9 @@ public class EventDAOImpl implements EventDAO {
 
 	public List<Event> getEventsFromDBWithoutPref(String lat, String lon, String radius) throws SQLException
 	{
-		double lat_rad_sin = Math.sin(((double)Double.parseDouble(lat) * 3.14) / 180);
-		double lat_rad_cos = Math.cos(((double)Double.parseDouble(lat) * 3.14) / 180);
-		double lon_rad = ((double)Double.parseDouble(lon) * 3.14) / 180;
+		double lat_rad_sin = Math.sin((Double.parseDouble(lat) * 3.14) / 180);
+		double lat_rad_cos = Math.cos((Double.parseDouble(lat) * 3.14) / 180);
+		double lon_rad = (Double.parseDouble(lon) * 3.14) / 180;
 		
 		String query = "SELECT * FROM EVENT WHERE "
 				+ "acos(? * sin(latitude * 3.14 / 180) + ? * cos(latitude * 3.14 / 180) * cos(longitude * 3.14 / 180 - ?)) * 6371 <= ?";
@@ -205,7 +205,7 @@ public class EventDAOImpl implements EventDAO {
 		pstmt.setDouble(1, lat_rad_sin);
 		pstmt.setDouble(2, lat_rad_cos);
 		pstmt.setDouble(3, lon_rad);
-		pstmt.setDouble(4, (double)Double.parseDouble(radius) / 0.62137);
+		pstmt.setDouble(4, Double.parseDouble(radius) / 0.62137);
 		
 		ResultSet rs = null;
 		List<Event> DBEvents = new ArrayList<Event>();
