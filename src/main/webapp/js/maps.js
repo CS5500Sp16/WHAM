@@ -59,7 +59,7 @@ function init(checked) {
             if (checked && ID !== "") {
                 var api_url = "http://" + arr[2] + "/WHAM/datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10/?userId=" + ID;
             } else {
-                var api_url = "http://" + arr[2] + "/WHAM/datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10";
+                var api_url = "http://" + "ec2-52-87-159-69.compute-1.amazonaws.com:8080" + "/WHAM/datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10";
             }
 
             // api call
@@ -203,7 +203,7 @@ function init(checked) {
 
                                 // set the content for modal
                                 content_modal = content_modal + "<div class='multi_modal " + k + "part' style='display:none'>";
-                                content_modal += "Event Name: " + hold[k].eventName + "<br/>" + "Event Description: " + hold[k].eventDesc + "<br/>" + "Event Location: " + hold[k].eventLocation + "<br/>" + "Distance: " + "</b>" + distance + "miles" + "<br/>" + "Organiser(s): " + + "</b>" + hold[k].organiserName + "<br/>" + "              " + hold[k].organiserDesc + "<br>" + "Conatct Number: " + hold[k].phoneNumber + " ," + hold[k].emailId + "<br/>" + "Event Start Time: " + start_date_time1 + "<br/>" + "Event End Time: " + end_date_time1 + "<br/>";
+                                content_modal += getString(hold[k].eventName, hold[k].eventDesc, hold[k].eventLocation, distance, hold[k].organiserName, hold[k].organiserDesc, hold[k].phoneNumber, hold[k].emailId, start_date_time1, end_date_time1);
                                 content_modal += "</div>";
                             }
 
@@ -235,7 +235,7 @@ function init(checked) {
                         else {
                             var modal_link = "More Details: " + "<a href = '#'" + " data-toggle='modal' data-target ='#infoModal'>" + "Click Here" + "</a>";
                             content = content + modal_link + "<br/>";
-                            var content_modal = "<b>Event Name: " + "</b>" + loc[i].eventName + "<br/>" + "<b>Event Description: " + "</b>" + loc[i].eventDesc + "<br/>" + "<b>Event Location: " + "</b>" + loc[i].eventLocation + "<br/>" + "<b>Distance: " + "</b>" + distance + "miles" + "<br/>" + "<b>Organiser(s): " + "</b>" + loc[i].organiserName + "<br/>" + "              " + loc[i].organiserDesc + "<br>" + "<b>Conatct Details: " + "</b>" + loc[i].phoneNumber + " ," + loc[i].emailId + "<br/>" + "<b>Event Start Time: " + "</b>" + start_date_time + "<br/>" + "<b>Event End Time: " + "</b>" + end_date_time + "<br/>";
+                            var content_modal = getString(loc[i].eventName, loc[i].eventDesc, loc[i].eventLocation, distance, loc[i].organiserName, loc[i].organiserDesc, loc[i].phoneNumber, loc[i].emailId, start_date_time, end_date_time);
                         }
 
                         if (event_type)
@@ -300,4 +300,27 @@ function set_zoom() {
         map.fitBounds(bounds);
         map.panToBounds(bounds);
     }
+}
+
+function getString(eventName, eventDesc, eventLocation, distance, organiserName, organiserDesc, phoneNumber, emailId, start_date_time1, end_date_time1) {
+    if (eventName == null) {
+        eventName = "Information not available";
+    }
+    if (eventLocation == null) {
+        eventLocation = "Information not available";
+    }
+    if (organiserName == null) {
+        organiserName = "Information not available";
+    }
+    if (organiserDesc == null) {
+        organiserDesc = "Information not available";
+    }
+    if (phoneNumber == null) {
+        phoneNumber = "Information not available";
+    }
+    if (emailId == null) {
+        emailId = "Information not available";
+    }
+    var tempString = "<b>Event Name: " + "</b>" + eventName + "<br/>" + "<b>Event Description: " + "</b>" + eventDesc + "<br/>" + "<b>Event Location: " + "</b>" + eventLocation + "<br/>" + "<b>Distance: " + "</b>" + distance + "miles" + "<br/>" + "<b>Organiser(s): " + "</b>" + organiserName + "<br/>" + "<b>Organiser Description: " + "</b>" + organiserDesc + "<br>" + "<b>Email ID: " + "</b>" + emailId + "<br/>" + "<b>Phone: " + "</b>" + phoneNumber + "<br/>" + "<b>Event Start Time: " + "</b>" + start_date_time1 + "<br/>" + "<b>Event End Time: " + "</b>" + end_date_time1 + "<br/>";
+    return tempString;
 }
