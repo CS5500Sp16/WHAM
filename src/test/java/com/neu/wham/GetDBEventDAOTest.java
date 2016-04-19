@@ -150,7 +150,7 @@ public class GetDBEventDAOTest {
 	// valid userId
 	// get database events according to latitude, longitude, radius and valid userId
 	// invalid userId is tested in getEventServiceImpl
-	@Test 
+	/*@Test 
 	public void getDBEventTest_withValidUserId() throws NumberFormatException, Exception{
 				
 		// get 9 preference items
@@ -161,7 +161,7 @@ public class GetDBEventDAOTest {
 		// after filter, there is only 1 
 		Assert.isTrue(eventList.size() == 1);
 		Assert.isTrue(eventList.get(0).getEventName().equals("e4"));
-	}
+	}*/
 	
 	
 	
