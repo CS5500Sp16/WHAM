@@ -3,6 +3,7 @@ package com.neu.wham.services;
 import com.neu.wham.keys.*;
 import java.util.List;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -173,58 +174,9 @@ public class GetEventServiceImpl implements GetEventService {
 			String lat, String lon, String rad) throws URISyntaxException, UnirestException, IOException, JSONException, ParserConfigurationException, SAXException, TransformerException
 	{
 		List<Event> NEUCalenderEvents = new ArrayList<Event>();
-		URL url = null;
-		String url_string = null;
-		if((types.length == 0 || types == null) && (categories.length == 0 || categories == null) &&
-				(sub_categories.length == 0 || sub_categories == null))
-		{
-			System.out.println("Events without Preferences");
-			url = new URL("http://calendar.northeastern.edu/widget/view?schools=northeastern&days=31&num=50&format=xml");
-		}
-		else
-		{
-			System.out.println("Events with Preferences");
-			url_string = "http://calendar.northeastern.edu/widget/view?schools=northeastern&types=";
-			if(types != null)
-			{
-				for(int i =0; i < types.length; i++)
-				{
-					String id = NEUEventsPrefMapping.getNEUPref(types[i]);
-					url_string += (id != null ? id + "%2C" : "");
-				}
-			}
-
-			if(categories != null)
-			{
-				for(int i =0; i < categories.length; i++)
-				{
-					String id = NEUEventsPrefMapping.getNEUPref(categories[i]);
-					url_string += (id != null ? id + "%2C" : "");
-				}
-			}
-
-			if(sub_categories != null)
-			{
-				for(int i =0; i < sub_categories.length; i++)
-				{
-					String id = NEUEventsPrefMapping.getNEUPref(sub_categories[i]);
-					url_string += (id != null ? id + "%2C" : "");
-				}
-			}
-			url_string = url_string.substring(0, url_string.lastIndexOf("%2C"));
-			url_string += "&days=31&num=50&format=xml";
-			System.out.println("URL String:" + url_string);
-			url = new URL(url_string);	
-		}
-
-
-		URLConnection conn = url.openConnection();
-
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		Document doc = builder.parse(conn.getInputStream());
-
-		NodeList itemList = doc.getElementsByTagName("item");
+		
+		// queryNEUCalender is helper function
+		NodeList itemList = queryNEUCalender(types, categories, sub_categories, lat, lon, rad);
 
 		for (int i=0; i < itemList.getLength(); i++)
 		{
@@ -278,6 +230,64 @@ public class GetEventServiceImpl implements GetEventService {
 		return NEUCalenderEvents;	
 	}	
 
+	public NodeList queryNEUCalender(String[] types, String[] categories, String[] sub_categories, 
+			String lat, String lon, String rad) throws SAXException, IOException, ParserConfigurationException{
+		NodeList results;
+		URL url = null;
+		String url_string = null;
+		if((types.length == 0 || types == null) && (categories.length == 0 || categories == null) &&
+				(sub_categories.length == 0 || sub_categories == null))
+		{
+			System.out.println("Events without Preferences");
+			url = new URL("http://calendar.northeastern.edu/widget/view?schools=northeastern&days=31&num=50&format=xml");
+		}
+		else
+		{
+			System.out.println("Events with Preferences");
+			url_string = "http://calendar.northeastern.edu/widget/view?schools=northeastern&types=";
+			if(types != null)
+			{
+				for(int i =0; i < types.length; i++)
+				{
+					String id = NEUEventsPrefMapping.getNEUPref(types[i]);
+					url_string += (id != null ? id + "%2C" : "");
+				}
+			}
+
+			if(categories != null)
+			{
+				for(int i =0; i < categories.length; i++)
+				{
+					String id = NEUEventsPrefMapping.getNEUPref(categories[i]);
+					url_string += (id != null ? id + "%2C" : "");
+				}
+			}
+
+			if(sub_categories != null)
+			{
+				for(int i =0; i < sub_categories.length; i++)
+				{
+					String id = NEUEventsPrefMapping.getNEUPref(sub_categories[i]);
+					url_string += (id != null ? id + "%2C" : "");
+				}
+			}
+			url_string = url_string.substring(0, url_string.lastIndexOf("%2C"));
+			url_string += "&days=31&num=50&format=xml";
+			System.out.println("URL String:" + url_string);
+			url = new URL(url_string);	
+		}
+
+
+		URLConnection conn = url.openConnection();
+
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		Document doc = builder.parse(conn.getInputStream());
+		
+		results = doc.getElementsByTagName("item");
+		
+		return results;
+	}
 
 	public JSONArray queryEventbrite(String lat, String lon, String radius, 
 			String[] formats, String[] categories, String[] subcategories) {
