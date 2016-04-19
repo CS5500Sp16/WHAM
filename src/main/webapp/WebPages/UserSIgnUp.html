@@ -13,8 +13,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
-    <script src="https://cdn.rawgit.com/t4t5/sweetalert/master/dist/sweetalert.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/t4t5/sweetalert/master/dist/sweetalert.css">
+    <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
+    <script src="../js/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../js/dist/sweetalert.css">
 
     <link rel="stylesheet" href="../css/LogIn.css">
     <link rel="stylesheet" href="../css/reset.css">
@@ -32,38 +33,75 @@
                 var firstName = $("#firstname").val();
                 var middleName = $("#middlename").val();
                 var lastName = $("#lastname").val();
-                var emailId = $("#emailsignup").val();
-                var phoneNo = $("#phonenumber").val();
-                var password = $("#passwordsignup").val();
-
-                userRegistration.push(firstName);
-                userRegistration.push(middleName);
-                userRegistration.push(lastName);
-                userRegistration.push(emailId);
-                userRegistration.push(phoneNo);
-                userRegistration.push(password);
+                var emailId = $("#emailId").val();
+                var phoneNo = $("#phoneNo").val();
+                var password = $("#password").val();
+                var confirmedPassword = $("#confirmedPassword").val();
+                
+                $("#userSignUpForm").validate({
+                    onfocusout: false,
+                    rules: {
+                        firstName:{
+                            required: true
+                        },
+                        phoneNo:{
+                            digits: true
+                        },
+                        emailsignup: {
+                            required: true,
+                            email: true
+                        },
+                        password: {
+                            required: true,
+                        },
+                        confirmedPassword: {
+                            required: true,
+                            equalTo: "#password"
+                        }
+                    },
+                    messages: {
+                        firstName: "Please enter your Name",
+                        phoneNo: "Invalid Phone Number",
+                        password: "Please enter a password",
+                        confirmedPassword: "Passwords don't match",
+                        emailsignup: "Please enter a valid email address"
+                    }
+                });
 
                 var response = {
                     'firstName': firstName, 'middleName': middleName, 'lastName': lastName, 'emailId': emailId, 'phoneNo': phoneNo, 'password': password
                 }
 
-                $.ajax({
-                    url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/registerUser',
-                    data: JSON.stringify(response),
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    type: 'POST',
-                    success: function (data) {
-                        if (data != "null" && data != "")
-                        { location.href = "http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/WebPages/Login.html" }
-                    }
+                if ($('#userSignUpForm').valid()) {
+                    $.ajax({
+                        url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/registerUser',
+                        data: JSON.stringify(response),
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        type: 'POST',
+                        success: function (data) {
+                            if (data != "null" && data != "")
+                            { location.href = "http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/WebPages/Login.html" }
+                            else {
+                                swal({ title: "Inavlid SignUp!", text: "Please check your details again !!", type: "error", confirmButtonText: "OK" });
+                            }
+                        }
 
 
-                });
+
+                    });
+                }
             });
         }
     </script>
+    <style>
+        * {
+            -webkit-box-sizing: initial !important;
+            -moz-box-sizing: initial !important;
+            box-sizing: initial !important;
+        }
+    </style>
 
 </head>
 <body>
@@ -85,49 +123,49 @@
                 <div id="wrapper" style="margin-top: 10%;width:100%;">
 
                     <div id="register" class="form">
-                        <form action="Login.html" autocomplete="on">
+                        <form id="userSignUpForm" action="Login.html" autocomplete="on">
                             <h1> Sign up </h1>
                             <span style="display:inline-block; width:30%;">
                                 <p style="width:80%;">
-                                    <label for="firstname" class="uname" data-icon="u">Your First Name*</label>
+                                    <label for="firstname" class="uname" data-icon="u">First Name*</label>
                                     <input id="firstname" name="firstname" required="required" type="text" placeholder="Enter First Name" />
                                 </p>
                             </span>
                             <span style="display:inline-block; width:30%;margin-left: 10px;">
                                 <p style="width:80%;">
-                                    <label for="middlename" class="uname" data-icon="u">Your Middle Name</label>
+                                    <label for="middlename" class="uname" data-icon="u">Middle Name</label>
                                     <input id="middlename" name="middlename" type="text" placeholder="Enter Middle Name" />
                                 </p>
                             </span>
                             <span style="display:inline-block; width:30%; margin-left: 10px;">
                                 <p style="width:80%;">
-                                    <label for="lastname" class="uname" data-icon="u">Your Last Name</label>
+                                    <label for="lastname" class="uname" data-icon="u">Last Name</label>
                                     <input id="lastname" name="lastname" type="text" placeholder="Enter Last Name" />
                                 </p>
                             </span>
                             <span style="display:inline-block; width:30%;">
                                 <p style="width:80%">
-                                    <label for="emailsignup" class="youmail" data-icon="e"> Your Email*</label>
-                                    <input id="emailsignup" name="emailsignup" required="required" type="email" placeholder="Enter your Email" />
+                                    <label for="emailId" class="youmail" data-icon="e">Email Id*</label>
+                                    <input id="emailId" name="emailId" required="required" type="email" placeholder="Enter your Email" />
                                 </p>
                             </span>
                             <span style="display:inline-block; width:30%;margin-left: 10px;">
                                 <p style="width:80%">
-                                    <label for="phonenumber" class="youmail" data-icon="e"> Your Phone No.</label>
-                                    <input id="phonenumber" name="phonenumber" type="text" placeholder="Enter Phone Number" />
+                                    <label for="phoneNo" class="youmail" data-icon="e">Phone No.</label>
+                                    <input id="phoneNo" name="phoneNo" type="text" placeholder="Enter Phone Number" />
                                 </p>
                             </span>
                             <br />
                             <span style="display:inline-block; width:30%;">
                                 <p style="width:80%;">
-                                    <label for="passwordsignup" class="youpasswd" data-icon="p">Your Password </label>
-                                    <input id="passwordsignup" name="passwordsignup" required="required" type="password" placeholder="Password" />
+                                    <label for="password" class="youpasswd" data-icon="p">Password </label>
+                                    <input id="password" name="password" required="required" type="password" placeholder="Password" />
                                 </p>
                             </span>
                             <span style="display:inline-block; width:30%;margin-left: 10px;">
                                 <p style="width:80%;">
-                                    <label for="passwordsignup_confirm" class="youpasswd" data-icon="p">Confirm your password </label>
-                                    <input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password" placeholder="Retype Password" />
+                                    <label for="confirmedPassword" class="youpasswd" data-icon="p">Confirm Password </label>
+                                    <input id="confirmedPassword" name="confirmedPassword" required="required" type="password" placeholder="Retype Password" />
                                 </p>
                             </span>
                             <br />
