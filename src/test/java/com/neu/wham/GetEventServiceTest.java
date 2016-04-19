@@ -92,6 +92,7 @@ public class GetEventServiceTest {
 		
 		when(getEventServiceMock.queryEventbrite(lat, lon, rad, formats, categories, subcategories)).thenReturn(GetEventServiceUtil.getCannedEventbriteResponse_withoutUserId());
 		when(getEventServiceMock.getEventsFromAPI(lat, lon, rad, formats, categories, subcategories)).thenCallRealMethod();
+		when(getEventServiceMock.getNEUEvents(formats, categories, subcategories,lat, lon, rad)).thenReturn(new ArrayList<Event>());
 		when(getEventServiceMock.getEventsFromDB(lat, lon, rad, null)).thenReturn(new ArrayList<Event>());
 		when(getEventServiceMock.getEvents(params)).thenCallRealMethod();
 		
@@ -129,6 +130,7 @@ public class GetEventServiceTest {
 	
 		when(getEventServiceMock.queryEventbrite(lat, lon, afterValidateRad, formats, categories, subcategories)).thenReturn(GetEventServiceUtil.getCannedEventbriteResponse_withoutUserId());
 		when(getEventServiceMock.getEventsFromAPI(lat, lon, afterValidateRad, formats, categories, subcategories)).thenCallRealMethod();
+		when(getEventServiceMock.getNEUEvents(formats, categories, subcategories,lat, lon, rad)).thenReturn(new ArrayList<Event>());
 		when(getEventServiceMock.getEventsFromDB(lat, lon, rad, null)).thenReturn(new ArrayList<Event>());
 		when(getEventServiceMock.getEvents(params)).thenCallRealMethod();
 		
@@ -167,6 +169,7 @@ public class GetEventServiceTest {
 		
 		when(getEventServiceMock.queryEventbrite(lat, lon, afterValidateRad, formats, categories, subcategories)).thenReturn(GetEventServiceUtil.getCannedEventbriteResponse_withoutUserId());
 		when(getEventServiceMock.getEventsFromAPI(lat, lon, afterValidateRad, formats, categories, subcategories)).thenCallRealMethod();
+		when(getEventServiceMock.getNEUEvents(formats, categories, subcategories,lat, lon, rad)).thenReturn(new ArrayList<Event>());
 		when(getEventServiceMock.getEventsFromDB(lat, lon, rad, null)).thenReturn(new ArrayList<Event>());
 		when(getEventServiceMock.getEvents(params)).thenCallRealMethod();
 		
@@ -204,6 +207,7 @@ public class GetEventServiceTest {
 		
 		when(getEventServiceMock.queryEventbrite(lat, lon, afterValidateRad, formats, categories, subcategories)).thenReturn(GetEventServiceUtil.getCannedEventbriteResponse_withoutUserId());
 		when(getEventServiceMock.getEventsFromAPI(lat, lon, afterValidateRad, formats, categories, subcategories)).thenCallRealMethod();
+		when(getEventServiceMock.getNEUEvents(formats, categories, subcategories,lat, lon, rad)).thenReturn(new ArrayList<Event>());
 		when(getEventServiceMock.getEventsFromDB(lat, lon, rad, null)).thenReturn(new ArrayList<Event>());
 		when(getEventServiceMock.getEvents(params)).thenCallRealMethod();
 		
@@ -286,6 +290,7 @@ public class GetEventServiceTest {
 			
 		when(getEventServiceMock.queryEventbrite(lat, lon, afterValidateRad, formats, categories, subcategories)).thenReturn(GetEventServiceUtil.getCannedEventbriteResponse_withoutUserId());
 		when(getEventServiceMock.getEventsFromAPI(lat, lon, afterValidateRad, formats, categories, subcategories)).thenCallRealMethod();
+		when(getEventServiceMock.getNEUEvents(formats, categories, subcategories,lat, lon, rad)).thenReturn(new ArrayList<Event>());
 		when(getEventServiceMock.getEventsFromDB(lat, lon, rad, null)).thenReturn(new ArrayList<Event>());
 		when(getEventServiceMock.getEvents(params)).thenCallRealMethod();
 		
@@ -324,6 +329,7 @@ public class GetEventServiceTest {
 		
 		when(getEventServiceMock.queryEventbrite(lat, lon, afterValidateRad, formats, categories, subcategories)).thenReturn(GetEventServiceUtil.getCannedEventbriteResponse_withoutUserId());
 		when(getEventServiceMock.getEventsFromAPI(lat, lon, afterValidateRad, formats, categories, subcategories)).thenCallRealMethod();
+		when(getEventServiceMock.getNEUEvents(formats, categories, subcategories,lat, lon, rad)).thenReturn(new ArrayList<Event>());
 		when(getEventServiceMock.getEventsFromDB(lat, lon, rad, null)).thenReturn(new ArrayList<Event>());
 		when(getEventServiceMock.getEvents(params)).thenCallRealMethod();
 		
