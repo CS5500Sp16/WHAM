@@ -123,18 +123,26 @@ public class EventDAOImpl implements EventDAO {
 		for(SelectedPreference pref : prefs){
 			
 			switch(pref.getEventCategory()) {
-				case 1:
+				case 0:
 					tableName = "event_type";
 					break;
-				case 2:
+				case 1:
 					tableName = "event_topic";
 					break;
-				case 3:
+				case 2:
 					tableName = "event_subtopic";
 					break;
 				default:
 					System.out.println("Unknown preference type! " + pref.getEventCategory());
 			}
+			
+//			if(pref.getEventCategory() == 2){
+//				tableName = "event_subtopic";
+//			}else if(pref.getEventCategory() == 1){
+//				tableName = "event_topic";
+//			}else if(pref.getEventCategory() == 0){
+//				tableName = "event_type";
+//			}
 		
 			double lat_rad_sin = Math.sin((Double.parseDouble(lat) * 3.14) / 180);
 			double lat_rad_cos = Math.cos((Double.parseDouble(lat) * 3.14) / 180);
