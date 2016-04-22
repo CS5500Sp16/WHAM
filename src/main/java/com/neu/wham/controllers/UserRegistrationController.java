@@ -8,6 +8,8 @@ Import Linraries from spring Framework and Project packages.
 */
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -29,11 +31,14 @@ This method simply registers the user into the database
 **/
 @Controller
 public class UserRegistrationController {
+	Logger logger = LoggerFactory.getLogger(UserRegistrationController.class);
+	
 	@Autowired
 	private UserRegistrationService registrationService;
 	
 	@RequestMapping(value="/registerUser",method=RequestMethod.POST)
 	public @ResponseBody User registerUser(@RequestBody String body){
+		logger.info(body);
 		Gson gson  = new Gson();
 		User user = null;
 		try{
