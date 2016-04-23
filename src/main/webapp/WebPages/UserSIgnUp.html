@@ -74,7 +74,7 @@
 
                 if ($('#userSignUpForm').valid()) {
                     $.ajax({
-                        url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/registerUser',
+                        url: '../registerUser',
                         data: JSON.stringify(response),
                         cache: false,
                         contentType: false,
@@ -82,7 +82,7 @@
                         type: 'POST',
                         success: function (data) {
                             if (data != "null" && data != "")
-                            { location.href = "http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/WebPages/Login.html" }
+                            { location.href = "../WebPages/Login.html" }
                             else {
                                 swal({ title: "Inavlid SignUp!", text: "Please check your details again !!", type: "error", confirmButtonText: "OK" });
                             }

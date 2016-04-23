@@ -27,6 +27,7 @@ public class WHAMConfiguration {
 	Logger log = LoggerFactory.getLogger(WHAMConfiguration.class);
 	public WHAMConfiguration() {
 		log.info("Under WHAMCOnfig");
+		
 		String CATALINA_HOME = System.getProperty("catalina.home");
 		if(null==CATALINA_HOME){
 			log.error("CATALINA_HOME is not set, WHAM failed to startup.");
@@ -72,7 +73,7 @@ public class WHAMConfiguration {
 				&& checkForString(properties.getProperty("DB_PASSWORD")) && checkForString(properties.getProperty("DB_USERNAME"))
 				&& checkForString(properties.getProperty("WHAM_IMAGE_STORAGE_LOCATION"))){
 			
-				DBConstants.DB_URL = properties.getProperty("DB_IP")+":"+properties.getProperty("DB_Port")+"/whamDB";
+				DBConstants.DB_URL = "jdbc:mysql://"+properties.getProperty("DB_IP")+":"+properties.getProperty("DB_PORT")+"/whamDB";
 				DBConstants.USER = properties.getProperty("DB_USERNAME");
 				DBConstants.PASS = properties.getProperty("DB_PASSWORD");
 				com.neu.wham.keys.Constants.IMAGE_UPLOAD_PATH = properties.getProperty("WHAM_IMAGE_STORAGE_LOCATION");

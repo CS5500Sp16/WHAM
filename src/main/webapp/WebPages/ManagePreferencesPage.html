@@ -51,9 +51,11 @@
         var url = window.location.href;
         var arr = url.split("/");
         //create api url with current domain and port number arr[2]
-        var api_url1 = "http://" + "ec2-52-87-159-69.compute-1.amazonaws.com:8080" + "/WHAM/getPrefList";
+        /* var api_url1 = "http://" + "ec2-52-87-159-69.compute-1.amazonaws.com:8080" + "/WHAM/getPrefList"; */
+        var api_url1 = "../getPrefList";
         var ID = sessionStorage.getItem("id") || "";
-        var api_url2 = "http://" + "ec2-52-87-159-69.compute-1.amazonaws.com:8080" + "/WHAM/getPref?userPreference="+ID;
+        /* var api_url2 = "http://" + "ec2-52-87-159-69.compute-1.amazonaws.com:8080" + "/WHAM/getPref?userPreference="+ID; */
+        var api_url2 = "../getPref?userPreference="+ID;
         var preferences;
         var userPref;
         var selectedCategory0Pref = new Object();
@@ -132,7 +134,7 @@
 
         var userPreferences = new Array();
         var xmlhttp = new XMLHttpRequest();
-        var url = "http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/getPrefList";
+        var url = "../getPrefList";
 
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -320,7 +322,7 @@
             }
 
             jQuery.ajax({
-                url: 'http://ec2-52-87-159-69.compute-1.amazonaws.com:8080/WHAM/updatePref',
+                url: '../updatePref',
                 data: JSON.stringify(response),
                 cache: false,
                 contentType: false,

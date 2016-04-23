@@ -51,7 +51,7 @@ public class DataSourceController {
 	@RequestMapping(value = "/datasource/{lat}/{lon}/{rad}", method = RequestMethod.GET)
 	public @ResponseBody List<Event> firstRequest(@PathVariable String lat, @PathVariable String lon, 
 			@PathVariable String rad, @RequestParam(required=false) String userId) throws LocationException {
-
+		System.out.println("UnderFirst Request");
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("lat", LocationValidation.validateLatitude(lat));
 		params.put("lon", LocationValidation.validateLongitude(lon));

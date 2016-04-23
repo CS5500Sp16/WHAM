@@ -57,9 +57,10 @@ function init(checked) {
             // get user ID
             var ID = sessionStorage.getItem("id") || "";
             if (checked && ID !== "") {
-                var api_url = "http://" + arr[2] + "/WHAM/datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10/?userId=" + ID;
+               // var api_url = "http://" + arr[2] + "/wham/datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10/?userId=" + ID;
+                var api_url = "../datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10/?userId=" + ID;
             } else {
-                var api_url = "http://" + "ec2-52-87-159-69.compute-1.amazonaws.com:8080" + "/WHAM/datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10";
+                var api_url = "../datasource/" + position.coords.latitude + "/" + position.coords.longitude + "/10";
             }
 
             // api call
