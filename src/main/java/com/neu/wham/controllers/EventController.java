@@ -2,6 +2,8 @@ package com.neu.wham.controllers;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -29,6 +31,8 @@ import com.neu.wham.services.NewEventService;
  */
 @Controller
 public class EventController {
+	Logger log = LoggerFactory.getLogger(EventController.class);
+
 	@Autowired
 	private NewEventService newEventService;
 	
@@ -42,7 +46,9 @@ public class EventController {
 	 * @see com.new.wham.messages.EventPostResponse 
 	 */
 	@RequestMapping(value = "/newevent", method = RequestMethod.POST)
-	public @ResponseBody EventPostResponse firstRequest(@Valid @ModelAttribute Event event, BindingResult result, @RequestParam(value="myFile",required=false) MultipartFile file,@RequestParam("isOfficialEvent") boolean officialEvent){
+	public @ResponseBody EventPostResponse createNewEvent(@Valid @ModelAttribute Event event, BindingResult result, @RequestParam(value="myFile",required=false) MultipartFile file,@RequestParam("isOfficialEvent") boolean officialEvent){
+		log.info("Received request to create new custom event ");
+		log.info("Event-> " + event.toString());
 		if(result.hasErrors()){
 			EventPostResponse errRes = new EventPostResponse();
 			errRes.setMsg(result.getAllErrors().toString());

@@ -38,7 +38,7 @@ public class UserRegistrationController {
 	
 	@RequestMapping(value="/registerUser",method=RequestMethod.POST)
 	public @ResponseBody User registerUser(@RequestBody String body){
-		logger.info(body);
+		logger.info("User registration request received with values: " + body);
 		Gson gson  = new Gson();
 		User user = null;
 		try{
@@ -55,6 +55,7 @@ If the conditionals are satisfied the user records are entered to the database
 **/
 	@RequestMapping(value="/validateUser",method=RequestMethod.POST)
 	public @ResponseBody User validateUser(@RequestParam("emailId") String emailId, @RequestParam("password") String password){
+		logger.info("User Validation request received " + emailId);
 		if(emailId== null ||  password == null ||emailId.isEmpty() || password.isEmpty()){
 			return null;
 		}

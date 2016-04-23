@@ -3,6 +3,8 @@ package com.neu.wham.controllers;
 import java.util.HashMap;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.neu.wham.dao.EventDAOImpl;
 //import com.neu.wham.exceptions.InvalidDateTimeException;
 import com.neu.wham.exceptions.LocationException;
 import com.neu.wham.model.Event;
@@ -24,6 +25,8 @@ import com.neu.wham.validations.UserIdValidation;
 
 @Controller
 public class DataSourceController {
+	Logger log = LoggerFactory.getLogger(DataSourceController.class);
+
 	@Autowired
 	private GetEventService getEventService;
 	
@@ -51,13 +54,13 @@ public class DataSourceController {
 	@RequestMapping(value = "/datasource/{lat}/{lon}/{rad}", method = RequestMethod.GET)
 	public @ResponseBody List<Event> firstRequest(@PathVariable String lat, @PathVariable String lon, 
 			@PathVariable String rad, @RequestParam(required=false) String userId) throws LocationException {
-		System.out.println("UnderFirst Request");
+		log.info("Received request to fetch the events..");
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("lat", LocationValidation.validateLatitude(lat));
 		params.put("lon", LocationValidation.validateLongitude(lon));
 		params.put("rad", LocationValidation.validateRadius(rad));
 		params.put("userId", UserIdValidation.validateUserId(userId));
-		
+		log.info("Response prepared " + params);
 		return getEventService.getEvents(params);
 	}
    

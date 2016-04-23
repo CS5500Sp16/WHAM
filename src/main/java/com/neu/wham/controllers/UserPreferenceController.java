@@ -1,5 +1,7 @@
 package com.neu.wham.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +23,8 @@ import com.neu.wham.services.PreferenceService;
  */
 @Controller
 public class UserPreferenceController {
+	Logger log = LoggerFactory.getLogger(UserPreferenceController.class);
+
 	/**
 	 * Preference Service
 	 */
@@ -46,6 +50,8 @@ public class UserPreferenceController {
 	 */
 	@RequestMapping(value="/getPref",method=RequestMethod.GET)
 	public @ResponseBody UserSelectedPreference getUserPreference(@RequestParam("userPreference") String userId){
+		log.info("Received request to get UserPreferences for userID-> " + userId);
+
 		if(userId==null || userId.isEmpty()){
 			return null;
 		}
@@ -58,6 +64,7 @@ public class UserPreferenceController {
 	 */
 	@RequestMapping(value="/getPrefList",method=RequestMethod.GET)
 	public @ResponseBody UserPreference getPreferencesList(){
+		log.info("Received request to fetch all UserPreferences");
 		return prefService.getAllPreferences();
 	}
 }
