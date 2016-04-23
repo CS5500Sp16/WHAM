@@ -85,9 +85,10 @@ public class WHAMConfiguration {
 				}else{
 					if(whamImagesStorageFolder.mkdir())
 						log.info("WHAM IMAGE STORAGE FOLDER newly created at location " + com.neu.wham.keys.Constants.IMAGE_UPLOAD_PATH);
-						else
-						log.info("Error in creating folder");
-
+						else{
+							log.info("Error in creating folder IMAGE STORAGE FOLDER, check if you have right permissions");
+							System.exit(1);
+						}
 				}
 				
 				log.info("Configuration Values");
